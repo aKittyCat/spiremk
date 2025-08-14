@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Spire Market Item List & Price</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "fantasy-gold": "#D4AF37",
+              "fantasy-purple": "#6B46C1",
+              "fantasy-dark": "#1F2937",
+              "fantasy-red": "#DC2626",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:wght@400;600&display=swap");
+
+      .fantasy-font {
+        font-family: "Cinzel", serif;
+      }
+
+      .content-font {
+        font-family: "Crimson Text", serif;
+      }
+
+      .scroll-container {
+        max-height: 70vh;
+        overflow-y: auto;
+      }
+
+      .admin-panel {
+        display: none;
+      }
+
+      .admin-panel.active {
+        display: block;
+      }
+
+      .rarity-common {
+        background-color: #6b7280;
+        color: white;
+      }
+
+      .rarity-uncommon {
+        background-color: #10b981;
+        color: white;
+      }
+
+      .rarity-rare {
+        background-color: #3b82f6;
+        color: white;
+      }
+
+      .rarity-very-rare {
+        background-color: #8b5cf6;
+        color: white;
+      }
+
+      .rarity-legendary {
+        background-color: #f59e0b;
+        color: white;
+      }
+
+      .rarity-artifact {
+        background-color: #ef4444;
+        color: white;
+      }
+
+      .rarity-mundane {
+        background-color: #2d0097;
+        color: white;
+      
+      }
+    </style>
+  </head>
+
+  <body
+    class="bg-gradient-to-br from-gray-900 via-purple-900 to-gray-800 min-h-screen text-white"
+  >
+    <!-- Header -->
+    <header
+      class="bg-black bg-opacity-50 backdrop-blur-sm border-b border-fantasy-gold"
+    >
+      <div class="container mx-auto px-4 py-6">
+        <div class="flex items-center justify-between">
+          <h1
+            class="fantasy-font text-3xl md:text-4xl font-bold text-fantasy-gold"
+          >
+            🏰 The Spire Market
+          </h1>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-black bg-opacity-30 backdrop-blur-sm sticky top-0 z-40">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-wrap justify-center space-x-2 md:space-x-6 py-4">
+          <button
+            class="nav-btn active bg-fantasy-gold text-black px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
+            data-page="guide"
+          >
+            📜 คำแนะนำ
+          </button>
+          <button
+            class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
+            data-page="mundane"
+          >
+            ☠️ Mundane Item
+          </button>
+          <button
+            class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
+            data-page="gemstone"
+          >
+            💎 Gemstone
+          </button>
+          <button
+            class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
+            data-page="items"
+          >
+            ⚔️ รายการสินค้า
+          </button>
+          <button
+            class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
+            data-page="crafting"
+          >
+            🔨 Crafting
+          </button>
+          <button
+            class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
+            data-page="updates"
+          >
+            📰 อัพเดท
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+      <!-- Admin Panel -->
+      <div
+        id="adminPanel"
+        class="admin-panel mb-8 bg-black bg-opacity-50 rounded-xl p-6 border border-fantasy-red"
+      >
+        <h2 class="fantasy-font text-2xl font-bold text-fantasy-red mb-4">
+          🛡️ Admin Panel
+        </h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          <!-- Add Item Form -->
+          <div class="bg-gray-800 rounded-lg p-4">
+            <h3 class="font-bold text-fantasy-gold mb-4">เพิ่ม/แก้ไขไอเทม</h3>
+            <form id="itemForm" class="space-y-3">
+              <input type="hidden" id="itemId" />
+              <input
+                type="text"
+                id="itemName"
+                placeholder="ชื่อไอเทม"
+                class="w-full p-2 rounded bg-gray-700 text-white"
+                required
+              />
+              <select
+                id="itemAttune"
+                class="w-full p-2 rounded bg-gray-700 text-white"
+              >
+                <option value="No">No Attunement</option>
+                <option value="Yes">Requires Attunement</option>
+              </select>
+              <select
+                id="itemPerDis"
+                class="w-full p-2 rounded bg-gray-700 text-white"
+              >
+                <option value="ถาวร">ไอเทมถาวร</option>
+                <option value="ใช้แล้วทิ้ง">ไอเทมใช้แล้วทิ้ง</option>
+              </select>
+              <input
+                type="text"
+                id="itemType"
+                placeholder="ประเภท"
+                class="w-full p-2 rounded bg-gray-700 text-white"
+                required
+              />
+              <input
+                type="text"
+                id="itemPrice"
+                placeholder="ราคา"
+                class="w-full p-2 rounded bg-gray-700 text-white"
+                required
+              />
+              <select
+                id="itemTier"
+                class="w-full p-2 rounded bg-gray-700 text-white"
+              >
+                <option value="Tier 0">Tier 0</option>
+                <option value="Tier 1">Tier 1</option>
+                <option value="Tier 2">Tier 2</option>
+                <option value="Tier 3">Tier 3</option>
+                <option value="Tier 4">Tier 4</option>
+                <option value="Tier 5">Tier 5</option>
+              </select>
+              <select
+                id="itemRarity"
+                class="w-full p-2 rounded bg-gray-700 text-white"
+              >
+                <option value="Common">Common</option>
+                <option value="Uncommon">Uncommon</option>
+                <option value="Rare">Rare</option>
+                <option value="Very Rare">Very Rare</option>
+                <option value="Legendary">Legendary</option>
+                <option value="Artifact">Artifact</option>
+              </select>
+              <input
+                type="text"
+                id="itemBook"
+                placeholder="หนังสือ"
+                class="w-full p-2 rounded bg-gray-700 text-white"
+                required
+              />
+              <textarea
+                id="itemDescription"
+                placeholder="รายละเอียด"
+                class="w-full p-2 rounded bg-gray-700 text-white h-20"
+              ></textarea>
+              <button
+                type="submit"
+                class="w-full bg-fantasy-gold text-black py-2 rounded font-bold hover:bg-yellow-500 transition-colors"
+              >
+                บันทึกไอเทม
+              </button>
+            </form>
+          </div>
+
+          <!-- Add Update Form -->
+          <div class="bg-gray-800 rounded-lg p-4">
+            <h3 class="font-bold text-fantasy-gold mb-4">เพิ่มข่าวอัพเดท</h3>
+            <form id="updateForm" class="space-y-3">
+              <input type="hidden" id="updateId" />
+              <input
+                type="text"
+                id="updateTitle"
+                placeholder="หัวข้อ"
+                class="w-full p-2 rounded bg-gray-700 text-white"
+                required
+              />
+              <input
+                type="date"
+                id="updateDate"
+                class="w-full p-2 rounded bg-gray-700 text-white"
+                required
+              />
+              <textarea
+                id="updateContent"
+                placeholder="เนื้อหา"
+                class="w-full p-2 rounded bg-gray-700 text-white h-20"
+                required
+              ></textarea>
+              <button
+                type="submit"
+                class="w-full bg-fantasy-purple text-white py-2 rounded font-bold hover:bg-purple-700 transition-colors"
+              >
+                บันทึกอัพเดท
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page Content -->
+      <div id="pageContent">
+        <!-- Guide Page -->
+        <div id="guidePage" class="page-content">
+          <div class="bg-black bg-opacity-50 rounded-xl p-8 backdrop-blur-sm">
+            <h2
+              class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center"
+            >
+              📜 คำแนะนำการซื้อ/ขายไอเทม
+            </h2>
+            <div class="content-font text-lg space-y-6">
+              <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  🛒 ซื้อไอเทมระดับ Mundane
+                </h3>
+                <ul class="space-y-2 text-gray-300">
+                  <li>• ผู้เล่นสามารถซื้อไอเทมพื้นฐานต่างๆ เช่น เกราะ, อาวุธ, อุปกรณ์ผจญภัย (adventuring gear) ในราคาตามที่ระบุไว้ใน Player's Handbook 2014 และขายในราคาครึ่งนึงของราคาดั้งเดิม</li>
+                  <li>• ผู้เล่นต้องบันทึกการซื้อ/ขายใน Tracking Sheet และในดิสคอร์ท</li>
+                  <li>• ไอเทมบางอย่างจะมีราคาแยกต่างหาก เช่น Mundane Item, Tattoo, Manual, และ Misc</li>
+                  <li>• ไอเทมบางอย่างไม่สามารถซื้อจากร้านค้าได้ ตัวละครจะต้องทำการสร้างขึ้นมาเท่านั้น โดยสามารถดูรายชื่อไอเทมได้ใน Crafting Only Item</li>
+                </ul>
+              </div>
+              <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  💰 ซื้อ/ขาย Magic Item
+                </h3>
+                <ul class="space-y-2 text-gray-300">
+                  <li>• DM สามารถเปิดร้านค้าใน Session ของตัวเองเพื่อให้ผู้เล่นใช้ได้โดยใช้รายการไอเทมและราคาจากหน้าต่างๆ ตาม Tier</li>
+                  <li>• เมื่อ DM เปิดร้านค้าใน Session ราคาที่ขายสามารถสูงกว่าเดิมได้แต่ไม่สามารถต่ำกว่าราคาตั้งต้นได้ DM สามารถกำหนดจำนวนไอเทมที่จะขายได้ด้วยเช่นกัน</li>
+                  <li>• สำหรับผู้เล่นที่ต้องการซื้อไอเทม สามารถทำได้ 2 วิธี</li>
+                  <li>1. ระหว่างอยู่ใน Session ถ้า DM อนุญาต ผู้เล่นสามารถบันทึกรายชื่อไอเทมและราคาที่ต้องการซื้อได้ในแชแนล waters-gate-marketplace</li>
+                  <li>2. นอก Session ไม่ว่าจะเป็นการโรลเพลย์หรือต้องการซื้อไอเทมทันที ผู้เล่นสามารถส่งรายชื่อและราคาที่ต้องการซื้อได้ในแชแนล waters-gate-marketplace</li>
+                  <li>• ตัวอย่างวิธีส่งรายชื่อไอเทมจะอยู่ที่ปักหมุดในแชแนลประตูน้ำ แชแนลประตูน้ำจะถูกเปิด slowmode เอาไว้ ถ้ารายชื่อไอเทมที่ส่งยังไม่ได้รับการยืนยัน ผู้เล่นยังสามารถทำการแก้ไขรายชื่อไอเทมที่จะซื้อ/ขายได้ตลอด</li>
+                </ul>
+              </div>
+              <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  ⚒️ อัพเกรดไอเทม
+                </h3>
+                <ul class="space-y-2 text-gray-300">
+                  <li>• ไอเทมที่สามารถทำการอัพเกรดได้มีเพียงไอเทมอย่าง +1 Weapon, +1 Armor, Generic Variant, หรือ Vestige of Divergence เท่านั้น โดยสามารถทำได้ ดังนี้</li>
+                  <li>- +1 Item - ผู้เล่นสามารถจ่ายแค่ค่าไอเทมโดยไม่ต้องจ่ายค่าอาวุธถ้าตัวละครมีอาวุธที่ต้องการใช้อยู่แล้ว เช่น หากมีไอเทม Longsword อยู่แล้ว สามารถจ่ายทอง 450gp เพื่ออัพเกรดเป็น +1 Longsword โดยที่ไม่ต้องจ่าย 15gp เพิ่มสำหรับ Longsword</li>
+                  <li>- Generic Variant - ผู้เล่นสามารถจ่ายค่าไอเทมโดยไม่ต้องจ่ายค่าอาวุธแบบเดีนวกันกับ +1 item</li>
+                  <li>- Vestige of Divergence - ผู้เล่นสามารถอัพเกรดไอเทมได้โดยใช้คำสั่ง !craft ภายในแชแนล crafting ในดิสคอร์ท ผู้เล่นสามารถตรวจสอบรายละเอียดเพิ่มเติมได้จากในเซิร์ฟเวอร์</li>
+                  <li>*ผู้เล่นไม่สามารถเปลี่ยน +1 item ไปเป็น Generic Variant ได้ และไอเทม Generic Variant ไม่สามารถเปลี่ยนเป็น +1 item ได้</li>
+                  <li>**ผู้เล่นสามารถอัพเกรดไอเทมจาก +1 item ไปเป็น +2 item ได้โดยจ่ายแค่ราคาส่วนต่าง เช่น ถ้าตัวละครต้องการอัพเกรดไอเทมจาก +1 Dagger ไปเป็น +2 Dagger ตัวละครสามารถจ่ายส่วนต่าง 450gp เพื่ออัพเกรดได้ ในกรณีที่ถ้าเป็น Dagger ปกติ ให้ใช้วิธีเดียวกันกับ +1 item คือ จ่ายทอง 900gp เพื่ออัพเกรดโดยไม่ต้องจ่ายราคาอาวุธเพิ่ม (+3 item ก็จะใช้วิธีอัพเกรดแบบเดียวกัน)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gemstone Page -->
+        <div id="gemstonePage" class="page-content hidden">
+          <div class="bg-black bg-opacity-50 rounded-xl p-8 backdrop-blur-sm">
+            <h2
+              class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center"
+            >
+              💎 กฏเกี่ยวกับการซื้อ Gemstone
+            </h2>
+            <div class="content-font text-lg space-y-6">
+              <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  💎 ประเภท Gemstone (DMG, p.134)
+                </h3>
+                <div class="grid md:grid-cols-3 gap-x-0 gap-y-4">
+                  <div>
+                    <h4 class="font-bold text-green-400 mb-2">
+                      ชื่อ
+                    </h4>
+                    <ul class="text-gray-300 space-y-1">
+                      <li>• 10 gp Gemstones</li>
+                      <li>• 50 gp Gemstones</li>
+                      <li>• 100 gp Gemstones</li>
+                      <li>• 500 gp Gemstones</li>
+                      <li>• 1,000 gp Gemstones</li>
+                      <li>• 5,000 gp Gemstones</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-orange-400 mb-2">
+                      Tier	
+                    </h4>
+                    <ul class="text-gray-300 space-y-1">
+                      <li>Tier 0</li>
+                      <li>Tier 1</li>
+                      <li>Tier 1</li>
+                      <li>Tier 1</li>
+                      <li>Tier 2</li>
+                      <li>Tier 2</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-blue-400 mb-2">
+                      ราคา
+                    </h4>
+                    <ul class="text-gray-300 space-y-1">
+                      <li>ราคาตั้งต้นx1</li>
+                      <li>ราคาตั้งต้นx1.1</li>
+                      <li>ราคาตั้งต้นx1.25</li>
+                      <li>ราคาตั้งต้นx1.5</li>
+                      <li>ราคาตั้งต้นx1.75</li>
+                      <li>ราคาตั้งต้นx2</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  📋 กฏการซื้อขาย
+                </h3>
+                <ul class="space-y-2 text-gray-300">
+                  <li>1. ผู้เล่นสามารถซื้อ Gemstone ได้ใน Session เท่านั้นและเซสชั่นนั้นต้องเป็นเซสชั่นที่ทาง DM ได้ลงวันสำหรับ Reward Action Surge (รางวัล DM x2)</li>
+                  <li>2. ราคาของ Gemstone จะถูกปรับตามระดับของ Gemstone นั้นๆ โดยเมื่อผู้เล่นจะซื้อ Gemstone ผู้เล่นจะต้องจ่ายทองตามเรทของ Gemstone นั้นๆ เช่น หากผู้เล่นต้องการจะซื้อ Opal 200gp worth ผู้เล่นต้องจ่ายทอง 200x1.75=350gp</li>
+                </ul>
+              </div>
+              <!--
+              <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  🔍 การประเมินคุณภาพ
+                </h3>
+                <ul class="space-y-2 text-gray-300">
+                  <li>• Investigation Check (DC 15) เพื่อตรวจสอบความแท้</li>
+                  <li>• Jeweler's Tools Proficiency ให้ Advantage</li>
+                  <li>• Gem ปลอมมีราคา 10% ของของแท้</li>
+                </ul>
+              </div>
+              -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Mundane Page -->
+        <div id="mundanePage" class="page-content hidden">
+          <div class="bg-black bg-opacity-50 rounded-xl p-8 backdrop-blur-sm">
+            <h2
+              class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center"
+            >
+             💀 กฏเกี่ยวกับยาพิษ
+            </h2>
+            <div class="content-font text-lg space-y-6">
+              <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  📋 กฏเกี่ยวกับการสร้างยาพิษและรวบรวมวัตถุดิบสำหรับยาพิษ (PHB, p.258)
+                </h3>
+                <ul class="space-y-2 text-gray-300">
+                  <li>• ตัวละครสามารถใช้กฏจาก Player's Handbook (PHB) ในการสร้างยาพิษถ้าตัวละครมี Proficiency สำหรับ poisoner's kit โดยยาพิษส่วนใหญ่สามารถสร้างได้เลยยกเว้นบางอันที่ต้องการวัตถุดิบพิเศษ เช่น Wyvern Poision</li>
+                  <li>• ตัวละครสามารถทำการเก็บวัตถุดิบจากสิ่งมีพิษได้ โดยที่เป้าหมายต้องหมดสภาพหรือตายแล้ว การเก็บวัตถุดิบใช้เวลา 1d6 นาทีและ DC 20 Intelligence (Nature) check หรือ poisoner's kit check</li>
+                  <li>• สำหรับตัวละครมี Proficiency ถ้าเช็คสำเร็จ ตัวละครจะได้รับวัตถุดิบสำหรับสร้างยาพิษได้ 1 อัน หากไม่สำเร็จ ตัวละครจะไม่ได้รับวัตถุดิบ และถ้าแต้มที่ขาดเท่ากับ 5 หรือมากกว่า ตัวละครจะได้รับผลจากพิษแทน</li>
+                </ul>
+              </div>
+              <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  📋 กฏเกี่ยวกับการใช้ยาพิษ
+                </h3>
+                <ul class="space-y-2 text-gray-300">
+                  <li>• ผู้เล่นสามารถใช้ Action เพื่อใช้ยาพิษประเภท injury สำหรับเคลือบอาวุธ, ลูกธนู, กระสุน, หรืออุปกรณ์ประเภทคล้ายกันได้</li>
+                  <li>• ไอเทมประเภท ammunition สามารถเคลือบยาพิษได้ 3 อันต่อยาพิษ 1 อัน เมื่อทำการเคลือบแล้วยาพิษจะมีผลอยู่ 1 นาที</li>
+                  <li>• ถ้าตัวละครไม่มี poisoner's kit proficiency ตัวละครมีโอกาสที่จะได้รับผลของยาพิษเมื่อใช้</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Crafting Page -->
+        <div id="craftingPage" class="page-content hidden">
+          <div class="bg-black bg-opacity-50 rounded-xl p-8 backdrop-blur-sm">
+            <h2
+              class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center"
+            >
+              🔨 กฏเกี่ยวกับการ Crafting
+            </h2>
+            <div class="content-font text-lg space-y-6">
+              <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  ⚒️ Crafing Rule
+                </h3>
+                <ul class="space-y-2 text-gray-300">
+                  <li>• ตัวละครต้องมี proficient เกี่ยวกับเครื่องมือที่จะใช้สร้างของ เช่น Smith's Tools สำหรับอาวุธและเกราะ</li>
+                  <li>• ผู้เล่นต้องจ่ายค่าใช้จ่ายและ Favor ก่อนเริ่มสร้างของ</li>
+                  <li>• ผู้เล่นสามารถยกเลิกการสร้างของได้โดยใช้คำสั่ง !craft discard แต่ค่าใช้จ่ายทุกอย่างและเวลาที่ใช้ไปจะไม่ได้รับคืน</li>
+                  <li>• ไอเทม Artifact, ไอเทมระดับ Legendary และบางไอเทมในระดับอื่นๆจะได้จากการสร้างเท่านั้น</li>
+                  <li>• โบนัสจากไอเทมไม่สามารถใช้ในการสร้างไอเทมได้</li>
+                  <li>• โบนัสที่สามารถใช้ในการสร้างไอเทมได้มีแค่โบนัสที่เป็น Spell, Class Feature, หรือจากตัวละครของตัวเองเท่านั้น เช่น Prof. bonus, Guidance, Flash of Genius, etc</li>
+                </ul>
+              </div>
+              <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  🪙 Crafing Cost
+                </h3>
+                <ul class="space-y-2 text-gray-300">
+                  <li>• ตัวละครต้องจ่ายทองจำนวนครึ่งนึงของไอเทมที่จะสร้างและ Favor ตามประเภทและระดับของไอเทม</li>
+                </ul>
+                <div class="overflow-x-auto rounded-lg shadow-lg">
+                  <table class="min-w-full text-sm text-white">
+                    <thead>
+                      <tr class="bg-orange-700">
+                        <th class="px-4 py-3 border border-orange-600 text-left font-bold">Tier</th>
+                        <th class="px-4 py-3 border border-orange-600 text-center font-bold">ไอเทมใช้แล้วทิ้ง</th>
+                        <th class="px-4 py-3 border border-orange-600 text-center font-bold">ไอเทมถาวร</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="bg-orange-800 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Tier 0-1</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">6</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">12</td>
+                      </tr>
+                      <tr class="bg-orange-900 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Tier 2</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">10</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">20</td>
+                      </tr>
+                      <tr class="bg-orange-800 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Tier 3</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">20</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">40</td>
+                      </tr>
+                      <tr class="bg-orange-900 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Tier 4</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">30</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">60</td>
+                      </tr>
+                      <tr class="bg-orange-800 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Tier 5</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">40</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">80</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>        
+              <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  💡 Crafting DC Table:
+                </h3>
+                <div class="overflow-x-auto rounded-lg shadow-lg">
+                  <table class="min-w-full text-sm text-white">
+                    <thead>
+                      <tr class="bg-orange-700">
+                        <th class="px-4 py-3 border border-orange-600 text-left font-bold">Tier</th>
+                        <th class="px-4 py-3 border border-orange-600 text-center font-bold">ไอเทมใช้แล้วทิ้ง</th>
+                        <th class="px-4 py-3 border border-orange-600 text-center font-bold">จำนวน Check</th>
+                        <th class="px-4 py-3 border border-orange-600 text-center font-bold">ไอเทมถาวร</th>
+                        <th class="px-4 py-3 border border-orange-600 text-center font-bold">จำนวน Check</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="bg-orange-800 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Tier 0-1</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">12</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">1</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">14</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">4</td>
+                      </tr>
+                      <tr class="bg-orange-900 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Tier 2</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">14</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">4</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">16</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">8</td>
+                      </tr>
+                      <tr class="bg-orange-800 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Tier 3</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">20</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">10</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">22</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">20</td>
+                      </tr>
+                      <tr class="bg-orange-900 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Tier 4</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">22</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">20</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">26</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">40</td>
+                      </tr>
+                      <tr class="bg-orange-800 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Tier 5</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">25</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">30</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">28</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">50</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!--
+              <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  ⏰ เวลาในการ Craft
+                </h3>
+                <div class="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <h4 class="font-bold text-green-400 mb-2">Common Items</h4>
+                    <p class="text-gray-300">
+                      1-5 วัน, ราคาวัตถุดิบ 50% ของราคาไอเทม
+                    </p>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-blue-400 mb-2">Uncommon Items</h4>
+                    <p class="text-gray-300">
+                      1-4 สัปดาห์, ราคาวัตถุดิบ 200 gp
+                    </p>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-purple-400 mb-2">Rare Items</h4>
+                    <p class="text-gray-300">
+                      1-20 สัปดาห์, ราคาวัตถุดิบ 2,000 gp
+                    </p>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-yellow-400 mb-2">
+                      Very Rare Items
+                    </h4>
+                    <p class="text-gray-300">
+                      1-104 สัปดาห์, ราคาวัตถุดิบ 20,000 gp
+                    </p>
+                  </div>
+                </div>
+              </div>
+              -->
+              <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  🔨 Tool Proficiencies Needed
+                </h3>
+                <ul class="space-y-2 text-gray-300">
+                  <li>• ในการสร้างไอเทม ตัวละครต้องมี proficiency ที่เกี่ยวข้องกับเครื่องมือที่ใช้สำหรับการสร้างไอเทมแต่ละประเภท โดยเครื่องมือแต่ละอย่างจะใช้ค่าสถานะต่างกันไปในการสร้างไอเทม</li>
+                </ul>
+                <div class="overflow-x-auto rounded-lg shadow-lg">
+                  <table class="min-w-full text-sm text-white">
+                    <thead>
+                      <tr class="bg-orange-700">
+                        <th class="px-4 py-3 border border-orange-600 text-left font-bold">ประเภทไอเทม</th>
+                        <th class="px-4 py-3 border border-orange-600 text-left font-bold">Tool Proficiencies</th>
+                        <th class="px-4 py-3 border border-orange-600 text-left font-bold">Stats ที่ต้องใช้</th>
+                      </tr>
+                    </thead>
+                    <tbody class="[&>tr>td]:align-top">
+                      <tr class="bg-orange-800 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Armor</td>
+                        <td class="px-4 py-2 border border-orange-700 break-words">Cobbler's, Leatherworker's, Smith's, Tinker's, Weaver's</td>
+                        <td class="px-4 py-2 border border-orange-700">STR / DEX</td>
+                      </tr>
+                      <tr class="bg-orange-900 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Adventure Gear</td>
+                        <td class="px-4 py-2 border border-orange-700 break-words">Carpenter's, Leatherworker's, Smith's, Tinker's</td>
+                        <td class="px-4 py-2 border border-orange-700">INT / WIS</td>
+                      </tr>
+                      <tr class="bg-orange-800 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Ammunition</td>
+                        <td class="px-4 py-2 border border-orange-700 break-words">Smith's, Tinker's, Woodcarver's</td>
+                        <td class="px-4 py-2 border border-orange-700">DEX / WIS</td>
+                      </tr>
+                      <tr class="bg-orange-900 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Potion / Poison</td>
+                        <td class="px-4 py-2 border border-orange-700 break-words">Alchemist's, Brewer's, Herbalist's, Poisoner's</td>
+                        <td class="px-4 py-2 border border-orange-700">CON / WIS</td>
+                      </tr>
+                      <tr class="bg-orange-800 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Ring</td>
+                        <td class="px-4 py-2 border border-orange-700 break-words">Glassblower's, Jeweler's, Tinker's</td>
+                        <td class="px-4 py-2 border border-orange-700">DEX / CHA</td>
+                      </tr>
+                      <tr class="bg-orange-900 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Scroll</td>
+                        <td class="px-4 py-2 border border-orange-700 break-words">Calligrapher's, Forgery</td>
+                        <td class="px-4 py-2 border border-orange-700">DEX / INT</td>
+                      </tr>
+                      <tr class="bg-orange-800 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Shield</td>
+                        <td class="px-4 py-2 border border-orange-700 break-words">Carpenter's, Smith's, Woodcarver's</td>
+                        <td class="px-4 py-2 border border-orange-700">STR / CON</td>
+                      </tr>
+                      <tr class="bg-orange-900 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Wand | Rod</td>
+                        <td class="px-4 py-2 border border-orange-700 break-words">Tinker's, Woodcarver's</td>
+                        <td class="px-4 py-2 border border-orange-700">INT / WIS / CHA</td>
+                      </tr>
+                      <tr class="bg-orange-800 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Weapon</td>
+                        <td class="px-4 py-2 border border-orange-700 break-words">Smith's, Tinker's, Woodcarver's</td>
+                        <td class="px-4 py-2 border border-orange-700">STR / DEX / CON</td>
+                      </tr>
+                      <tr class="bg-orange-900 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Wondrous Item</td>
+                        <td class="px-4 py-2 border border-orange-700 break-words">Any applicable tool</td>
+                        <td class="px-4 py-2 border border-orange-700">INT / CHA</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  🏪 Exalting Vestige of Divergence Magic Item
+                </h3>
+                <ul class="space-y-2 text-gray-300">
+                  <li>• ไอเทม Vestige of Divergence สามารถยกระดับได้โดยใช้คำสั่ง !craft โดยแต่ละระดับจะมีจำนวน check และจำนวน Favor ที่ต้องจ่ายที่ต่างกันแต่ระดับ DC จะยังเท่าเดิมและใช้ค่าทักษะ Arcana หรือ Religion เท่านั้น</li>
+                  <li>• โบนัสจากไอเทมไม่สามารถใช้สำหรับการยกระดับได้แต่โบนัสที่เป็น Spell, Class Feature, หรือจากตัวละครของตัวเอง เช่น Prof. bonus, Guidance, Flash of Genius, etc ยังคงสามารถใช้ได้</li>
+                  <li>ตัวอย่างคำสั่ง: !craft vod awakened "Circlet of Barbed Vision" arcana</li>
+                </ul>
+                <div class="overflow-x-auto rounded-lg shadow-lg">
+                  <table class="min-w-full text-sm text-white">
+                    <thead>
+                      <tr class="bg-orange-700">
+                        <th class="px-4 py-3 border border-orange-600 text-left font-bold">&nbsp;</th>
+                        <th class="px-4 py-3 border border-orange-600 text-center font-bold">DC</th>
+                        <th class="px-4 py-3 border border-orange-600 text-center font-bold">จำนวน Check</th>
+                        <th class="px-4 py-3 border border-orange-600 text-center font-bold">Favor ที่ต้องใช้</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="bg-orange-800 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Dormant</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">0</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">0</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">0</td>
+                      </tr>
+                      <tr class="bg-orange-900 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Awakened</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">20</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">20</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">50</td>
+                      </tr>
+                      <tr class="bg-orange-800 hover:bg-orange-700/80">
+                        <td class="px-4 py-2 border border-orange-700">Exalted</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">20</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">50</td>
+                        <td class="px-4 py-2 text-center border border-orange-700">100</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Items Page -->
+        <div id="itemsPage" class="page-content hidden">
+          <div class="bg-black bg-opacity-50 rounded-xl p-8 backdrop-blur-sm">
+            <h2
+              class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center"
+            >
+              ⚔️ รายการสินค้า
+            </h2>
+
+            <!-- Filters -->
+            <div class="mb-6 grid md:grid-cols-4 gap-4">
+              <select
+                id="tierFilter"
+                class="p-2 rounded bg-gray-700 text-white"
+              >
+                <option value="">ทุก Tier</option>
+                <option value="Tier 0">Tier 0</option>
+                <option value="Tier 1">Tier 1</option>
+                <option value="Tier 2">Tier 2</option>
+                <option value="Tier 3">Tier 3</option>
+                <option value="Tier 4">Tier 4</option>
+                <option value="Tier 5">Tier 5</option>
+              </select>
+              <select
+                id="rarityFilter"
+                class="p-2 rounded bg-gray-700 text-white"
+              >
+                <option value="">ทุก Rarity</option>
+                <option value="Common">Common</option>
+                <option value="Uncommon">Uncommon</option>
+                <option value="Rare">Rare</option>
+                <option value="Very Rare">Very Rare</option>
+                <option value="Legendary">Legendary</option>
+                <option value="Artifact">Artifact</option>
+              </select>
+              <select
+                id="attuneFilter"
+                class="p-2 rounded bg-gray-700 text-white"
+              >
+                <option value="">Attune</option>
+                <option value="Yes">ต้อง Attune</option>
+                <option value="No">ไม่ต้อง Attune</option>
+              </select>
+              <select
+                id="PerDisFilter"
+                class="p-2 rounded bg-gray-700 text-white"
+              >
+                <option value="">ไอเทมทุกประเภท</option>
+                <option value="ถาวร">ไอเทมถาวร</option>
+                <option value="ใช้แล้วทิ้ง">ไอเทมใช้แล้วทิ้ง</option>
+              </select>
+              <input
+                type="text"
+                id="searchFilter"
+                placeholder="ค้นหาชื่อไอเทม..."
+                class="p-2 rounded bg-gray-700 text-white"
+              />
+            </div>
+
+            <!-- Items List -->
+            <div id="itemsList" class="scroll-container">
+              <div class="text-center py-8">
+                <div
+                  class="animate-spin rounded-full h-12 w-12 border-b-2 border-fantasy-gold mx-auto mb-4"
+                ></div>
+                <p class="text-gray-400">กำลังโหลดข้อมูล...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Updates Page -->
+        <div id="updatesPage" class="page-content hidden">
+          <div class="bg-black bg-opacity-50 rounded-xl p-8 backdrop-blur-sm">
+            <h2
+              class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center"
+            >
+              📰 รายการอัพเดทร้านค้า
+            </h2>
+            <div id="updatesList" class="scroll-container">
+              <div class="text-center py-8">
+                <div
+                  class="animate-spin rounded-full h-12 w-12 border-b-2 border-fantasy-gold mx-auto mb-4"
+                ></div>
+                <p class="text-gray-400">กำลังโหลดข้อมูล...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black bg-opacity-50 border-t border-fantasy-gold mt-12">
+      <div class="container mx-auto px-4 py-6 text-center">
+        <p class="text-gray-400 content-font">
+          🏰 The Spire Market - Your Ultimate D&D Item Marketplace
+        </p>
+      </div>
+    </footer>
+
+    <!-- Admin Login Modal -->
+    <div
+      id="adminModal"
+      class="fixed inset-0 bg-black bg-opacity-75 hidden z-50 flex items-center justify-center"
+    >
+      <div
+        class="bg-gray-800 rounded-xl p-8 max-w-md w-full mx-4 shadow-2xl border-2 border-fantasy-gold"
+      >
+        <h3
+          class="fantasy-font text-2xl font-bold text-fantasy-gold mb-6 text-center"
+        >
+          🔐 Admin Login
+        </h3>
+        <form id="adminLoginForm">
+          <input
+            type="password"
+            id="adminPassword"
+            placeholder="รหัสผ่าน Admin"
+            class="w-full p-3 rounded bg-gray-700 text-white mb-4"
+            required
+          />
+          <div class="flex gap-4">
+            <button
+              type="submit"
+              class="flex-1 bg-fantasy-gold text-black py-2 rounded font-bold hover:bg-yellow-500 transition-colors"
+            >
+              เข้าสู่ระบบ
+            </button>
+            <button
+              type="button"
+              id="cancelAdmin"
+              class="flex-1 bg-gray-600 text-white py-2 rounded font-bold hover:bg-gray-700 transition-colors"
+            >
+              ยกเลิก
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      // Configuration
+      const GOOGLE_SCRIPT_URL =
+        "https://script.google.com/macros/s/AKfycbwqFqqB0SNWDls42z9mYMrixFLC8ZevuXvZDwBq8MISUha-mRtC-vFX9B81Gkvrble-/exec";
+
+
+      // Global variables
+      let currentItems = [];
+      let currentUpdates = [];
+      let isAdminMode = false;
+
+      // DOM Elements
+      const navButtons = document.querySelectorAll(".nav-btn");
+      const pageContents = document.querySelectorAll(".page-content");
+      const adminPanel = document.getElementById("adminPanel");
+      const adminToggle = document.getElementById("adminToggle");
+      const adminModal = document.getElementById("adminModal");
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", function () {
+        setupEventListeners();
+        loadData();
+      });
+
+      function setupEventListeners() {
+        // Navigation
+        navButtons.forEach((btn) => {
+          btn.addEventListener("click", () => switchPage(btn.dataset.page));
+        });
+
+        // Admin toggle
+        adminToggle.addEventListener("click", showAdminLogin);
+
+        // Admin login
+        document
+          .getElementById("adminLoginForm")
+          .addEventListener("submit", handleAdminLogin);
+        document
+          .getElementById("cancelAdmin")
+          .addEventListener("click", hideAdminLogin);
+
+        // Forms
+        document
+          .getElementById("itemForm")
+          .addEventListener("submit", handleItemSubmit);
+        document
+          .getElementById("updateForm")
+          .addEventListener("submit", handleUpdateSubmit);
+
+        // Filters
+        document
+          .getElementById("tierFilter")
+          .addEventListener("change", filterItems);
+        document
+          .getElementById("rarityFilter")
+          .addEventListener("change", filterItems);
+        document
+          .getElementById("attuneFilter")
+          .addEventListener("change", filterItems);
+        document
+          .getElementById("PerDisFilter")
+          .addEventListener("change", filterItems);
+        document
+          .getElementById("searchFilter")
+          .addEventListener("input", filterItems);
+
+        // Close modal on outside click
+        adminModal.addEventListener("click", (e) => {
+          if (e.target === adminModal) hideAdminLogin();
+        });
+      }
+
+      function switchPage(pageId) {
+        // Update navigation
+        navButtons.forEach((btn) => {
+          btn.classList.remove("active", "bg-fantasy-gold", "text-black");
+          btn.classList.add("bg-gray-700", "hover:bg-gray-600");
+        });
+
+        const activeBtn = document.querySelector(`[data-page="${pageId}"]`);
+        activeBtn.classList.add("active", "bg-fantasy-gold", "text-black");
+        activeBtn.classList.remove("bg-gray-700", "hover:bg-gray-600");
+
+        // Update content
+        pageContents.forEach((page) => page.classList.add("hidden"));
+        document.getElementById(`${pageId}Page`).classList.remove("hidden");
+
+        // Load data if needed
+        if (pageId === "items" && currentItems.length === 0) {
+          loadItems();
+        } else if (pageId === "updates" && currentUpdates.length === 0) {
+          loadUpdates();
+        }
+      }
+
+      function showAdminLogin() {
+        if (isAdminMode) {
+          // If already in admin mode, toggle off
+          isAdminMode = false;
+          adminPanel.classList.remove("active");
+          adminToggle.textContent = "Admin Panel";
+          adminToggle.classList.remove("bg-fantasy-red");
+          adminToggle.classList.add("bg-fantasy-purple");
+        } else {
+          // Show login modal
+          adminModal.classList.remove("hidden");
+          document.getElementById("adminPassword").focus();
+        }
+      }
+
+      function hideAdminLogin() {
+        adminModal.classList.add("hidden");
+        document.getElementById("adminPassword").value = "";
+      }
+
+      function handleAdminLogin(e) {
+        e.preventDefault();
+        const password = document.getElementById("adminPassword").value;
+
+        if (password === ADMIN_PASSWORD) {
+          isAdminMode = true;
+          adminPanel.classList.add("active");
+          adminToggle.textContent = "ปิด Admin";
+          adminToggle.classList.remove("bg-fantasy-purple");
+          adminToggle.classList.add("bg-fantasy-red");
+          hideAdminLogin();
+
+          // Set today's date as default
+          document.getElementById("updateDate").value = new Date()
+            .toISOString()
+            .split("T")[0];
+        } else {
+          alert("รหัสผ่านไม่ถูกต้อง!");
+          document.getElementById("adminPassword").value = "";
+          document.getElementById("adminPassword").focus();
+        }
+      }
+
+      function toggleDescription(id) {
+        const element = document.getElementById(id);
+        if (element) {
+          element.classList.toggle("hidden");
+        }
+      }
+
+      async function loadData() {
+        await Promise.all([loadItems(), loadUpdates()]);
+      }
+
+      async function loadItems() {
+        try {
+          const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getItems`);
+          const data = await response.json();
+          currentItems = data.items || [];
+          displayItems(currentItems);
+        } catch (error) {
+          console.error("Error loading items:", error);
+          document.getElementById("itemsList").innerHTML = `
+                    <div class="text-center py-8 text-red-400">
+                        <p>เกิดข้อผิดพลาดในการโหลดข้อมูล</p>
+                        <button onclick="loadItems()" class="mt-4 bg-fantasy-gold text-black px-4 py-2 rounded">ลองใหม่</button>
+                    </div>
+                `;
+        }
+      }
+
+      async function loadUpdates() {
+        try {
+          const response = await fetch(
+            `${GOOGLE_SCRIPT_URL}?action=getUpdates`
+          );
+          const data = await response.json();
+          currentUpdates = data.updates || [];
+          displayUpdates(currentUpdates);
+        } catch (error) {
+          console.error("Error loading updates:", error);
+          document.getElementById("updatesList").innerHTML = `
+                    <div class="text-center py-8 text-red-400">
+                        <p>เกิดข้อผิดพลาดในการโหลดข้อมูล</p>
+                        <button onclick="loadUpdates()" class="mt-4 bg-fantasy-gold text-black px-4 py-2 rounded">ลองใหม่</button>
+                    </div>
+                `;
+        }
+      }
+
+      function displayItems(items) {
+        const container = document.getElementById("itemsList");
+
+        if (items.length === 0) {
+          container.innerHTML = `
+                    <div class="text-center py-8 text-gray-400">
+                        <p>ไม่พบรายการสินค้า</p>
+                    </div>
+                `;
+          return;
+        }
+
+        // Create table view for better readability
+        const itemsHTML = `
+                <div class="overflow-x-auto">
+                    <table class="w-full bg-gray-800 rounded-lg overflow-hidden">
+                        <thead class="bg-gray-900">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-fantasy-gold font-bold">ชื่อไอเทม</th>
+                                <th class="px-4 py-3 text-left text-fantasy-gold font-bold">ประเภท</th>
+                                <th class="px-4 py-3 text-center text-fantasy-gold font-bold">ATN</th>
+                                <th class="px-4 py-3 text-center text-fantasy-gold font-bold">ไอเทมประเภท</th>
+                                <th class="px-4 py-3 text-center text-fantasy-gold font-bold">Tier</th>
+                                <th class="px-4 py-3 text-center text-fantasy-gold font-bold">Rarity</th>
+                                <th class="px-4 py-3 text-right text-fantasy-gold font-bold">ราคา(GP)</th>
+                                <th class="px-4 py-3 text-center text-fantasy-gold font-bold">หนังสือ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${items
+                              .map(
+                                (item, index) => `
+                                <tr class="border-t border-gray-700 hover:bg-gray-700 transition-colors cursor-pointer" onclick="toggleDescription('desc-${index}')">
+                                    <td class="px-4 py-3">
+                                    <div class="font-semibold text-white">
+                                      ${
+                                        item.nameLink
+                                          ? `<a href="${item.nameLink}" target="_blank" rel="noopener">${item.name}</a>`
+                                          : `${item.name}`
+                                      }
+                                    </div>
+                                    </td>
+                                    <td class="px-4 py-3 text-gray-300 text-sm whitespace-nowrap">
+                                      ${item.type}
+                                    </td>
+                                    <td class="px-4 py-3 text-center whitespace-nowrap">
+                                        <span class="px-2 py-1 rounded text-xs font-bold 
+                                          ${item.attune === "Yes"
+                                            ? "bg-green-600 text-white"
+                                            : "bg-red-600 text-white"
+                                        }">
+                                            ${
+                                              item.attune === "Yes"
+                                                ? "ใช่"
+                                                : "ไม่"
+                                            }
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-3 text-center whitespace-nowrap">
+                                        <span class="px-2 py-1 rounded text-xs font-bold ${
+                                          item.perdis === "ถาวร"
+                                            ? "bg-green-600 text-white"
+                                            : "bg-yellow-600 text-white"
+                                        }">
+                                            ${
+                                              item.perdis === "ถาวร"
+                                                ? "ถาวร"
+                                                : "ใช้แล้วทิ้ง"
+                                            }
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-3 text-center whitespace-nowrap">
+                                        <span class="px-2 py-1 rounded text-xs font-bold bg-blue-600 text-white">${
+                                          item.tier
+                                        }</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-center whitespace-nowrap">
+                                        <span class="px-2 py-1 rounded text-xs font-bold rarity-${item.rarity
+                                          .toLowerCase()
+                                          .replace(" ", "-")}">
+                                          ${item.rarity}
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-3 text-right font-bold text-white-400 whitespace-nowrap">
+                                      ${item.price}
+                                    </td>
+                                    <td class="px-4 py-3 text-center text-sm text-gray-400 whitespace-nowrap">
+                                      ${item.book}
+                                    </td>
+                                </tr>
+                                  ${item.description
+                                    ? `
+                                    <tr id="desc-${index}" class="hidden border-t border-gray-600">
+                                        <td colspan="7" class="px-4 py-3 bg-gray-750">
+                                            <div class="text-gray-300 text-sm italic">
+                                                <strong class="text-fantasy-gold">รายละเอียด:</strong> ${item.description}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                `
+                                    : ""
+                                }
+                            `
+                              )
+                              .join("")}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        container.innerHTML = itemsHTML;
+      }
+
+      function displayUpdates(updates) {
+        const container = document.getElementById("updatesList");
+
+        if (updates.length === 0) {
+          container.innerHTML = `
+                    <div class="text-center py-8 text-gray-400">
+                        <p>ไม่พบข่าวอัพเดท</p>
+                    </div>
+                `;
+          return;
+        }
+
+        const updatesHTML = updates
+          .map(
+            (update) => `
+                <div class="bg-gray-800 rounded-lg p-6 mb-4">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-bold text-fantasy-gold">${
+                          update.title
+                        }</h3>
+                        <span class="text-sm text-gray-400">${formatDate(
+                          update.date
+                        )}</span>
+                    </div>
+                    <div class="text-gray-300 whitespace-pre-line">${
+                      update.content
+                    }</div>
+                </div>
+            `
+          )
+          .join("");
+
+        container.innerHTML = updatesHTML;
+      }
+
+      function filterItems() {
+        const tierFilter = document.getElementById("tierFilter").value;
+        const rarityFilter = document.getElementById("rarityFilter").value;
+        const attuneFilter = document.getElementById("attuneFilter").value;
+        const PerDisFilter = document.getElementById("PerDisFilter").value;
+        const searchFilter = document
+          .getElementById("searchFilter")
+          .value.toLowerCase();
+
+        const filteredItems = currentItems.filter((item) => {
+          return (
+            (!tierFilter || item.tier === tierFilter) &&
+            (!rarityFilter || item.rarity === rarityFilter) &&
+            (!attuneFilter || item.attune === attuneFilter) &&
+            (!PerDisFilter || item.perdis === PerDisFilter) &&
+            (!searchFilter || item.name.toLowerCase().includes(searchFilter))
+          );
+        });
+
+        displayItems(filteredItems);
+      }
+
+      async function handleItemSubmit(e) {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append(
+          "action",
+          document.getElementById("itemId").value ? "updateItem" : "addItem"
+        );
+        formData.append("id", document.getElementById("itemId").value);
+        formData.append("name", document.getElementById("itemName").value);
+        formData.append("attune", document.getElementById("itemAttune").value);
+        formData.append("perdis", document.getElementById("itemPerDis").value);
+        formData.append("type", document.getElementById("itemType").value);
+        formData.append("price", document.getElementById("itemPrice").value);
+        formData.append("tier", document.getElementById("itemTier").value);
+        formData.append("rarity", document.getElementById("itemRarity").value);
+        formData.append("book", document.getElementById("itemBook").value);
+        formData.append(
+          "description",
+          document.getElementById("itemDescription").value
+        );
+
+        try {
+          const response = await fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            body: formData,
+          });
+
+          const result = await response.json();
+          if (result.success) {
+            alert("บันทึกสำเร็จ!");
+            document.getElementById("itemForm").reset();
+            document.getElementById("itemId").value = "";
+            await loadItems();
+          } else {
+            alert("เกิดข้อผิดพลาด: " + result.error);
+          }
+        } catch (error) {
+          alert("เกิดข้อผิดพลาดในการบันทึก");
+          console.error(error);
+        }
+      }
+
+      async function handleUpdateSubmit(e) {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append(
+          "action",
+          document.getElementById("updateId").value
+            ? "updateUpdate"
+            : "addUpdate"
+        );
+        formData.append("id", document.getElementById("updateId").value);
+        formData.append("title", document.getElementById("updateTitle").value);
+        formData.append("date", document.getElementById("updateDate").value);
+        formData.append(
+          "content",
+          document.getElementById("updateContent").value
+        );
+
+        try {
+          const response = await fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            body: formData,
+          });
+
+          const result = await response.json();
+          if (result.success) {
+            alert("บันทึกสำเร็จ!");
+            document.getElementById("updateForm").reset();
+            document.getElementById("updateId").value = "";
+            await loadUpdates();
+          } else {
+            alert("เกิดข้อผิดพลาด: " + result.error);
+          }
+        } catch (error) {
+          alert("เกิดข้อผิดพลาดในการบันทึก");
+          console.error(error);
+        }
+      }
+
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString("th-TH", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+      }
+    </script>
+    <script>
+      (function () {
+        function c() {
+          var b = a.contentDocument || a.contentWindow.document;
+          if (b) {
+            var d = b.createElement("script");
+            d.innerHTML =
+              "window.__CF$cv$params={r:'96dc47c042052dc4',t:'MTc1NDk2Mjk5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+            b.getElementsByTagName("head")[0].appendChild(d);
+          }
+        }
+        if (document.body) {
+          var a = document.createElement("iframe");
+          a.height = 1;
+          a.width = 1;
+          a.style.position = "absolute";
+          a.style.top = 0;
+          a.style.left = 0;
+          a.style.border = "none";
+          a.style.visibility = "hidden";
+          document.body.appendChild(a);
+          if ("loading" !== document.readyState) c();
+          else if (window.addEventListener)
+            document.addEventListener("DOMContentLoaded", c);
+          else {
+            var e = document.onreadystatechange || function () {};
+            document.onreadystatechange = function (b) {
+              e(b);
+              "loading" !== document.readyState &&
+                ((document.onreadystatechange = e), c());
+            };
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>
