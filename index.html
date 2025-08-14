@@ -22,79 +22,34 @@
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:wght@400;600&display=swap");
 
-      .fantasy-font {
-        font-family: "Cinzel", serif;
-      }
+      .fantasy-font { font-family: "Cinzel", serif; }
+      .content-font { font-family: "Crimson Text", serif; }
 
-      .content-font {
-        font-family: "Crimson Text", serif;
-      }
+      .scroll-container { max-height: 70vh; overflow-y: auto; }
 
-      .scroll-container {
-        max-height: 70vh;
-        overflow-y: auto;
-      }
+      .admin-panel { display: none; }
+      .admin-panel.active { display: block; }
 
-      .admin-panel {
-        display: none;
-      }
-
-      .admin-panel.active {
-        display: block;
-      }
-
-      .rarity-common {
-        background-color: #6b7280;
-        color: white;
-      }
-
-      .rarity-uncommon {
-        background-color: #10b981;
-        color: white;
-      }
-
-      .rarity-rare {
-        background-color: #3b82f6;
-        color: white;
-      }
-
-      .rarity-very-rare {
-        background-color: #8b5cf6;
-        color: white;
-      }
-
-      .rarity-legendary {
-        background-color: #f59e0b;
-        color: white;
-      }
-
-      .rarity-artifact {
-        background-color: #ef4444;
-        color: white;
-      }
-
-      .rarity-mundane {
-        background-color: #2d0097;
-        color: white;
-      
-      }
+      .rarity-common { background-color: #6b7280; color: white; }
+      .rarity-uncommon { background-color: #10b981; color: white; }
+      .rarity-rare { background-color: #3b82f6; color: white; }
+      .rarity-very-rare { background-color: #8b5cf6; color: white; }
+      .rarity-legendary { background-color: #f59e0b; color: white; }
+      .rarity-artifact { background-color: #ef4444; color: white; }
+      .rarity-mundane { background-color: #2d0097; color: white; }
+      .hint-badge { font-size: 0.75rem; padding: .15rem .5rem; border-radius: .375rem; }
     </style>
   </head>
 
-  <body
-    class="bg-gradient-to-br from-gray-900 via-purple-900 to-gray-800 min-h-screen text-white"
-  >
+  <body class="bg-gradient-to-br from-gray-900 via-purple-900 to-gray-800 min-h-screen text-white">
     <!-- Header -->
-    <header
-      class="bg-black bg-opacity-50 backdrop-blur-sm border-b border-fantasy-gold"
-    >
+    <header class="bg-black bg-opacity-50 backdrop-blur-sm border-b border-fantasy-gold">
       <div class="container mx-auto px-4 py-6">
         <div class="flex items-center justify-between">
-          <h1
-            class="fantasy-font text-3xl md:text-4xl font-bold text-fantasy-gold"
-          >
-            🏰 The Spire Market
-          </h1>
+          <h1 class="fantasy-font text-3xl md:text-4xl font-bold text-fantasy-gold">🏰 The Spire Market</h1>
+          <button id="adminToggle" class="bg-fantasy-purple hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors">
+            Admin Panel
+          </button>
         </div>
       </div>
     </header>
@@ -103,42 +58,12 @@
     <nav class="bg-black bg-opacity-30 backdrop-blur-sm sticky top-0 z-40">
       <div class="container mx-auto px-4">
         <div class="flex flex-wrap justify-center space-x-2 md:space-x-6 py-4">
-          <button
-            class="nav-btn active bg-fantasy-gold text-black px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
-            data-page="guide"
-          >
-            📜 คำแนะนำ
-          </button>
-          <button
-            class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
-            data-page="mundane"
-          >
-            ☠️ Mundane Item
-          </button>
-          <button
-            class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
-            data-page="gemstone"
-          >
-            💎 Gemstone
-          </button>
-          <button
-            class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
-            data-page="items"
-          >
-            ⚔️ รายการสินค้า
-          </button>
-          <button
-            class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
-            data-page="crafting"
-          >
-            🔨 Crafting
-          </button>
-          <button
-            class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
-            data-page="updates"
-          >
-            📰 อัพเดท
-          </button>
+          <button class="nav-btn active bg-fantasy-gold text-black px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105" data-page="guide">📜 คำแนะนำ</button>
+          <button class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105" data-page="mundane">☠️ Mundane Item</button>
+          <button class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105" data-page="gemstone">💎 Gemstone</button>
+          <button class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105" data-page="items">⚔️ รายการสินค้า</button>
+          <button class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105" data-page="crafting">🔨 Crafting</button>
+          <button class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105" data-page="updates">📰 อัพเดท</button>
         </div>
       </div>
     </nav>
@@ -146,127 +71,61 @@
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-8">
       <!-- Admin Panel -->
-      <div
-        id="adminPanel"
-        class="admin-panel mb-8 bg-black bg-opacity-50 rounded-xl p-6 border border-fantasy-red"
-      >
-        <h2 class="fantasy-font text-2xl font-bold text-fantasy-red mb-4">
-          🛡️ Admin Panel
-        </h2>
+      <div id="adminPanel" class="admin-panel mb-8 bg-black bg-opacity-50 rounded-xl p-6 border border-fantasy-red">
+        <h2 class="fantasy-font text-2xl font-bold text-fantasy-red mb-4">🛡️ Admin Panel</h2>
         <div class="grid md:grid-cols-2 gap-6">
-          <!-- Add Item Form -->
+          <!-- Add/Edit Item Form -->
           <div class="bg-gray-800 rounded-lg p-4">
-            <h3 class="font-bold text-fantasy-gold mb-4">เพิ่ม/แก้ไขไอเทม</h3>
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-bold text-fantasy-gold">เพิ่ม/แก้ไขไอเทม</h3>
+              <span id="itemEditHint" class="hidden bg-yellow-500 text-black hint-badge">โหมดแก้ไข</span>
+            </div>
             <form id="itemForm" class="space-y-3">
               <input type="hidden" id="itemId" />
-              <input
-                type="text"
-                id="itemName"
-                placeholder="ชื่อไอเทม"
-                class="w-full p-2 rounded bg-gray-700 text-white"
-                required
-              />
-              <select
-                id="itemAttune"
-                class="w-full p-2 rounded bg-gray-700 text-white"
-              >
+              <input type="text" id="itemName" placeholder="ชื่อไอเทม" class="w-full p-2 rounded bg-gray-700 text-white" required />
+              <input type="url" id="itemNameLink" placeholder="ลิงก์รายละเอียด (ถ้ามี)" class="w-full p-2 rounded bg-gray-700 text-white" />
+              <select id="itemAttune" class="w-full p-2 rounded bg-gray-700 text-white">
                 <option value="No">No Attunement</option>
                 <option value="Yes">Requires Attunement</option>
               </select>
-              <select
-                id="itemPerDis"
-                class="w-full p-2 rounded bg-gray-700 text-white"
-              >
+              <select id="itemPerDis" class="w-full p-2 rounded bg-gray-700 text-white">
                 <option value="ถาวร">ไอเทมถาวร</option>
                 <option value="ใช้แล้วทิ้ง">ไอเทมใช้แล้วทิ้ง</option>
               </select>
-              <input
-                type="text"
-                id="itemType"
-                placeholder="ประเภท"
-                class="w-full p-2 rounded bg-gray-700 text-white"
-                required
-              />
-              <input
-                type="text"
-                id="itemPrice"
-                placeholder="ราคา"
-                class="w-full p-2 rounded bg-gray-700 text-white"
-                required
-              />
-              <select
-                id="itemTier"
-                class="w-full p-2 rounded bg-gray-700 text-white"
-              >
-                <option value="Tier 0">Tier 0</option>
-                <option value="Tier 1">Tier 1</option>
-                <option value="Tier 2">Tier 2</option>
-                <option value="Tier 3">Tier 3</option>
-                <option value="Tier 4">Tier 4</option>
-                <option value="Tier 5">Tier 5</option>
+              <input type="text" id="itemType" placeholder="ประเภท" class="w-full p-2 rounded bg-gray-700 text-white" required />
+              <input type="text" id="itemPrice" placeholder="ราคา" class="w-full p-2 rounded bg-gray-700 text-white" required />
+              <select id="itemTier" class="w-full p-2 rounded bg-gray-700 text-white">
+                <option value="Tier 0">Tier 0</option><option value="Tier 1">Tier 1</option><option value="Tier 2">Tier 2</option>
+                <option value="Tier 3">Tier 3</option><option value="Tier 4">Tier 4</option><option value="Tier 5">Tier 5</option>
               </select>
-              <select
-                id="itemRarity"
-                class="w-full p-2 rounded bg-gray-700 text-white"
-              >
-                <option value="Common">Common</option>
-                <option value="Uncommon">Uncommon</option>
-                <option value="Rare">Rare</option>
-                <option value="Very Rare">Very Rare</option>
-                <option value="Legendary">Legendary</option>
-                <option value="Artifact">Artifact</option>
+              <select id="itemRarity" class="w-full p-2 rounded bg-gray-700 text-white">
+                <option value="Common">Common</option><option value="Uncommon">Uncommon</option><option value="Rare">Rare</option>
+                <option value="Very Rare">Very Rare</option><option value="Legendary">Legendary</option><option value="Artifact">Artifact</option>
               </select>
-              <input
-                type="text"
-                id="itemBook"
-                placeholder="หนังสือ"
-                class="w-full p-2 rounded bg-gray-700 text-white"
-                required
-              />
-              <textarea
-                id="itemDescription"
-                placeholder="รายละเอียด"
-                class="w-full p-2 rounded bg-gray-700 text-white h-20"
-              ></textarea>
-              <button
-                type="submit"
-                class="w-full bg-fantasy-gold text-black py-2 rounded font-bold hover:bg-yellow-500 transition-colors"
-              >
-                บันทึกไอเทม
-              </button>
+              <input type="text" id="itemBook" placeholder="หนังสือ" class="w-full p-2 rounded bg-gray-700 text-white" required />
+              <textarea id="itemDescription" placeholder="รายละเอียด" class="w-full p-2 rounded bg-gray-700 text-white h-20"></textarea>
+              <div class="flex gap-2">
+                <button type="submit" class="flex-1 bg-fantasy-gold text-black py-2 rounded font-bold hover:bg-yellow-500 transition-colors">บันทึกไอเทม</button>
+                <button type="button" id="itemCancelEdit" class="px-4 py-2 rounded bg-gray-600 hover:bg-gray-700">ยกเลิกแก้ไข</button>
+              </div>
             </form>
           </div>
 
-          <!-- Add Update Form -->
+          <!-- Add/Edit Update Form -->
           <div class="bg-gray-800 rounded-lg p-4">
-            <h3 class="font-bold text-fantasy-gold mb-4">เพิ่มข่าวอัพเดท</h3>
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-bold text-fantasy-gold">เพิ่มข่าวอัพเดท</h3>
+              <span id="updateEditHint" class="hidden bg-yellow-500 text-black hint-badge">โหมดแก้ไข</span>
+            </div>
             <form id="updateForm" class="space-y-3">
               <input type="hidden" id="updateId" />
-              <input
-                type="text"
-                id="updateTitle"
-                placeholder="หัวข้อ"
-                class="w-full p-2 rounded bg-gray-700 text-white"
-                required
-              />
-              <input
-                type="date"
-                id="updateDate"
-                class="w-full p-2 rounded bg-gray-700 text-white"
-                required
-              />
-              <textarea
-                id="updateContent"
-                placeholder="เนื้อหา"
-                class="w-full p-2 rounded bg-gray-700 text-white h-20"
-                required
-              ></textarea>
-              <button
-                type="submit"
-                class="w-full bg-fantasy-purple text-white py-2 rounded font-bold hover:bg-purple-700 transition-colors"
-              >
-                บันทึกอัพเดท
-              </button>
+              <input type="text" id="updateTitle" placeholder="หัวข้อ" class="w-full p-2 rounded bg-gray-700 text-white" required />
+              <input type="date" id="updateDate" class="w-full p-2 rounded bg-gray-700 text-white" required />
+              <textarea id="updateContent" placeholder="เนื้อหา" class="w-full p-2 rounded bg-gray-700 text-white h-20" required></textarea>
+              <div class="flex gap-2">
+                <button type="submit" class="flex-1 bg-fantasy-purple text-white py-2 rounded font-bold hover:bg-purple-700 transition-colors">บันทึกอัพเดท</button>
+                <button type="button" id="updateCancelEdit" class="px-4 py-2 rounded bg-gray-600 hover:bg-gray-700">ยกเลิกแก้ไข</button>
+              </div>
             </form>
           </div>
         </div>
@@ -277,12 +136,9 @@
         <!-- Guide Page -->
         <div id="guidePage" class="page-content">
           <div class="bg-black bg-opacity-50 rounded-xl p-8 backdrop-blur-sm">
-            <h2
-              class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center"
-            >
-              📜 คำแนะนำการซื้อ/ขายไอเทม
-            </h2>
+            <h2 class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center">📜 คำแนะนำการซื้อ/ขายไอเทม</h2>
             <div class="content-font text-lg space-y-6">
+              <!-- ... (คงเนื้อหาเดิมทั้งหมด) ... -->
               <div class="bg-gray-800 rounded-lg p-6">
                 <h3 class="text-xl font-bold text-fantasy-gold mb-4">
                   🛒 ซื้อไอเทมระดับ Mundane
@@ -327,12 +183,9 @@
         <!-- Gemstone Page -->
         <div id="gemstonePage" class="page-content hidden">
           <div class="bg-black bg-opacity-50 rounded-xl p-8 backdrop-blur-sm">
-            <h2
-              class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center"
-            >
-              💎 กฏเกี่ยวกับการซื้อ Gemstone
-            </h2>
+            <h2 class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center">💎 กฏเกี่ยวกับการซื้อ Gemstone</h2>
             <div class="content-font text-lg space-y-6">
+              <!-- ... (คงเนื้อหาเดิมทั้งหมด) ... -->
               <div class="bg-gray-800 rounded-lg p-6">
                 <h3 class="text-xl font-bold text-fantasy-gold mb-4">
                   💎 ประเภท Gemstone (DMG, p.134)
@@ -388,18 +241,6 @@
                   <li>2. ราคาของ Gemstone จะถูกปรับตามระดับของ Gemstone นั้นๆ โดยเมื่อผู้เล่นจะซื้อ Gemstone ผู้เล่นจะต้องจ่ายทองตามเรทของ Gemstone นั้นๆ เช่น หากผู้เล่นต้องการจะซื้อ Opal 200gp worth ผู้เล่นต้องจ่ายทอง 200x1.75=350gp</li>
                 </ul>
               </div>
-              <!--
-              <div class="bg-gray-800 rounded-lg p-6">
-                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
-                  🔍 การประเมินคุณภาพ
-                </h3>
-                <ul class="space-y-2 text-gray-300">
-                  <li>• Investigation Check (DC 15) เพื่อตรวจสอบความแท้</li>
-                  <li>• Jeweler's Tools Proficiency ให้ Advantage</li>
-                  <li>• Gem ปลอมมีราคา 10% ของของแท้</li>
-                </ul>
-              </div>
-              -->
             </div>
           </div>
         </div>
@@ -407,12 +248,9 @@
         <!-- Mundane Page -->
         <div id="mundanePage" class="page-content hidden">
           <div class="bg-black bg-opacity-50 rounded-xl p-8 backdrop-blur-sm">
-            <h2
-              class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center"
-            >
-             💀 กฏเกี่ยวกับยาพิษ
-            </h2>
+            <h2 class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center"> 💀 กฏเกี่ยวกับยาพิษ</h2>
             <div class="content-font text-lg space-y-6">
+              <!-- ... (คงเนื้อหาเดิมทั้งหมด) ... -->
               <div class="bg-gray-800 rounded-lg p-6">
                 <h3 class="text-xl font-bold text-fantasy-gold mb-4">
                   📋 กฏเกี่ยวกับการสร้างยาพิษและรวบรวมวัตถุดิบสำหรับยาพิษ (PHB, p.258)
@@ -432,7 +270,7 @@
                   <li>• ไอเทมประเภท ammunition สามารถเคลือบยาพิษได้ 3 อันต่อยาพิษ 1 อัน เมื่อทำการเคลือบแล้วยาพิษจะมีผลอยู่ 1 นาที</li>
                   <li>• ถ้าตัวละครไม่มี poisoner's kit proficiency ตัวละครมีโอกาสที่จะได้รับผลของยาพิษเมื่อใช้</li>
                 </ul>
-              </div>
+              </div>   
             </div>
           </div>
         </div>
@@ -440,12 +278,9 @@
         <!-- Crafting Page -->
         <div id="craftingPage" class="page-content hidden">
           <div class="bg-black bg-opacity-50 rounded-xl p-8 backdrop-blur-sm">
-            <h2
-              class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center"
-            >
-              🔨 กฏเกี่ยวกับการ Crafting
-            </h2>
+            <h2 class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center">🔨 กฏเกี่ยวกับการ Crafting</h2>
             <div class="content-font text-lg space-y-6">
+              <!-- ... (คงเนื้อหาเดิมทั้งหมด) ... -->
               <div class="bg-gray-800 rounded-lg p-6">
                 <h3 class="text-xl font-bold text-fantasy-gold mb-4">
                   ⚒️ Crafing Rule
@@ -560,41 +395,6 @@
                   </table>
                 </div>
               </div>
-              <!--
-              <div class="bg-gray-800 rounded-lg p-6">
-                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
-                  ⏰ เวลาในการ Craft
-                </h3>
-                <div class="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <h4 class="font-bold text-green-400 mb-2">Common Items</h4>
-                    <p class="text-gray-300">
-                      1-5 วัน, ราคาวัตถุดิบ 50% ของราคาไอเทม
-                    </p>
-                  </div>
-                  <div>
-                    <h4 class="font-bold text-blue-400 mb-2">Uncommon Items</h4>
-                    <p class="text-gray-300">
-                      1-4 สัปดาห์, ราคาวัตถุดิบ 200 gp
-                    </p>
-                  </div>
-                  <div>
-                    <h4 class="font-bold text-purple-400 mb-2">Rare Items</h4>
-                    <p class="text-gray-300">
-                      1-20 สัปดาห์, ราคาวัตถุดิบ 2,000 gp
-                    </p>
-                  </div>
-                  <div>
-                    <h4 class="font-bold text-yellow-400 mb-2">
-                      Very Rare Items
-                    </h4>
-                    <p class="text-gray-300">
-                      1-104 สัปดาห์, ราคาวัตถุดิบ 20,000 gp
-                    </p>
-                  </div>
-                </div>
-              </div>
-              -->
               <div class="bg-gray-800 rounded-lg p-6">
                 <h3 class="text-xl font-bold text-fantasy-gold mb-4">
                   🔨 Tool Proficiencies Needed
@@ -708,7 +508,7 @@
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div>   
             </div>
           </div>
         </div>
@@ -716,18 +516,11 @@
         <!-- Items Page -->
         <div id="itemsPage" class="page-content hidden">
           <div class="bg-black bg-opacity-50 rounded-xl p-8 backdrop-blur-sm">
-            <h2
-              class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center"
-            >
-              ⚔️ รายการสินค้า
-            </h2>
+            <h2 class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center">⚔️ รายการสินค้า</h2>
 
             <!-- Filters -->
             <div class="mb-6 grid md:grid-cols-4 gap-4">
-              <select
-                id="tierFilter"
-                class="p-2 rounded bg-gray-700 text-white"
-              >
+              <select id="tierFilter" class="p-2 rounded bg-gray-700 text-white">
                 <option value="">ทุก Tier</option>
                 <option value="Tier 0">Tier 0</option>
                 <option value="Tier 1">Tier 1</option>
@@ -736,10 +529,7 @@
                 <option value="Tier 4">Tier 4</option>
                 <option value="Tier 5">Tier 5</option>
               </select>
-              <select
-                id="rarityFilter"
-                class="p-2 rounded bg-gray-700 text-white"
-              >
+              <select id="rarityFilter" class="p-2 rounded bg-gray-700 text-white">
                 <option value="">ทุก Rarity</option>
                 <option value="Common">Common</option>
                 <option value="Uncommon">Uncommon</option>
@@ -748,36 +538,23 @@
                 <option value="Legendary">Legendary</option>
                 <option value="Artifact">Artifact</option>
               </select>
-              <select
-                id="attuneFilter"
-                class="p-2 rounded bg-gray-700 text-white"
-              >
+              <select id="attuneFilter" class="p-2 rounded bg-gray-700 text-white">
                 <option value="">Attune</option>
                 <option value="Yes">ต้อง Attune</option>
                 <option value="No">ไม่ต้อง Attune</option>
               </select>
-              <select
-                id="PerDisFilter"
-                class="p-2 rounded bg-gray-700 text-white"
-              >
+              <select id="PerDisFilter" class="p-2 rounded bg-gray-700 text-white">
                 <option value="">ไอเทมทุกประเภท</option>
                 <option value="ถาวร">ไอเทมถาวร</option>
                 <option value="ใช้แล้วทิ้ง">ไอเทมใช้แล้วทิ้ง</option>
               </select>
-              <input
-                type="text"
-                id="searchFilter"
-                placeholder="ค้นหาชื่อไอเทม..."
-                class="p-2 rounded bg-gray-700 text-white"
-              />
+              <input type="text" id="searchFilter" placeholder="ค้นหาชื่อไอเทม..." class="p-2 rounded bg-gray-700 text-white" />
             </div>
 
             <!-- Items List -->
             <div id="itemsList" class="scroll-container">
               <div class="text-center py-8">
-                <div
-                  class="animate-spin rounded-full h-12 w-12 border-b-2 border-fantasy-gold mx-auto mb-4"
-                ></div>
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-fantasy-gold mx-auto mb-4"></div>
                 <p class="text-gray-400">กำลังโหลดข้อมูล...</p>
               </div>
             </div>
@@ -787,16 +564,10 @@
         <!-- Updates Page -->
         <div id="updatesPage" class="page-content hidden">
           <div class="bg-black bg-opacity-50 rounded-xl p-8 backdrop-blur-sm">
-            <h2
-              class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center"
-            >
-              📰 รายการอัพเดทร้านค้า
-            </h2>
+            <h2 class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center">📰 รายการอัพเดทร้านค้า</h2>
             <div id="updatesList" class="scroll-container">
               <div class="text-center py-8">
-                <div
-                  class="animate-spin rounded-full h-12 w-12 border-b-2 border-fantasy-gold mx-auto mb-4"
-                ></div>
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-fantasy-gold mx-auto mb-4"></div>
                 <p class="text-gray-400">กำลังโหลดข้อมูล...</p>
               </div>
             </div>
@@ -808,64 +579,35 @@
     <!-- Footer -->
     <footer class="bg-black bg-opacity-50 border-t border-fantasy-gold mt-12">
       <div class="container mx-auto px-4 py-6 text-center">
-        <p class="text-gray-400 content-font">
-          🏰 The Spire Market - Your Ultimate D&D Item Marketplace
-        </p>
+        <p class="text-gray-400 content-font">🏰 The Spire Market - Your Ultimate D&D Item Marketplace</p>
       </div>
     </footer>
 
     <!-- Admin Login Modal -->
-    <div
-      id="adminModal"
-      class="fixed inset-0 bg-black bg-opacity-75 hidden z-50 flex items-center justify-center"
-    >
-      <div
-        class="bg-gray-800 rounded-xl p-8 max-w-md w-full mx-4 shadow-2xl border-2 border-fantasy-gold"
-      >
-        <h3
-          class="fantasy-font text-2xl font-bold text-fantasy-gold mb-6 text-center"
-        >
-          🔐 Admin Login
-        </h3>
+    <div id="adminModal" class="fixed inset-0 bg-black bg-opacity-75 hidden z-50 flex items-center justify-center">
+      <div class="bg-gray-800 rounded-xl p-8 max-w-md w-full mx-4 shadow-2xl border-2 border-fantasy-gold">
+        <h3 class="fantasy-font text-2xl font-bold text-fantasy-gold mb-6 text-center">🔐 Admin Login</h3>
         <form id="adminLoginForm">
-          <input
-            type="password"
-            id="adminPassword"
-            placeholder="รหัสผ่าน Admin"
-            class="w-full p-3 rounded bg-gray-700 text-white mb-4"
-            required
-          />
+          <input type="password" id="adminPassword" placeholder="รหัสผ่าน Admin" class="w-full p-3 rounded bg-gray-700 text-white mb-4" required />
           <div class="flex gap-4">
-            <button
-              type="submit"
-              class="flex-1 bg-fantasy-gold text-black py-2 rounded font-bold hover:bg-yellow-500 transition-colors"
-            >
-              เข้าสู่ระบบ
-            </button>
-            <button
-              type="button"
-              id="cancelAdmin"
-              class="flex-1 bg-gray-600 text-white py-2 rounded font-bold hover:bg-gray-700 transition-colors"
-            >
-              ยกเลิก
-            </button>
+            <button type="submit" class="flex-1 bg-fantasy-gold text-black py-2 rounded font-bold hover:bg-yellow-500 transition-colors">เข้าสู่ระบบ</button>
+            <button type="button" id="cancelAdmin" class="flex-1 bg-gray-600 text-white py-2 rounded font-bold hover:bg-gray-700 transition-colors">ยกเลิก</button>
           </div>
         </form>
       </div>
     </div>
 
     <script>
-      // Configuration
-      const GOOGLE_SCRIPT_URL =
-        "https://script.google.com/macros/s/AKfycbwqFqqB0SNWDls42z9mYMrixFLC8ZevuXvZDwBq8MISUha-mRtC-vFX9B81Gkvrble-/exec";
+      // === Configuration ===
+      const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwqFqqB0SNWDls42z9mYMrixFLC8ZevuXvZDwBq8MISUha-mRtC-vFX9B81Gkvrble-/exec";
 
-
-      // Global variables
+      // === Global state ===
       let currentItems = [];
       let currentUpdates = [];
       let isAdminMode = false;
+      let adminToken = null; // <--- โทเค็นจาก GAS หลังล็อกอิน
 
-      // DOM Elements
+      // === DOM Elements ===
       const navButtons = document.querySelectorAll(".nav-btn");
       const pageContents = document.querySelectorAll(".page-content");
       const adminPanel = document.getElementById("adminPanel");
@@ -888,37 +630,23 @@
         adminToggle.addEventListener("click", showAdminLogin);
 
         // Admin login
-        document
-          .getElementById("adminLoginForm")
-          .addEventListener("submit", handleAdminLogin);
-        document
-          .getElementById("cancelAdmin")
-          .addEventListener("click", hideAdminLogin);
+        document.getElementById("adminLoginForm").addEventListener("submit", handleAdminLogin);
+        document.getElementById("cancelAdmin").addEventListener("click", hideAdminLogin);
 
         // Forms
-        document
-          .getElementById("itemForm")
-          .addEventListener("submit", handleItemSubmit);
-        document
-          .getElementById("updateForm")
-          .addEventListener("submit", handleUpdateSubmit);
+        document.getElementById("itemForm").addEventListener("submit", handleItemSubmit);
+        document.getElementById("updateForm").addEventListener("submit", handleUpdateSubmit);
+
+        // Cancel edit buttons
+        document.getElementById("itemCancelEdit").addEventListener("click", clearItemForm);
+        document.getElementById("updateCancelEdit").addEventListener("click", clearUpdateForm);  
 
         // Filters
-        document
-          .getElementById("tierFilter")
-          .addEventListener("change", filterItems);
-        document
-          .getElementById("rarityFilter")
-          .addEventListener("change", filterItems);
-        document
-          .getElementById("attuneFilter")
-          .addEventListener("change", filterItems);
-        document
-          .getElementById("PerDisFilter")
-          .addEventListener("change", filterItems);
-        document
-          .getElementById("searchFilter")
-          .addEventListener("input", filterItems);
+        document.getElementById("tierFilter").addEventListener("change", filterItems);
+        document.getElementById("rarityFilter").addEventListener("change", filterItems);
+        document.getElementById("attuneFilter").addEventListener("change", filterItems);
+        document.getElementById("PerDisFilter").addEventListener("change", filterItems);
+        document.getElementById("searchFilter").addEventListener("input", filterItems);
 
         // Close modal on outside click
         adminModal.addEventListener("click", (e) => {
@@ -951,12 +679,14 @@
 
       function showAdminLogin() {
         if (isAdminMode) {
-          // If already in admin mode, toggle off
+          // Toggle off admin mode
           isAdminMode = false;
+          adminToken = null; // ล้างโทเค็น
           adminPanel.classList.remove("active");
           adminToggle.textContent = "Admin Panel";
           adminToggle.classList.remove("bg-fantasy-red");
           adminToggle.classList.add("bg-fantasy-purple");
+          refreshAdminUI(); // ซ่อนปุ่มจัดการ
         } else {
           // Show login modal
           adminModal.classList.remove("hidden");
@@ -969,34 +699,51 @@
         document.getElementById("adminPassword").value = "";
       }
 
-      function handleAdminLogin(e) {
+      async function handleAdminLogin(e) {
         e.preventDefault();
-        const password = document.getElementById("adminPassword").value;
+        const password = document.getElementById("adminPassword").value.trim();
 
-        if (password === ADMIN_PASSWORD) {
-          isAdminMode = true;
-          adminPanel.classList.add("active");
-          adminToggle.textContent = "ปิด Admin";
-          adminToggle.classList.remove("bg-fantasy-purple");
-          adminToggle.classList.add("bg-fantasy-red");
-          hideAdminLogin();
+        const fd = new FormData();
+        fd.append("action", "login");
+        fd.append("password", password);
 
-          // Set today's date as default
-          document.getElementById("updateDate").value = new Date()
-            .toISOString()
-            .split("T")[0];
-        } else {
-          alert("รหัสผ่านไม่ถูกต้อง!");
-          document.getElementById("adminPassword").value = "";
-          document.getElementById("adminPassword").focus();
+        try {
+          const res = await fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: fd });
+          const data = await res.json();
+
+          if (data && data.success && data.token) {
+            adminToken = data.token;
+            isAdminMode = true;
+            adminPanel.classList.add("active");
+            adminToggle.textContent = "ปิด Admin";
+            adminToggle.classList.remove("bg-fantasy-purple");
+            adminToggle.classList.add("bg-fantasy-red");
+            hideAdminLogin();
+
+            // Set today's date as default
+            document.getElementById("updateDate").value = new Date().toISOString().split("T")[0];
+
+            refreshAdminUI(); // แสดงปุ่มจัดการ
+          } else {
+            alert("รหัสผ่านไม่ถูกต้อง!");
+            document.getElementById("adminPassword").value = "";
+            document.getElementById("adminPassword").focus();
+          }
+        } catch (err) {
+          alert("เกิดข้อผิดพลาดในการล็อกอิน");
+          console.error(err);
         }
+      }
+
+      function refreshAdminUI() {
+        // re-render ให้ปุ่มลบแสดง/ซ่อนตาม isAdminMode
+        displayItems(currentItems);
+        displayUpdates(currentUpdates);
       }
 
       function toggleDescription(id) {
         const element = document.getElementById(id);
-        if (element) {
-          element.classList.toggle("hidden");
-        }
+        if (element) element.classList.toggle("hidden");
       }
 
       async function loadData() {
@@ -1012,31 +759,36 @@
         } catch (error) {
           console.error("Error loading items:", error);
           document.getElementById("itemsList").innerHTML = `
-                    <div class="text-center py-8 text-red-400">
-                        <p>เกิดข้อผิดพลาดในการโหลดข้อมูล</p>
-                        <button onclick="loadItems()" class="mt-4 bg-fantasy-gold text-black px-4 py-2 rounded">ลองใหม่</button>
-                    </div>
-                `;
+            <div class="text-center py-8 text-red-400">
+              <p>เกิดข้อผิดพลาดในการโหลดข้อมูล</p>
+              <button onclick="loadItems()" class="mt-4 bg-fantasy-gold text-black px-4 py-2 rounded">ลองใหม่</button>
+            </div>`;
         }
       }
 
       async function loadUpdates() {
         try {
-          const response = await fetch(
-            `${GOOGLE_SCRIPT_URL}?action=getUpdates`
-          );
+          const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getUpdates`);
           const data = await response.json();
           currentUpdates = data.updates || [];
           displayUpdates(currentUpdates);
         } catch (error) {
           console.error("Error loading updates:", error);
           document.getElementById("updatesList").innerHTML = `
-                    <div class="text-center py-8 text-red-400">
-                        <p>เกิดข้อผิดพลาดในการโหลดข้อมูล</p>
-                        <button onclick="loadUpdates()" class="mt-4 bg-fantasy-gold text-black px-4 py-2 rounded">ลองใหม่</button>
-                    </div>
-                `;
+            <div class="text-center py-8 text-red-400">
+              <p>เกิดข้อผิดพลาดในการโหลดข้อมูล</p>
+              <button onclick="loadUpdates()" class="mt-4 bg-fantasy-gold text-black px-4 py-2 rounded">ลองใหม่</button>
+            </div>`;
         }
+      }
+
+      function escapeHtml(str = "") {
+        return String(str)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
       }
 
       function displayItems(items) {
@@ -1044,111 +796,112 @@
 
         if (items.length === 0) {
           container.innerHTML = `
-                    <div class="text-center py-8 text-gray-400">
-                        <p>ไม่พบรายการสินค้า</p>
-                    </div>
-                `;
+            <div class="text-center py-8 text-gray-400">
+              <p>ไม่พบรายการสินค้า</p>
+            </div>`;
           return;
         }
 
-        // Create table view for better readability
         const itemsHTML = `
-                <div class="overflow-x-auto">
-                    <table class="w-full bg-gray-800 rounded-lg overflow-hidden">
-                        <thead class="bg-gray-900">
-                            <tr>
-                                <th class="px-4 py-3 text-left text-fantasy-gold font-bold">ชื่อไอเทม</th>
-                                <th class="px-4 py-3 text-left text-fantasy-gold font-bold">ประเภท</th>
-                                <th class="px-4 py-3 text-center text-fantasy-gold font-bold">ATN</th>
-                                <th class="px-4 py-3 text-center text-fantasy-gold font-bold">ไอเทมประเภท</th>
-                                <th class="px-4 py-3 text-center text-fantasy-gold font-bold">Tier</th>
-                                <th class="px-4 py-3 text-center text-fantasy-gold font-bold">Rarity</th>
-                                <th class="px-4 py-3 text-right text-fantasy-gold font-bold">ราคา(GP)</th>
-                                <th class="px-4 py-3 text-center text-fantasy-gold font-bold">หนังสือ</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${items
-                              .map(
-                                (item, index) => `
-                                <tr class="border-t border-gray-700 hover:bg-gray-700 transition-colors cursor-pointer" onclick="toggleDescription('desc-${index}')">
-                                    <td class="px-4 py-3">
-                                    <div class="font-semibold text-white">
-                                      ${
-                                        item.nameLink
-                                          ? `<a href="${item.nameLink}" target="_blank" rel="noopener">${item.name}</a>`
-                                          : `${item.name}`
-                                      }
-                                    </div>
-                                    </td>
-                                    <td class="px-4 py-3 text-gray-300 text-sm whitespace-nowrap">
-                                      ${item.type}
-                                    </td>
-                                    <td class="px-4 py-3 text-center whitespace-nowrap">
-                                        <span class="px-2 py-1 rounded text-xs font-bold 
-                                          ${item.attune === "Yes"
-                                            ? "bg-green-600 text-white"
-                                            : "bg-red-600 text-white"
-                                        }">
-                                            ${
-                                              item.attune === "Yes"
-                                                ? "ใช่"
-                                                : "ไม่"
-                                            }
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-3 text-center whitespace-nowrap">
-                                        <span class="px-2 py-1 rounded text-xs font-bold ${
-                                          item.perdis === "ถาวร"
-                                            ? "bg-green-600 text-white"
-                                            : "bg-yellow-600 text-white"
-                                        }">
-                                            ${
-                                              item.perdis === "ถาวร"
-                                                ? "ถาวร"
-                                                : "ใช้แล้วทิ้ง"
-                                            }
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-3 text-center whitespace-nowrap">
-                                        <span class="px-2 py-1 rounded text-xs font-bold bg-blue-600 text-white">${
-                                          item.tier
-                                        }</span>
-                                    </td>
-                                    <td class="px-4 py-3 text-center whitespace-nowrap">
-                                        <span class="px-2 py-1 rounded text-xs font-bold rarity-${item.rarity
-                                          .toLowerCase()
-                                          .replace(" ", "-")}">
-                                          ${item.rarity}
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-3 text-right font-bold text-white-400 whitespace-nowrap">
-                                      ${item.price}
-                                    </td>
-                                    <td class="px-4 py-3 text-center text-sm text-gray-400 whitespace-nowrap">
-                                      ${item.book}
-                                    </td>
-                                </tr>
-                                  ${item.description
-                                    ? `
-                                    <tr id="desc-${index}" class="hidden border-t border-gray-600">
-                                        <td colspan="7" class="px-4 py-3 bg-gray-750">
-                                            <div class="text-gray-300 text-sm italic">
-                                                <strong class="text-fantasy-gold">รายละเอียด:</strong> ${item.description}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                `
-                                    : ""
-                                }
-                            `
-                              )
-                              .join("")}
-                        </tbody>
-                    </table>
-                </div>
-            `;
+          <div class="overflow-x-auto">
+            <table class="w-full bg-gray-800 rounded-lg overflow-hidden">
+              <thead class="bg-gray-900">
+                <tr>
+                  <th class="px-4 py-3 text-left text-fantasy-gold font-bold">ชื่อไอเทม</th>
+                  <th class="px-4 py-3 text-left text-fantasy-gold font-bold">ประเภท</th>
+                  <th class="px-4 py-3 text-center text-fantasy-gold font-bold">ATN</th>
+                  <th class="px-4 py-3 text-center text-fantasy-gold font-bold">ไอเทมประเภท</th>
+                  <th class="px-4 py-3 text-center text-fantasy-gold font-bold">Tier</th>
+                  <th class="px-4 py-3 text-center text-fantasy-gold font-bold">Rarity</th>
+                  <th class="px-4 py-3 text-right text-fantasy-gold font-bold">ราคา(GP)</th>
+                  <th class="px-4 py-3 text-center text-fantasy-gold font-bold">หนังสือ</th>
+                  ${isAdminMode ? `<th class="px-4 py-3 text-center text-fantasy-gold font-bold">จัดการ</th>` : ``}
+                </tr>
+              </thead>
+              <tbody>
+                ${items.map((item, index) => `
+                  <tr class="border-t border-gray-700 hover:bg-gray-700 transition-colors cursor-pointer" data-row-index="${index}">
+                    <td class="px-4 py-3">
+                      <div class="font-semibold text-white">
+                        ${item.nameLink ? `<a href="${item.nameLink}" target="_blank" rel="noopener">${escapeHtml(item.name)}</a>` : `${escapeHtml(item.name)}`}
+                      </div>
+                    </td>
+                    <td class="px-4 py-3 text-gray-300 text-sm whitespace-nowrap">${escapeHtml(item.type)}</td>
+                    <td class="px-4 py-3 text-center whitespace-nowrap">
+                      <span class="px-2 py-1 rounded text-xs font-bold ${item.attune === "Yes" ? "bg-green-600 text-white" : "bg-red-600 text-white"}">
+                        ${item.attune === "Yes" ? "ใช่" : "ไม่"}
+                      </span>
+                    </td>
+                    <td class="px-4 py-3 text-center whitespace-nowrap">
+                      <span class="px-2 py-1 rounded text-xs font-bold ${item.perdis === "ถาวร" ? "bg-green-600 text-white" : "bg-yellow-600 text-white"}">
+                        ${item.perdis === "ถาวร" ? "ถาวร" : "ใช้แล้วทิ้ง"}
+                      </span>
+                    </td>
+                    <td class="px-4 py-3 text-center whitespace-nowrap">
+                      <span class="px-2 py-1 rounded text-xs font-bold bg-blue-600 text-white">${escapeHtml(item.tier)}</span>
+                    </td>
+                    <td class="px-4 py-3 text-center whitespace-nowrap">
+                      <span class="px-2 py-1 rounded text-xs font-bold rarity-${item.rarity.toLowerCase().replace(" ", "-")}">
+                        ${escapeHtml(item.rarity)}
+                      </span>
+                    </td>
+                    <td class="px-4 py-3 text-right font-bold text-white-400 whitespace-nowrap">${escapeHtml(item.price)}</td>
+                    <td class="px-4 py-3 text-center text-sm text-gray-400 whitespace-nowrap">${escapeHtml(item.book)}</td>
+                    ${isAdminMode ? `
+                      <td class="px-4 py-3 text-center whitespace-nowrap">
+                        <div class="flex items-center justify-center gap-2">
+                            <button class="btn-edit-item bg-yellow-500 hover:bg-yellow-600 text-black text-xs px-3 py-1 rounded"
+                                    data-id="${item.id}">
+                              แก้ไข
+                            </button>
+                            <button class="btn-delete-item bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1 rounded"
+                                    data-id="${item.id}" data-name="${escapeHtml(item.name)}">
+                              ลบ
+                            </button>
+                          </div>
+                      </td>` : ``}
+                  </tr>
+                  ${item.description ? `
+                    <tr id="desc-${index}" class="hidden border-t border-gray-600">
+                      <td colspan="${isAdminMode ? 9 : 8}" class="px-4 py-3 bg-gray-800">
+                        <div class="text-gray-300 text-sm italic">
+                          <strong class="text-fantasy-gold">รายละเอียด:</strong> ${escapeHtml(item.description)}
+                        </div>
+                      </td>
+                    </tr>` : ""}
+                `).join("")}
+              </tbody>
+            </table>
+          </div>`;
+
         container.innerHTML = itemsHTML;
+
+        // คลิกแถวเพื่อ toggle รายละเอียด
+        container.querySelectorAll('tbody tr[data-row-index]').forEach((row) => {
+          row.addEventListener('click', () => {
+            const idx = row.getAttribute('data-row-index');
+            toggleDescription('desc-' + idx);
+          });
+        });
+
+        // ปุ่มแก้ไข (หยุด propagation)
+        container.querySelectorAll('.btn-edit-item').forEach((btn) => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const id = btn.dataset.id;
+            startEditItem(id);
+          });
+        });
+
+        // ปุ่มลบ (หยุด propagation)
+        container.querySelectorAll('.btn-delete-item').forEach((btn) => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const id = btn.dataset.id;
+            const name = btn.dataset.name || '';
+            deleteItemConfirm(id, name);
+          });
+        });
       }
 
       function displayUpdates(updates) {
@@ -1156,34 +909,50 @@
 
         if (updates.length === 0) {
           container.innerHTML = `
-                    <div class="text-center py-8 text-gray-400">
-                        <p>ไม่พบข่าวอัพเดท</p>
-                    </div>
-                `;
+            <div class="text-center py-8 text-gray-400">
+              <p>ไม่พบข่าวอัพเดท</p>
+            </div>`;
           return;
         }
 
-        const updatesHTML = updates
-          .map(
-            (update) => `
-                <div class="bg-gray-800 rounded-lg p-6 mb-4">
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-xl font-bold text-fantasy-gold">${
-                          update.title
-                        }</h3>
-                        <span class="text-sm text-gray-400">${formatDate(
-                          update.date
-                        )}</span>
-                    </div>
-                    <div class="text-gray-300 whitespace-pre-line">${
-                      update.content
-                    }</div>
-                </div>
-            `
-          )
-          .join("");
+        container.innerHTML = updates.map((update) => `
+          <div class="bg-gray-800 rounded-lg p-6 mb-4">
+            <div class="flex justify-between items-start mb-4 gap-3">
+              <div>
+                <h3 class="text-xl font-bold text-fantasy-gold">${escapeHtml(update.title)}</h3>
+                <span class="text-sm text-gray-400">${formatDate(update.date)}</span>
+              </div>
+              ${isAdminMode ? `
+                <div class="flex gap-2">
+                  <button class="btn-edit-update bg-yellow-500 hover:bg-yellow-600 text-black text-xs px-3 py-1 rounded"
+                          data-id="${update.id}">
+                    แก้ไข
+                  </button>
+                  <button class="btn-delete-update bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1 rounded"
+                          data-id="${update.id}" data-title="${escapeHtml(update.title)}">
+                    ลบ
+                  </button>
+                </div>` : ``}
+            </div>
+            <div class="text-gray-300 whitespace-pre-line">${escapeHtml(update.content)}</div>
+          </div>`).join("");
 
-        container.innerHTML = updatesHTML;
+        // ปุ่มแก้ไขอัพเดท
+        container.querySelectorAll('.btn-edit-update').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const id = btn.dataset.id;
+            startEditUpdate(id);
+          });
+        });
+
+        // ปุ่มลบอัพเดท
+        container.querySelectorAll('.btn-delete-update').forEach((btn) => {
+          btn.addEventListener('click', async () => {
+            const id = btn.dataset.id;
+            const title = btn.dataset.title || '';
+            deleteUpdateConfirm(id, title);
+          });
+        });
       }
 
       function filterItems() {
@@ -1191,9 +960,7 @@
         const rarityFilter = document.getElementById("rarityFilter").value;
         const attuneFilter = document.getElementById("attuneFilter").value;
         const PerDisFilter = document.getElementById("PerDisFilter").value;
-        const searchFilter = document
-          .getElementById("searchFilter")
-          .value.toLowerCase();
+        const searchFilter = document.getElementById("searchFilter").value.toLowerCase();
 
         const filteredItems = currentItems.filter((item) => {
           return (
@@ -1208,16 +975,85 @@
         displayItems(filteredItems);
       }
 
+      // ===== Edit flows =====
+      function startEditItem(id) {
+        if (!isAdminMode || !adminToken) {
+          alert("กรุณาเข้าสู่ระบบแอดมินก่อน");
+          return;
+        }
+        const item = currentItems.find(it => it.id === id);
+        if (!item) return;
+
+        document.getElementById("itemId").value = item.id;
+        document.getElementById("itemName").value = item.name || "";
+        document.getElementById("itemNameLink").value = item.nameLink || "";
+        document.getElementById("itemAttune").value = item.attune || "No";
+        document.getElementById("itemPerDis").value = item.perdis || "ถาวร";
+        document.getElementById("itemType").value = item.type || "";
+        document.getElementById("itemPrice").value = item.price || "";
+        document.getElementById("itemTier").value = item.tier || "Tier 0";
+        document.getElementById("itemRarity").value = item.rarity || "Common";
+        document.getElementById("itemBook").value = item.book || "";
+        document.getElementById("itemDescription").value = item.description || "";
+
+        document.getElementById("itemEditHint").classList.remove("hidden");
+        adminPanel.classList.add("active");
+        adminPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function clearItemForm() {
+        document.getElementById("itemForm").reset();
+        document.getElementById("itemId").value = "";
+        document.getElementById("itemEditHint").classList.add("hidden");
+      }
+
+      function startEditUpdate(id) {
+        if (!isAdminMode || !adminToken) {
+          alert("กรุณาเข้าสู่ระบบแอดมินก่อน");
+          return;
+        }
+        const up = currentUpdates.find(u => u.id === id);
+        if (!up) return;
+
+        document.getElementById("updateId").value = up.id;
+        document.getElementById("updateTitle").value = up.title || "";
+        // ป้องกันรูปแบบวันที่แปลก ให้ตัดเป็น YYYY-MM-DD ถ้าเป็น ISO
+        const d = new Date(up.date);
+        if (!isNaN(d.getTime())) {
+          document.getElementById("updateDate").value = d.toISOString().slice(0, 10);
+        } else {
+          document.getElementById("updateDate").value = up.date || "";
+        }
+        document.getElementById("updateContent").value = up.content || "";
+
+        document.getElementById("updateEditHint").classList.remove("hidden");
+        adminPanel.classList.add("active");
+        adminPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function clearUpdateForm() {
+        document.getElementById("updateForm").reset();
+        document.getElementById("updateId").value = "";
+        document.getElementById("updateEditHint").classList.add("hidden");
+        // ตั้งค่าวันวันนี้กลับให้ช่องวันที่ (คุณใช้บ่อย)
+        document.getElementById("updateDate").value = new Date().toISOString().slice(0,10);
+      }
+
+      // --- Submit handlers (แนบ token และจัดการโทเค็นหมดอายุ) ---
       async function handleItemSubmit(e) {
         e.preventDefault();
 
+        if (!adminToken) {
+          alert("กรุณาเข้าสู่ระบบแอดมินก่อน");
+          return;
+        }
+
         const formData = new FormData();
-        formData.append(
-          "action",
-          document.getElementById("itemId").value ? "updateItem" : "addItem"
-        );
+        formData.append("action", document.getElementById("itemId").value ? "updateItem" : "addItem");
+        formData.append("token", adminToken); // แนบโทเค็นทุกครั้ง
         formData.append("id", document.getElementById("itemId").value);
         formData.append("name", document.getElementById("itemName").value);
+        formData.append("nameLink", document.getElementById("itemNameLink").value);
         formData.append("attune", document.getElementById("itemAttune").value);
         formData.append("perdis", document.getElementById("itemPerDis").value);
         formData.append("type", document.getElementById("itemType").value);
@@ -1225,25 +1061,17 @@
         formData.append("tier", document.getElementById("itemTier").value);
         formData.append("rarity", document.getElementById("itemRarity").value);
         formData.append("book", document.getElementById("itemBook").value);
-        formData.append(
-          "description",
-          document.getElementById("itemDescription").value
-        );
+        formData.append("description", document.getElementById("itemDescription").value);
 
         try {
-          const response = await fetch(GOOGLE_SCRIPT_URL, {
-            method: "POST",
-            body: formData,
-          });
-
+          const response = await fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: formData });
           const result = await response.json();
           if (result.success) {
             alert("บันทึกสำเร็จ!");
-            document.getElementById("itemForm").reset();
-            document.getElementById("itemId").value = "";
+            clearItemForm();
             await loadItems();
           } else {
-            alert("เกิดข้อผิดพลาด: " + result.error);
+            handleAuthErrors(result);
           }
         } catch (error) {
           alert("เกิดข้อผิดพลาดในการบันทึก");
@@ -1254,35 +1082,28 @@
       async function handleUpdateSubmit(e) {
         e.preventDefault();
 
+        if (!adminToken) {
+          alert("กรุณาเข้าสู่ระบบแอดมินก่อน");
+          return;
+        }
+
         const formData = new FormData();
-        formData.append(
-          "action",
-          document.getElementById("updateId").value
-            ? "updateUpdate"
-            : "addUpdate"
-        );
+        formData.append("action", document.getElementById("updateId").value ? "updateUpdate" : "addUpdate");
+        formData.append("token", adminToken); // แนบโทเค็นทุกครั้ง
         formData.append("id", document.getElementById("updateId").value);
         formData.append("title", document.getElementById("updateTitle").value);
         formData.append("date", document.getElementById("updateDate").value);
-        formData.append(
-          "content",
-          document.getElementById("updateContent").value
-        );
+        formData.append("content", document.getElementById("updateContent").value);
 
         try {
-          const response = await fetch(GOOGLE_SCRIPT_URL, {
-            method: "POST",
-            body: formData,
-          });
-
+          const response = await fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: formData });
           const result = await response.json();
           if (result.success) {
             alert("บันทึกสำเร็จ!");
-            document.getElementById("updateForm").reset();
-            document.getElementById("updateId").value = "";
+            clearUpdateForm();
             await loadUpdates();
           } else {
-            alert("เกิดข้อผิดพลาด: " + result.error);
+            handleAuthErrors(result);
           }
         } catch (error) {
           alert("เกิดข้อผิดพลาดในการบันทึก");
@@ -1290,15 +1111,89 @@
         }
       }
 
+      // --- Delete flows with confirm() ---
+      async function deleteItemConfirm(id, name) {
+        if (!adminToken) {
+          alert("กรุณาเข้าสู่ระบบแอดมินก่อน");
+          return;
+        }
+        const ok = confirm(`ยืนยันลบไอเทม:\n${name || id}`);
+        if (!ok) return;
+
+        const fd = new FormData();
+        fd.append("action", "deleteItem");
+        fd.append("token", adminToken);
+        fd.append("id", id);
+
+        try {
+          const res = await fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: fd });
+          const data = await res.json();
+          if (data.success) {
+            alert("ลบไอเทมสำเร็จ");
+            await loadItems();
+          } else {
+            handleAuthErrors(data);
+          }
+        } catch (err) {
+          alert("ลบไอเทมไม่สำเร็จ");
+          console.error(err);
+        }
+      }
+
+      async function deleteUpdateConfirm(id, title) {
+        if (!adminToken) {
+          alert("กรุณาเข้าสู่ระบบแอดมินก่อน");
+          return;
+        }
+        const ok = confirm(`ยืนยันลบอัพเดท:\n${title || id}`);
+        if (!ok) return;
+
+        const fd = new FormData();
+        fd.append("action", "deleteUpdate");
+        fd.append("token", adminToken);
+        fd.append("id", id);
+
+        try {
+          const res = await fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: fd });
+          const data = await res.json();
+          if (data.success) {
+            alert("ลบอัพเดทสำเร็จ");
+            await loadUpdates();
+          } else {
+            handleAuthErrors(data);
+          }
+        } catch (err) {
+          alert("ลบอัพเดทไม่สำเร็จ");
+          console.error(err);
+        }
+      }
+
+      function handleAuthErrors(result) {
+        const msg = (result && result.error) ? String(result.error) : "ไม่ทราบสาเหตุ";
+        if (msg.includes("TOKEN_INVALID_OR_EXPIRED") || msg.includes("NO_AUTH_TOKEN")) {
+          alert("เซสชันหมดอายุหรือไม่ได้เข้าสู่ระบบ โปรดล็อกอินใหม่");
+          // ออกจากโหมดแอดมิน และขอให้ล็อกอินใหม่
+          isAdminMode = false;
+          adminToken = null;
+          adminPanel.classList.remove("active");
+          adminToggle.textContent = "Admin Panel";
+          adminToggle.classList.remove("bg-fantasy-red");
+          adminToggle.classList.add("bg-fantasy-purple");
+          adminModal.classList.remove("hidden");
+          document.getElementById("adminPassword").focus();
+          refreshAdminUI();
+        } else {
+          alert("เกิดข้อผิดพลาด: " + msg);
+        }
+      }
+
       function formatDate(dateString) {
         const date = new Date(dateString);
-        return date.toLocaleDateString("th-TH", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        });
+        return date.toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric" });
       }
     </script>
+
+    <!-- Cloudflare (คงไว้ตามไฟล์เดิม) -->
     <script>
       (function () {
         function c() {
@@ -1321,14 +1216,12 @@
           a.style.visibility = "hidden";
           document.body.appendChild(a);
           if ("loading" !== document.readyState) c();
-          else if (window.addEventListener)
-            document.addEventListener("DOMContentLoaded", c);
+          else if (window.addEventListener) document.addEventListener("DOMContentLoaded", c);
           else {
             var e = document.onreadystatechange || function () {};
             document.onreadystatechange = function (b) {
               e(b);
-              "loading" !== document.readyState &&
-                ((document.onreadystatechange = e), c());
+              "loading" !== document.readyState && ((document.onreadystatechange = e), c());
             };
           }
         }
