@@ -644,6 +644,11 @@
                 คัดลอกที่เลือกไป Discord
               </button>
 
+              <button id="clearSelectionBtn"
+                class="bg-gray-700 hover:bg-gray-600 px-3 py-2 rounded font-semibold">
+                ยกเลิกการเลือกทั้งหมด
+              </button>
+
               <span id="selectedCount" class="text-xs text-gray-400">(0 รายการ)</span>
             </div>
 
@@ -777,6 +782,27 @@
             tableCheckAll.checked = e.target.checked;
             tableCheckAll.dispatchEvent(new Event('change', {bubbles:false}));
           }
+        });
+
+        document.getElementById('clearSelectionBtn').addEventListener('click', () => {
+          // ล้างชุดที่เลือกค้างไว้ทั้งหมด
+          selectedIds.clear();
+
+          // ปลดเช็คที่ "เลือกทั้งหมด" ทั้งด้านบนและหัวตาราง
+          const top = document.getElementById('selectAllTop');
+          if (top) top.checked = false;
+          const head = document.querySelector('#itemsList #selectAll');
+          if (head) head.checked = false;
+
+          // ปลดเช็คทุกแถวที่มองเห็น และลบไฮไลต์
+          document.querySelectorAll('#itemsList .row-select').forEach(cb => {
+            cb.checked = false;
+            const row = cb.closest('tr[data-row-index]');
+            if (row) row.classList.remove('ring-1','ring-fantasy-gold','bg-gray-700/40');
+          });
+
+          // อัปเดตแถบเครื่องมือ (ตัวนับ/ปุ่มคัดลอก)
+          updateBulkActionsUI();
         });
 
         // Navigation
