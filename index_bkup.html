@@ -606,6 +606,8 @@
       let currentUpdates = [];
       let isAdminMode = false;
       let adminToken = null; // <--- โทเค็นจาก GAS หลังล็อกอิน
+      let visibleItems = [];    // รายการ "สินค้า" ที่กำลังแสดงบนจอ (หลังฟิลเตอร์/เรียง)
+      let visibleUpdates = [];  // (เผื่อใช้กับอัพเดท)
 
       // === DOM Elements ===
       const navButtons = document.querySelectorAll(".nav-btn");
@@ -793,8 +795,10 @@
 
       function displayItems(items) {
         const container = document.getElementById("itemsList");
+        // เก็บ “รายการที่กำลังแสดงจริง” ไว้ใช้ตอนกด Edit
+        visibleItems = Array.isArray(items) ? items : [];
 
-        if (items.length === 0) {
+        if (visibleItems.length === 0) {
           container.innerHTML = `
             <div class="text-center py-8 text-gray-400">
               <p>ไม่พบรายการสินค้า</p>
@@ -819,7 +823,7 @@
                 </tr>
               </thead>
               <tbody>
-                ${items.map((item, index) => `
+                ${visibleItems.map((item, index) => `
                   <tr class="border-t border-gray-700 hover:bg-gray-700 transition-colors cursor-pointer" data-row-index="${index}">
                     <td class="px-4 py-3">
                       <div class="font-semibold text-white">
@@ -850,15 +854,15 @@
                     ${isAdminMode ? `
                       <td class="px-4 py-3 text-center whitespace-nowrap">
                         <div class="flex items-center justify-center gap-2">
-                            <button class="btn-edit-item bg-yellow-500 hover:bg-yellow-600 text-black text-xs px-3 py-1 rounded"
-                                    data-id="${item.id}">
-                              แก้ไข
-                            </button>
-                            <button class="btn-delete-item bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1 rounded"
-                                    data-id="${item.id}" data-name="${escapeHtml(item.name)}">
-                              ลบ
-                            </button>
-                          </div>
+                          <button class="btn-edit-item bg-yellow-500 hover:bg-yellow-600 text-black text-xs px-3 py-1 rounded"
+                                  data-index="${index}">
+                            แก้ไข
+                          </button>
+                          <button class="btn-delete-item bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1 rounded"
+                                  data-id="${item.id}" data-name="${escapeHtml(item.name)}">
+                            ลบ
+                          </button>
+                        </div>
                       </td>` : ``}
                   </tr>
                   ${item.description ? `
