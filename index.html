@@ -529,6 +529,7 @@
                 <option value="Tier 3">Tier 3</option>
                 <option value="Tier 4">Tier 4</option>
                 <option value="Tier 5">Tier 5</option>
+                <option value="Mundane Item">Mundane Item</option>
               </select>
               <select id="rarityFilter" class="p-2 rounded bg-gray-700 text-white">
                 <option value="">ทุก Rarity</option>
@@ -538,6 +539,7 @@
                 <option value="Very Rare">Very Rare</option>
                 <option value="Legendary">Legendary</option>
                 <option value="Artifact">Artifact</option>
+                <option value="Mundane">Mundane</option>
               </select>
               <select id="attuneFilter" class="p-2 rounded bg-gray-700 text-white">
                 <option value="">Attune</option>
@@ -545,9 +547,31 @@
                 <option value="No">ไม่ต้อง Attune</option>
               </select>
               <select id="PerDisFilter" class="p-2 rounded bg-gray-700 text-white">
-                <option value="">ไอเทมทุกประเภท</option>
+                <option value="">ทุกการใช้งาน</option>
                 <option value="ถาวร">ไอเทมถาวร</option>
                 <option value="ใช้แล้วทิ้ง">ไอเทมใช้แล้วทิ้ง</option>
+              </select>
+              <select id="typeFilter" class="p-2 rounded bg-gray-700 text-white">
+                <option value="">ประเภทไอเทมทั้งหมด</option>
+                <option value="Adventuring Gear">Adventuring Gear</option>
+                <option value="Ammunition">Ammunition</option>
+                <option value="Armor">Armor</option>
+                <option value="Gemstone">Gemstone</option>
+                <option value="Generic Variant">Generic Variant</option>
+                <option value="Illegal Drug">Illegal Drug</option>
+                <option value="Other">Other</option>
+                <option value="Potion">Potion</option>
+                <option value="Poison">Poison</option>
+                <option value="Ring">Ring</option>
+                <option value="Scroll">Scroll</option>
+                <option value="Spell Components">Spell Components</option>
+                <option value="Spell Scroll">Spell Scroll</option>
+                <option value="Shield">Shield</option>
+                <option value="Weapon,">Weapon</option>
+                <option value="Rod">Weapon, Rod</option>
+                <option value="Wand">Weapon, Wand</option>
+                <option value="Wondrous Item">Wondrous Item</option>
+                <option value="Wondrous item (Tattoo)">Wondrous Item, Tattoo</option>
               </select>
               <input type="text" id="searchFilter" placeholder="ค้นหาชื่อไอเทม..." class="p-2 rounded bg-gray-700 text-white" />
             </div>
@@ -647,6 +671,7 @@
         document.getElementById("rarityFilter").addEventListener("change", filterItems);
         document.getElementById("attuneFilter").addEventListener("change", filterItems);
         document.getElementById("PerDisFilter").addEventListener("change", filterItems);
+        document.getElementById("typeFilter").addEventListener("change", filterItems);
         document.getElementById("searchFilter").addEventListener("input", filterItems);
 
         // Close modal on outside click
@@ -961,6 +986,7 @@
         const rarityFilter = document.getElementById("rarityFilter").value;
         const attuneFilter = document.getElementById("attuneFilter").value;
         const PerDisFilter = document.getElementById("PerDisFilter").value;
+        const typeFilter = document.getElementById("typeFilter").value;
         const searchFilter = document.getElementById("searchFilter").value.toLowerCase();
 
         const filteredItems = currentItems.filter((item) => {
@@ -969,6 +995,7 @@
             (!rarityFilter || item.rarity === rarityFilter) &&
             (!attuneFilter || item.attune === attuneFilter) &&
             (!PerDisFilter || item.perdis === PerDisFilter) &&
+            (!typeFilter || item.type.includes(typeFilter)) &&
             (!searchFilter || item.name.toLowerCase().includes(searchFilter))
           );
         });
