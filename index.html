@@ -396,6 +396,60 @@
                   </table>
                 </div>
               </div>
+              <!-- 🧮 Crafting Calculator -->
+              <div class="bg-gray-800 rounded-lg p-6 mt-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">🧮 Crafting Calculator</h3>
+
+                <div class="grid md:grid-cols-4 gap-4">
+                  <select id="craftTier" class="p-2 rounded bg-gray-700 text-white">
+                    <option value="">เลือก Tier</option>
+                    <option value="Tier 0">Tier 0</option>
+                    <option value="Tier 1">Tier 1</option>
+                    <option value="Tier 2">Tier 2</option>
+                    <option value="Tier 3">Tier 3</option>
+                    <option value="Tier 4">Tier 4</option>
+                    <option value="Tier 5">Tier 5</option>
+                  </select>
+
+                  <select id="craftType" class="p-2 rounded bg-gray-700 text-white">
+                    <option value="">เลือกประเภท</option>
+                    <option value="ใช้แล้วทิ้ง">ไอเทมใช้แล้วทิ้ง</option>
+                    <option value="ถาวร">ไอเทมถาวร</option>
+                  </select>
+
+                  <input id="craftPrice" type="number" min="0" step="1"
+                        placeholder="ราคาตั้งต้นไอเทม (gp)"
+                        class="p-2 rounded bg-gray-700 text-white" />
+
+                  <button id="craftReset"
+                          class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded">
+                    ล้างค่า
+                  </button>
+                </div>
+
+                <div class="grid md:grid-cols-4 gap-4 mt-5 text-gray-200">
+                  <div class="bg-gray-900 rounded p-3">
+                    <div class="text-sm text-gray-400">Favor ที่ต้องใช้</div>
+                    <div id="outFavor" class="text-2xl font-bold">—</div>
+                  </div>
+                  <div class="bg-gray-900 rounded p-3">
+                    <div class="text-sm text-gray-400">DC</div>
+                    <div id="outDC" class="text-2xl font-bold">—</div>
+                  </div>
+                  <div class="bg-gray-900 rounded p-3">
+                    <div class="text-sm text-gray-400">จำนวน Check</div>
+                    <div id="outChecks" class="text-2xl font-bold">—</div>
+                  </div>
+                  <div class="bg-gray-900 rounded p-3">
+                    <div class="text-sm text-gray-400">ต้นทุนทอง (ครึ่งหนึ่ง)</div>
+                    <div id="outGold" class="text-2xl font-bold">—</div>
+                  </div>
+                </div>
+      
+                <p class="text-xs text-gray-400 mt-3">
+                  * ทอง = ครึ่งหนึ่งของราคาตั้งต้นไอเทมที่กรอก | ตาราง Favor อิงจาก Crafing Cost | DC และจำนวนเช็คอิงจาก Crafting DC Table
+                </p>
+              </div>
               <div class="bg-gray-800 rounded-lg p-6">
                 <h3 class="text-xl font-bold text-fantasy-gold mb-4">
                   🔨 Tool Proficiencies Needed
@@ -561,6 +615,7 @@
                 <option value="Illegal Drug">Illegal Drug</option>
                 <option value="Other">Other</option>
                 <option value="Potion">Potion</option>
+                <option value="Healing Potion">Healing Potion</option>
                 <option value="Poison">Poison</option>
                 <option value="Ring">Ring</option>
                 <option value="Scroll">Scroll</option>
@@ -1364,6 +1419,93 @@
         const date = new Date(dateString);
         return date.toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric" });
       }
+    </script>
+
+    <script>
+      // === Crafting Calculator Maps (อิงตารางในหน้า Crafting) ===
+      // Favor (Crafing Cost):
+      // Tier 0-1: ใช้แล้วทิ้ง=6, ถาวร=12 | T2: 10/20 | T3: 20/40 | T4: 30/60 | T5: 40/80
+      const FAVOR_MAP = {
+        disposable: { // ใช้แล้วทิ้ง
+          "Tier 0": 6, "Tier 1": 6, "Tier 2": 10, "Tier 3": 20, "Tier 4": 30, "Tier 5": 40
+        },
+        permanent: { // ถาวร
+          "Tier 0": 12, "Tier 1": 12, "Tier 2": 20, "Tier 3": 40, "Tier 4": 60, "Tier 5": 80
+        }
+      };
+
+      // DC & Checks (Crafting DC Table):
+      const DC_MAP = {
+        disposable: {
+          "Tier 0": { dc: 12, checks: 1 }, "Tier 1": { dc: 12, checks: 1 },
+          "Tier 2": { dc: 14, checks: 4 }, "Tier 3": { dc: 20, checks: 10 },
+          "Tier 4": { dc: 22, checks: 20 }, "Tier 5": { dc: 25, checks: 30 }
+        },
+        permanent: {
+          "Tier 0": { dc: 14, checks: 4 }, "Tier 1": { dc: 14, checks: 4 },
+          "Tier 2": { dc: 16, checks: 8 }, "Tier 3": { dc: 22, checks: 20 },
+          "Tier 4": { dc: 26, checks: 40 }, "Tier 5": { dc: 28, checks: 50 }
+        }
+      };
+
+      function fmt(n) {
+        if (n === null || n === undefined || Number.isNaN(n)) return "—";
+        return n.toLocaleString(undefined, { maximumFractionDigits: 2 });
+      }
+
+      function calcCrafting() {
+        const tier = document.getElementById('craftTier')?.value || "";
+        const type = document.getElementById('craftType')?.value || ""; // "ใช้แล้วทิ้ง" | "ถาวร"
+        const price = parseFloat(document.getElementById('craftPrice')?.value || ""); // ราคาตั้งต้น
+
+        // แปลงประเภทเป็นคีย์
+        const key = (type === "ใช้แล้วทิ้ง") ? "disposable" : (type === "ถาวร" ? "permanent" : null);
+
+        const outFavor  = document.getElementById('outFavor');
+        const outDC     = document.getElementById('outDC');
+        const outChecks = document.getElementById('outChecks');
+        const outGold   = document.getElementById('outGold');
+
+        if (!tier || !key) {
+          outFavor.textContent = "—";
+          outDC.textContent = "—";
+          outChecks.textContent = "—";
+          outGold.textContent = price > 0 ? fmt(price/2) + " gp" : "—";
+          return;
+        }
+
+        const favor = FAVOR_MAP[key][tier] ?? null;
+        const dcObj = DC_MAP[key][tier] ?? { dc: null, checks: null };
+
+        outFavor.textContent  = fmt(favor);
+        outDC.textContent     = fmt(dcObj.dc);
+        outChecks.textContent = fmt(dcObj.checks);
+        outGold.textContent   = price > 0 ? fmt(price/2) + " gp" : "—";
+      }
+
+      // Hook เข้ากับระบบอีเวนต์เดิม
+      const _origSetup = (typeof setupEventListeners === "function") ? setupEventListeners : null;
+      window.setupEventListeners = function() {
+        if (_origSetup) _origSetup();
+
+        const elTier   = document.getElementById('craftTier');
+        const elType   = document.getElementById('craftType');
+        const elPrice  = document.getElementById('craftPrice');
+        const elReset  = document.getElementById('craftReset');
+
+        if (elTier)  elTier.addEventListener('change',  calcCrafting);
+        if (elType)  elType.addEventListener('change',  calcCrafting);
+        if (elPrice) elPrice.addEventListener('input',  calcCrafting);
+        if (elReset) elReset.addEventListener('click', ()=>{
+          if (elTier)  elTier.value = "";
+          if (elType)  elType.value = "";
+          if (elPrice) elPrice.value = "";
+          calcCrafting();
+        });
+
+        // คำนวณครั้งแรกถ้าองค์ประกอบมีอยู่แล้ว
+        calcCrafting();
+      };
     </script>
 
     <!-- Cloudflare (คงไว้ตามไฟล์เดิม) -->

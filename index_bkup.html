@@ -46,7 +46,7 @@
     <header class="bg-black bg-opacity-50 backdrop-blur-sm border-b border-fantasy-gold">
       <div class="container mx-auto px-4 py-6">
         <div class="flex items-center justify-between">
-          <h1 class="fantasy-font text-3xl md:text-4xl font-bold text-fantasy-gold">🏰 The Spire Market</h1>
+          <h1 href="index.html" class="fantasy-font text-3xl md:text-4xl font-bold text-fantasy-gold">🏰 The Spire Market</h1>
           <button id="adminToggle" class="bg-fantasy-purple hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors">
             Admin Panel
           </button>
@@ -396,6 +396,60 @@
                   </table>
                 </div>
               </div>
+              <!-- 🧮 Crafting Calculator -->
+              <div class="bg-gray-800 rounded-lg p-6 mt-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">🧮 Crafting Calculator</h3>
+
+                <div class="grid md:grid-cols-4 gap-4">
+                  <select id="craftTier" class="p-2 rounded bg-gray-700 text-white">
+                    <option value="">เลือก Tier</option>
+                    <option value="Tier 0">Tier 0</option>
+                    <option value="Tier 1">Tier 1</option>
+                    <option value="Tier 2">Tier 2</option>
+                    <option value="Tier 3">Tier 3</option>
+                    <option value="Tier 4">Tier 4</option>
+                    <option value="Tier 5">Tier 5</option>
+                  </select>
+
+                  <select id="craftType" class="p-2 rounded bg-gray-700 text-white">
+                    <option value="">เลือกประเภท</option>
+                    <option value="ใช้แล้วทิ้ง">ไอเทมใช้แล้วทิ้ง</option>
+                    <option value="ถาวร">ไอเทมถาวร</option>
+                  </select>
+
+                  <input id="craftPrice" type="number" min="0" step="1"
+                        placeholder="ราคาตั้งต้นไอเทม (gp)"
+                        class="p-2 rounded bg-gray-700 text-white" />
+
+                  <button id="craftReset"
+                          class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded">
+                    ล้างค่า
+                  </button>
+                </div>
+
+                <div class="grid md:grid-cols-4 gap-4 mt-5 text-gray-200">
+                  <div class="bg-gray-900 rounded p-3">
+                    <div class="text-sm text-gray-400">Favor ที่ต้องใช้</div>
+                    <div id="outFavor" class="text-2xl font-bold">—</div>
+                  </div>
+                  <div class="bg-gray-900 rounded p-3">
+                    <div class="text-sm text-gray-400">DC</div>
+                    <div id="outDC" class="text-2xl font-bold">—</div>
+                  </div>
+                  <div class="bg-gray-900 rounded p-3">
+                    <div class="text-sm text-gray-400">จำนวน Check</div>
+                    <div id="outChecks" class="text-2xl font-bold">—</div>
+                  </div>
+                  <div class="bg-gray-900 rounded p-3">
+                    <div class="text-sm text-gray-400">ต้นทุนทอง (ครึ่งหนึ่ง)</div>
+                    <div id="outGold" class="text-2xl font-bold">—</div>
+                  </div>
+                </div>
+      
+                <p class="text-xs text-gray-400 mt-3">
+                  * ทอง = ครึ่งหนึ่งของราคาตั้งต้นไอเทมที่กรอก | ตาราง Favor อิงจาก Crafing Cost | DC และจำนวนเช็คอิงจาก Crafting DC Table
+                </p>
+              </div>
               <div class="bg-gray-800 rounded-lg p-6">
                 <h3 class="text-xl font-bold text-fantasy-gold mb-4">
                   🔨 Tool Proficiencies Needed
@@ -529,6 +583,7 @@
                 <option value="Tier 3">Tier 3</option>
                 <option value="Tier 4">Tier 4</option>
                 <option value="Tier 5">Tier 5</option>
+                <option value="Mundane Item">Mundane Item</option>
               </select>
               <select id="rarityFilter" class="p-2 rounded bg-gray-700 text-white">
                 <option value="">ทุก Rarity</option>
@@ -538,6 +593,7 @@
                 <option value="Very Rare">Very Rare</option>
                 <option value="Legendary">Legendary</option>
                 <option value="Artifact">Artifact</option>
+                <option value="Mundane">Mundane</option>
               </select>
               <select id="attuneFilter" class="p-2 rounded bg-gray-700 text-white">
                 <option value="">Attune</option>
@@ -545,11 +601,49 @@
                 <option value="No">ไม่ต้อง Attune</option>
               </select>
               <select id="PerDisFilter" class="p-2 rounded bg-gray-700 text-white">
-                <option value="">ไอเทมทุกประเภท</option>
+                <option value="">ทุกการใช้งาน</option>
                 <option value="ถาวร">ไอเทมถาวร</option>
                 <option value="ใช้แล้วทิ้ง">ไอเทมใช้แล้วทิ้ง</option>
               </select>
+              <select id="typeFilter" class="p-2 rounded bg-gray-700 text-white">
+                <option value="">ประเภทไอเทมทั้งหมด</option>
+                <option value="Adventuring Gear">Adventuring Gear</option>
+                <option value="Ammunition">Ammunition</option>
+                <option value="Armor">Armor</option>
+                <option value="Gemstone">Gemstone</option>
+                <option value="Generic Variant">Generic Variant</option>
+                <option value="Illegal Drug">Illegal Drug</option>
+                <option value="Other">Other</option>
+                <option value="Potion">Potion</option>
+                <option value="Poison">Poison</option>
+                <option value="Ring">Ring</option>
+                <option value="Scroll">Scroll</option>
+                <option value="Spell Components">Spell Components</option>
+                <option value="Spell Scroll">Spell Scroll</option>
+                <option value="Shield">Shield</option>
+                <option value="Weapon,">Weapon</option>
+                <option value="Rod">Weapon, Rod</option>
+                <option value="Wand">Weapon, Wand</option>
+                <option value="Wondrous Item">Wondrous Item</option>
+                <option value="Wondrous item (Tattoo)">Wondrous Item, Tattoo</option>
+              </select>
               <input type="text" id="searchFilter" placeholder="ค้นหาชื่อไอเทม..." class="p-2 rounded bg-gray-700 text-white" />
+            </div>
+
+            <!-- Bulk actions -->
+            <div id="bulkActions" class="flex items-center gap-3 mt-3">
+              <label class="inline-flex items-center gap-2 text-sm text-gray-300">
+                <input id="selectAllTop" type="checkbox" class="w-4 h-4 rounded bg-gray-700 border-gray-600">
+                เลือกทั้งหมด
+              </label>
+
+              <button id="copySelectedBtn"
+                      class="bg-fantasy-gold text-black px-3 py-2 rounded font-bold hover:bg-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                      disabled>
+                คัดลอกที่เลือกไป Discord
+              </button>
+
+              <span id="selectedCount" class="text-xs text-gray-400">(0 รายการ)</span>
             </div>
 
             <!-- Items List -->
@@ -603,6 +697,36 @@
       const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwqFqqB0SNWDls42z9mYMrixFLC8ZevuXvZDwBq8MISUha-mRtC-vFX9B81Gkvrble-/exec";
 
       // === Global state ===
+      // รายการที่เลือกอยู่ทั้งหมด (คงอยู่แม้กรอง/เรียงใหม่)
+      const selectedIds = new Set();
+
+      // UI ของแถบ bulk actions (นับจำนวน & เปิด/ปิดปุ่ม)
+      function updateBulkActionsUI() {
+        const txt = document.getElementById('selectedCount');
+        if (txt) txt.textContent = `(${selectedIds.size} รายการ)`;
+        const btn = document.getElementById('copySelectedBtn');
+        if (btn) btn.disabled = selectedIds.size === 0;
+      }
+
+      function parsePrice(s) {
+        const n = Number(String(s||'').replace(/[^0-9.]/g,''));
+        return isFinite(n) ? n : 0;
+      }
+      function fmt(n) {
+        return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+      function formatDiscordItems(items) {
+        const lines = items.map(it => {
+          const price = parsePrice(it.price);
+          const atn = (it.attune === 'Yes' ? 'ATN: Yes' : 'ATN: No');
+          return `- ${it.name} | ${price ? fmt(price)+' gp' : ''}`;
+        });
+        const total = items.reduce((sum, it)=> sum + parsePrice(it.price), 0);
+        const header = `# The Spire Market — รายการที่เลือก (${items.length} ชิ้น)`;
+        const footer = `— รวม: ${fmt(total)} gp`;
+        return "```md\n" + header + "\n" + lines.join("\n") + "\n" + footer + "\n```";
+      }
+
       let currentItems = [];
       let currentUpdates = [];
       let isAdminMode = false;
@@ -622,6 +746,25 @@
       });
 
       function setupEventListeners() {
+        document.getElementById('copySelectedBtn').addEventListener('click', async () => {
+          const items = currentItems.filter(it => selectedIds.has(it.id));
+          const text = formatDiscordItems(items);
+          await navigator.clipboard.writeText(text);
+          const btn = document.getElementById('copySelectedBtn');
+          const old = btn.textContent;
+          btn.textContent = 'คัดลอกแล้ว ✓';
+          setTimeout(()=> btn.textContent = old, 1500);
+        });
+
+        document.getElementById('selectAllTop').addEventListener('change', (e)=>{
+          // ส่งต่อสถานะไปที่ checkbox รวมในหัวตาราง (ถ้ามีแล้ว)
+          const tableCheckAll = document.querySelector('#itemsList #selectAll');
+          if (tableCheckAll) {
+            tableCheckAll.checked = e.target.checked;
+            tableCheckAll.dispatchEvent(new Event('change', {bubbles:false}));
+          }
+        });
+        
         // Navigation
         navButtons.forEach((btn) => {
           btn.addEventListener("click", () => switchPage(btn.dataset.page));
@@ -647,6 +790,7 @@
         document.getElementById("rarityFilter").addEventListener("change", filterItems);
         document.getElementById("attuneFilter").addEventListener("change", filterItems);
         document.getElementById("PerDisFilter").addEventListener("change", filterItems);
+        document.getElementById("typeFilter").addEventListener("change", filterItems);
         document.getElementById("searchFilter").addEventListener("input", filterItems);
 
         // Close modal on outside click
@@ -877,6 +1021,86 @@
 
         container.innerHTML = itemsHTML;
 
+        // === เพิ่มคอลัมน์เลือกทั้งหมดในหัวตาราง (ถ้ายังไม่มี) ===
+        const headerRow = container.querySelector('thead tr');
+        if (headerRow && !container.querySelector('#selectAll')) {
+          const th = document.createElement('th');
+          th.className = 'px-2 py-3 text-center text-fantasy-gold font-bold';
+          th.innerHTML = '<input type="checkbox" id="selectAll" class="w-4 h-4 rounded bg-gray-700 border-gray-600">';
+          headerRow.prepend(th);
+        }
+
+        // === ใส่เช็คบ็อกซ์ให้แต่ละแถว + sync กับ selectedIds ===
+        const rows = container.querySelectorAll('tbody tr[data-row-index]');
+        rows.forEach((row) => {
+          const idx = Number(row.getAttribute('data-row-index'));
+          const item = items[idx];
+          if (!item) return;
+
+          // สร้างเซลเช็คบ็อกซ์ (ถ้ายังไม่มี)
+          if (!row.querySelector('.row-select')) {
+            const td = document.createElement('td');
+            td.className = 'px-4 py-3 text-center';
+            td.innerHTML = '<input type="checkbox" class="row-select w-4 h-4 rounded bg-gray-700 border-gray-600">';
+            row.prepend(td);
+          }
+
+          const cb = row.querySelector('.row-select');
+          cb.dataset.id = item.id;
+          cb.checked = selectedIds.has(item.id);
+
+          // ไฮไลต์แถวที่ถูกเลือก
+          function paint(selected) {
+            row.classList.toggle('ring-1', selected);
+            row.classList.toggle('ring-fantasy-gold', selected);
+            row.classList.toggle('bg-gray-700/40', selected);
+          }
+          paint(cb.checked);
+
+          // อย่าให้คลิกเช็คบ็อกซ์ไปทริกเกอร์เปิดรายละเอียด
+          cb.addEventListener('click', (e)=> e.stopPropagation());
+          cb.addEventListener('change', (e)=>{
+            const id = e.target.dataset.id;
+            if (e.target.checked) selectedIds.add(id); else selectedIds.delete(id);
+            paint(e.target.checked);
+            updateBulkActionsUI();
+
+            // sync กับ selectAll บนหัวตาราง
+            const allChecked = Array.from(container.querySelectorAll('.row-select')).every(x=> x.checked);
+            const selAll = container.querySelector('#selectAll');
+            if (selAll) selAll.checked = allChecked;
+            const selAllTop = document.getElementById('selectAllTop');
+            if (selAllTop) selAllTop.checked = allChecked && rows.length > 0;
+          });
+        });
+
+        // === ทำงานของ "เลือกทั้งหมด" ที่หัวตาราง ===
+        const selectAll = container.querySelector('#selectAll');
+        if (selectAll) {
+          // ตั้งค่าเริ่มต้นตามสถานะในแถว
+          selectAll.checked = rows.length > 0 && Array.from(container.querySelectorAll('.row-select')).every(x=> x.checked);
+
+          selectAll.addEventListener('change', (e)=>{
+            const want = e.target.checked;
+            container.querySelectorAll('.row-select').forEach(cb=>{
+              if (cb.checked !== want) {
+                cb.checked = want;
+                cb.dispatchEvent(new Event('change', {bubbles:false}));
+              }
+            });
+            const selAllTop = document.getElementById('selectAllTop');
+            if (selAllTop) selAllTop.checked = want && rows.length > 0;
+          });
+        }
+
+        // === เพิ่มคอลสแปนของแถวคำอธิบายให้รองรับคอลัมน์ใหม่ ( +1 ) ===
+        container.querySelectorAll('tr[id^="desc-"] td').forEach(td=>{
+          td.colSpan = (isAdminMode ? 10 : 9); // เดิมคือ 9/8 เพิ่มมาอีก 1 คอลัมน์
+        });
+
+        // อัปเดตแถบเครื่องมือด้านบนให้ตรงกับสถานะล่าสุด
+        updateBulkActionsUI();
+
         // คลิกแถวเพื่อ toggle รายละเอียด
         container.querySelectorAll('tbody tr[data-row-index]').forEach((row) => {
           row.addEventListener('click', () => {
@@ -961,6 +1185,7 @@
         const rarityFilter = document.getElementById("rarityFilter").value;
         const attuneFilter = document.getElementById("attuneFilter").value;
         const PerDisFilter = document.getElementById("PerDisFilter").value;
+        const typeFilter = document.getElementById("typeFilter").value;
         const searchFilter = document.getElementById("searchFilter").value.toLowerCase();
 
         const filteredItems = currentItems.filter((item) => {
@@ -969,6 +1194,7 @@
             (!rarityFilter || item.rarity === rarityFilter) &&
             (!attuneFilter || item.attune === attuneFilter) &&
             (!PerDisFilter || item.perdis === PerDisFilter) &&
+            (!typeFilter || item.type.includes(typeFilter)) &&
             (!searchFilter || item.name.toLowerCase().includes(searchFilter))
           );
         });
@@ -1192,6 +1418,93 @@
         const date = new Date(dateString);
         return date.toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric" });
       }
+    </script>
+
+    <script>
+      // === Crafting Calculator Maps (อิงตารางในหน้า Crafting) ===
+      // Favor (Crafing Cost):
+      // Tier 0-1: ใช้แล้วทิ้ง=6, ถาวร=12 | T2: 10/20 | T3: 20/40 | T4: 30/60 | T5: 40/80
+      const FAVOR_MAP = {
+        disposable: { // ใช้แล้วทิ้ง
+          "Tier 0": 6, "Tier 1": 6, "Tier 2": 10, "Tier 3": 20, "Tier 4": 30, "Tier 5": 40
+        },
+        permanent: { // ถาวร
+          "Tier 0": 12, "Tier 1": 12, "Tier 2": 20, "Tier 3": 40, "Tier 4": 60, "Tier 5": 80
+        }
+      };
+
+      // DC & Checks (Crafting DC Table):
+      const DC_MAP = {
+        disposable: {
+          "Tier 0": { dc: 12, checks: 1 }, "Tier 1": { dc: 12, checks: 1 },
+          "Tier 2": { dc: 14, checks: 4 }, "Tier 3": { dc: 20, checks: 10 },
+          "Tier 4": { dc: 22, checks: 20 }, "Tier 5": { dc: 25, checks: 30 }
+        },
+        permanent: {
+          "Tier 0": { dc: 14, checks: 4 }, "Tier 1": { dc: 14, checks: 4 },
+          "Tier 2": { dc: 16, checks: 8 }, "Tier 3": { dc: 22, checks: 20 },
+          "Tier 4": { dc: 26, checks: 40 }, "Tier 5": { dc: 28, checks: 50 }
+        }
+      };
+
+      function fmt(n) {
+        if (n === null || n === undefined || Number.isNaN(n)) return "—";
+        return n.toLocaleString(undefined, { maximumFractionDigits: 2 });
+      }
+
+      function calcCrafting() {
+        const tier = document.getElementById('craftTier')?.value || "";
+        const type = document.getElementById('craftType')?.value || ""; // "ใช้แล้วทิ้ง" | "ถาวร"
+        const price = parseFloat(document.getElementById('craftPrice')?.value || ""); // ราคาตั้งต้น
+
+        // แปลงประเภทเป็นคีย์
+        const key = (type === "ใช้แล้วทิ้ง") ? "disposable" : (type === "ถาวร" ? "permanent" : null);
+
+        const outFavor  = document.getElementById('outFavor');
+        const outDC     = document.getElementById('outDC');
+        const outChecks = document.getElementById('outChecks');
+        const outGold   = document.getElementById('outGold');
+
+        if (!tier || !key) {
+          outFavor.textContent = "—";
+          outDC.textContent = "—";
+          outChecks.textContent = "—";
+          outGold.textContent = price > 0 ? fmt(price/2) + " gp" : "—";
+          return;
+        }
+
+        const favor = FAVOR_MAP[key][tier] ?? null;
+        const dcObj = DC_MAP[key][tier] ?? { dc: null, checks: null };
+
+        outFavor.textContent  = fmt(favor);
+        outDC.textContent     = fmt(dcObj.dc);
+        outChecks.textContent = fmt(dcObj.checks);
+        outGold.textContent   = price > 0 ? fmt(price/2) + " gp" : "—";
+      }
+
+      // Hook เข้ากับระบบอีเวนต์เดิม
+      const _origSetup = (typeof setupEventListeners === "function") ? setupEventListeners : null;
+      window.setupEventListeners = function() {
+        if (_origSetup) _origSetup();
+
+        const elTier   = document.getElementById('craftTier');
+        const elType   = document.getElementById('craftType');
+        const elPrice  = document.getElementById('craftPrice');
+        const elReset  = document.getElementById('craftReset');
+
+        if (elTier)  elTier.addEventListener('change',  calcCrafting);
+        if (elType)  elType.addEventListener('change',  calcCrafting);
+        if (elPrice) elPrice.addEventListener('input',  calcCrafting);
+        if (elReset) elReset.addEventListener('click', ()=>{
+          if (elTier)  elTier.value = "";
+          if (elType)  elType.value = "";
+          if (elPrice) elPrice.value = "";
+          calcCrafting();
+        });
+
+        // คำนวณครั้งแรกถ้าองค์ประกอบมีอยู่แล้ว
+        calcCrafting();
+      };
     </script>
 
     <!-- Cloudflare (คงไว้ตามไฟล์เดิม) -->
