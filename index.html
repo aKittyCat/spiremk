@@ -697,6 +697,19 @@
       // === Configuration ===
       const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwqFqqB0SNWDls42z9mYMrixFLC8ZevuXvZDwBq8MISUha-mRtC-vFX9B81Gkvrble-/exec";
 
+      // === Helper: ตัดตัวกลางลิงก์ของ Google ===
+      function unwrapGoogleRedirect(url){
+        if(!url) return "";
+        try{
+          const u = new URL(url);
+          if((u.hostname === "www.google.com" || u.hostname === "google.com") && u.pathname === "/url"){
+            const real = u.searchParams.get("q") || u.searchParams.get("url");
+            return real || url;
+          }
+          return url;
+        }catch{ return url; }
+      }
+
       // === Global state ===
       // รายการที่เลือกอยู่ทั้งหมด (คงอยู่แม้กรอง/เรียงใหม่)
       const selectedIds = new Set();
@@ -900,7 +913,10 @@
         try {
           const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getItems`);
           const data = await response.json();
-          currentItems = data.items || [];
+          currentItems = (data.items || []).map(it => ({
+            ...it,
+            nameLink: unwrapGoogleRedirect(it.nameLink)
+          }));
           displayItems(currentItems);
         } catch (error) {
           console.error("Error loading items:", error);
@@ -969,7 +985,7 @@
                   <tr class="border-t border-gray-700 hover:bg-gray-700 transition-colors cursor-pointer" data-row-index="${index}">
                     <td class="px-4 py-3">
                       <div class="font-semibold text-white">
-                        ${item.nameLink ? `<a href="${item.nameLink}" target="_blank" rel="noopener">${escapeHtml(item.name)}</a>` : `${escapeHtml(item.name)}`}
+                        ${item.nameLink ? `<a href="${item.nameLink}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.name)}</a>` : `${escapeHtml(item.name)}`}
                       </div>
                     </td>
                     <td class="px-4 py-3 text-gray-300 text-sm whitespace-nowrap">${escapeHtml(item.type)}</td>
