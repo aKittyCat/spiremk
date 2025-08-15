@@ -46,7 +46,7 @@
     <header class="bg-black bg-opacity-50 backdrop-blur-sm border-b border-fantasy-gold">
       <div class="container mx-auto px-4 py-6">
         <div class="flex items-center justify-between">
-          <h1 class="fantasy-font text-3xl md:text-4xl font-bold text-fantasy-gold">🏰 The Spire Market</h1>
+          <h1 href="index.html" class="fantasy-font text-3xl md:text-4xl font-bold text-fantasy-gold">🏰 The Spire Market</h1>
           <button id="adminToggle" class="bg-fantasy-purple hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors">
             Admin Panel
           </button>
@@ -576,6 +576,22 @@
               <input type="text" id="searchFilter" placeholder="ค้นหาชื่อไอเทม..." class="p-2 rounded bg-gray-700 text-white" />
             </div>
 
+            <!-- Bulk actions -->
+            <div id="bulkActions" class="flex items-center gap-3 mt-3">
+              <label class="inline-flex items-center gap-2 text-sm text-gray-300">
+                <input id="selectAllTop" type="checkbox" class="w-4 h-4 rounded bg-gray-700 border-gray-600">
+                เลือกทั้งหมด
+              </label>
+
+              <button id="copySelectedBtn"
+                      class="bg-fantasy-gold text-black px-3 py-2 rounded font-bold hover:bg-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                      disabled>
+                คัดลอกที่เลือกไป Discord
+              </button>
+
+              <span id="selectedCount" class="text-xs text-gray-400">(0 รายการ)</span>
+            </div>
+
             <!-- Items List -->
             <div id="itemsList" class="scroll-container">
               <div class="text-center py-8">
@@ -627,6 +643,36 @@
       const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwqFqqB0SNWDls42z9mYMrixFLC8ZevuXvZDwBq8MISUha-mRtC-vFX9B81Gkvrble-/exec";
 
       // === Global state ===
+      // รายการที่เลือกอยู่ทั้งหมด (คงอยู่แม้กรอง/เรียงใหม่)
+      const selectedIds = new Set();
+
+      // UI ของแถบ bulk actions (นับจำนวน & เปิด/ปิดปุ่ม)
+      function updateBulkActionsUI() {
+        const txt = document.getElementById('selectedCount');
+        if (txt) txt.textContent = `(${selectedIds.size} รายการ)`;
+        const btn = document.getElementById('copySelectedBtn');
+        if (btn) btn.disabled = selectedIds.size === 0;
+      }
+
+      function parsePrice(s) {
+        const n = Number(String(s||'').replace(/[^0-9.]/g,''));
+        return isFinite(n) ? n : 0;
+      }
+      function fmt(n) {
+        return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+      function formatDiscordItems(items) {
+        const lines = items.map(it => {
+          const price = parsePrice(it.price);
+          const atn = (it.attune === 'Yes' ? 'ATN: Yes' : 'ATN: No');
+          return `- ${it.name} | ${price ? fmt(price)+' gp' : ''}`;
+        });
+        const total = items.reduce((sum, it)=> sum + parsePrice(it.price), 0);
+        const header = `# The Spire Market — รายการที่เลือก (${items.length} ชิ้น)`;
+        const footer = `— รวม: ${fmt(total)} gp`;
+        return "```md\n" + header + "\n" + lines.join("\n") + "\n" + footer + "\n```";
+      }
+
       let currentItems = [];
       let currentUpdates = [];
       let isAdminMode = false;
@@ -646,6 +692,25 @@
       });
 
       function setupEventListeners() {
+        document.getElementById('copySelectedBtn').addEventListener('click', async () => {
+          const items = currentItems.filter(it => selectedIds.has(it.id));
+          const text = formatDiscordItems(items);
+          await navigator.clipboard.writeText(text);
+          const btn = document.getElementById('copySelectedBtn');
+          const old = btn.textContent;
+          btn.textContent = 'คัดลอกแล้ว ✓';
+          setTimeout(()=> btn.textContent = old, 1500);
+        });
+
+        document.getElementById('selectAllTop').addEventListener('change', (e)=>{
+          // ส่งต่อสถานะไปที่ checkbox รวมในหัวตาราง (ถ้ามีแล้ว)
+          const tableCheckAll = document.querySelector('#itemsList #selectAll');
+          if (tableCheckAll) {
+            tableCheckAll.checked = e.target.checked;
+            tableCheckAll.dispatchEvent(new Event('change', {bubbles:false}));
+          }
+        });
+
         // Navigation
         navButtons.forEach((btn) => {
           btn.addEventListener("click", () => switchPage(btn.dataset.page));
@@ -901,6 +966,86 @@
           </div>`;
 
         container.innerHTML = itemsHTML;
+
+        // === เพิ่มคอลัมน์เลือกทั้งหมดในหัวตาราง (ถ้ายังไม่มี) ===
+        const headerRow = container.querySelector('thead tr');
+        if (headerRow && !container.querySelector('#selectAll')) {
+          const th = document.createElement('th');
+          th.className = 'px-2 py-3 text-center text-fantasy-gold font-bold';
+          th.innerHTML = '<input type="checkbox" id="selectAll" class="w-4 h-4 rounded bg-gray-700 border-gray-600">';
+          headerRow.prepend(th);
+        }
+
+        // === ใส่เช็คบ็อกซ์ให้แต่ละแถว + sync กับ selectedIds ===
+        const rows = container.querySelectorAll('tbody tr[data-row-index]');
+        rows.forEach((row) => {
+          const idx = Number(row.getAttribute('data-row-index'));
+          const item = items[idx];
+          if (!item) return;
+
+          // สร้างเซลเช็คบ็อกซ์ (ถ้ายังไม่มี)
+          if (!row.querySelector('.row-select')) {
+            const td = document.createElement('td');
+            td.className = 'px-4 py-3 text-center';
+            td.innerHTML = '<input type="checkbox" class="row-select w-4 h-4 rounded bg-gray-700 border-gray-600">';
+            row.prepend(td);
+          }
+
+          const cb = row.querySelector('.row-select');
+          cb.dataset.id = item.id;
+          cb.checked = selectedIds.has(item.id);
+
+          // ไฮไลต์แถวที่ถูกเลือก
+          function paint(selected) {
+            row.classList.toggle('ring-1', selected);
+            row.classList.toggle('ring-fantasy-gold', selected);
+            row.classList.toggle('bg-gray-700/40', selected);
+          }
+          paint(cb.checked);
+
+          // อย่าให้คลิกเช็คบ็อกซ์ไปทริกเกอร์เปิดรายละเอียด
+          cb.addEventListener('click', (e)=> e.stopPropagation());
+          cb.addEventListener('change', (e)=>{
+            const id = e.target.dataset.id;
+            if (e.target.checked) selectedIds.add(id); else selectedIds.delete(id);
+            paint(e.target.checked);
+            updateBulkActionsUI();
+
+            // sync กับ selectAll บนหัวตาราง
+            const allChecked = Array.from(container.querySelectorAll('.row-select')).every(x=> x.checked);
+            const selAll = container.querySelector('#selectAll');
+            if (selAll) selAll.checked = allChecked;
+            const selAllTop = document.getElementById('selectAllTop');
+            if (selAllTop) selAllTop.checked = allChecked && rows.length > 0;
+          });
+        });
+
+        // === ทำงานของ "เลือกทั้งหมด" ที่หัวตาราง ===
+        const selectAll = container.querySelector('#selectAll');
+        if (selectAll) {
+          // ตั้งค่าเริ่มต้นตามสถานะในแถว
+          selectAll.checked = rows.length > 0 && Array.from(container.querySelectorAll('.row-select')).every(x=> x.checked);
+
+          selectAll.addEventListener('change', (e)=>{
+            const want = e.target.checked;
+            container.querySelectorAll('.row-select').forEach(cb=>{
+              if (cb.checked !== want) {
+                cb.checked = want;
+                cb.dispatchEvent(new Event('change', {bubbles:false}));
+              }
+            });
+            const selAllTop = document.getElementById('selectAllTop');
+            if (selAllTop) selAllTop.checked = want && rows.length > 0;
+          });
+        }
+
+        // === เพิ่มคอลสแปนของแถวคำอธิบายให้รองรับคอลัมน์ใหม่ ( +1 ) ===
+        container.querySelectorAll('tr[id^="desc-"] td').forEach(td=>{
+          td.colSpan = (isAdminMode ? 10 : 9); // เดิมคือ 9/8 เพิ่มมาอีก 1 คอลัมน์
+        });
+
+        // อัปเดตแถบเครื่องมือด้านบนให้ตรงกับสถานะล่าสุด
+        updateBulkActionsUI();
 
         // คลิกแถวเพื่อ toggle รายละเอียด
         container.querySelectorAll('tbody tr[data-row-index]').forEach((row) => {
