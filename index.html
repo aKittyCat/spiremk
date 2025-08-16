@@ -716,6 +716,28 @@
       }
 
       // === Global state ===
+      // ===== ราคาเพิ่มของอัปเกรด (ปรับตัวเลขได้ตามต้องการ) =====
+      const ENHANCE_PRICE = {
+        weapon: { 0: 0, 1: 450, 2: 900, 3: 1350 },   // Weapon +1/+2/+3
+        armor:  { 0: 0, 1: 450, 2: 900, 3: 1350 }, // Armor  +1/+2/+3
+      };
+
+      // เก็บระดับที่เลือกไว้ต่อ item.id -> 0|1|2|3
+      const enhanceMap = new Map();
+
+      // ตรวจชนิด (รองรับค่า type อย่าง "Weapon,", "Weapon, Rod", "Shield")
+      function isWeapon(it) { return /\bweapon\b/i.test(it.type || "")|| /\bwand\b/i.test(it.type || "")|| /\brod\b/i.test(it.type || ""); }
+      function isArmor(it)  { return /\barmor\b/i.test(it.type || ""); }
+
+      function getEnhanceLevel(id){ return enhanceMap.get(id) ?? 0; }
+      function getEnhancePrice(it){
+        const lv = getEnhanceLevel(it.id);
+        if (lv === 0) return 0;
+        if (isWeapon(it)) return ENHANCE_PRICE.weapon[lv] ?? 0;
+        if (isArmor(it))  return ENHANCE_PRICE.armor[lv]  ?? 0;
+        return 0;
+      }
+
       // รายการที่เลือกอยู่ทั้งหมด (คงอยู่แม้กรอง/เรียงใหม่)
       const selectedIds = new Set();
 
@@ -735,15 +757,30 @@
         return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
       function formatDiscordItems(items) {
-        const lines = items.map(it => {
-          const price = parsePrice(it.price);
-          const atn = (it.attune === 'Yes' ? 'ATN: Yes' : 'ATN: No');
-          return `- ${it.name} | ${price ? fmt(price)+' gp' : ''}`;
-        });
-        const total = items.reduce((sum, it)=> sum + parsePrice(it.price), 0);
-        const header = `# The Spire Market — รายการที่เลือก (${items.length} ชิ้น)`;
-        const footer = `— รวม: ${fmt(total)} gp`;
-        return "```md\n" + header + "\n" + lines.join("\n") + "\n" + footer + "\n```";
+      const lines = items.map(it => {
+        const base  = parsePrice(it.price);     // ราคาเดิมจากรายการ
+        const lv    = getEnhanceLevel(it.id);   // 0..3
+        const extra = getEnhancePrice(it);      // ราคาเพิ่มตาม Weapon/Armor + ระดับ
+
+        // ป้ายกำกับเฉพาะเมื่อมีการเลือกระดับ
+        const tagEnh = (isWeapon(it) || isArmor(it)) && lv > 0
+          ? ` [${isWeapon(it) ? 'Weapon' : 'Armor'}+${lv}]`
+          : '';
+
+        // ❗ แสดง "ราคาเดิม" บนบรรทัด + วงเล็บ (+extra)
+        const priceTxt = base
+          ? `${fmt(base)} gp${extra ? ` (+${fmt(extra)})` : ''}`
+          : '';
+
+        return `- ${it.name}${tagEnh} | ${priceTxt}`;
+      });
+
+      // ✅ รวมเป็น base + extra ของทุกชิ้น
+      const total = items.reduce((sum, it)=> sum + parsePrice(it.price) + getEnhancePrice(it), 0);
+
+      const header = `# The Spire Market — รายการที่เลือก (${items.length} ชิ้น)`;
+      const footer = `— รวม: ${fmt(total)} gp`;
+      return "```md\n" + header + "\n" + lines.join("\n") + "\n" + footer + "\n```";
       }
 
       let currentItems = [];
@@ -1072,6 +1109,15 @@
           th.innerHTML = '<input type="checkbox" id="selectAll" class="w-4 h-4 rounded bg-gray-700 border-gray-600">';
           headerRow.prepend(th);
         }
+        // === หัวคอลัมน์ "Enhance" (ถ้ายังไม่มี) ===
+        if (headerRow && !container.querySelector('#enhanceHeader')) {
+          const th = document.createElement('th');
+          th.id = 'enhanceHeader';
+          th.className = 'px-2 py-3 text-center text-fantasy-gold font-bold';
+          th.textContent = 'Enhance';
+          // วางถัดจากคอลัมน์เช็คบ็อกซ์
+          headerRow.insertBefore(th, headerRow.children[1] || null);
+        }
 
         // === ใส่เช็คบ็อกซ์ให้แต่ละแถว + sync กับ selectedIds ===
         const rows = container.querySelectorAll('tbody tr[data-row-index]');
@@ -1086,6 +1132,42 @@
             td.className = 'px-4 py-3 text-center';
             td.innerHTML = '<input type="checkbox" class="row-select w-4 h-4 rounded bg-gray-700 border-gray-600">';
             row.prepend(td);
+          }
+          // === คอลัมน์ "Enhance" ต่อแถว ===
+          if (!row.querySelector('.enhance-cell')) {
+            const td = document.createElement('td');
+            td.className = 'px-2 py-2 text-center enhance-cell';
+            // ใส่ถัดจากคอลัมน์เช็คบ็อกซ์ (ตำแหน่ง index 1)
+            row.insertBefore(td, row.children[1] || null);
+          }
+          const enhTd = row.querySelector('.enhance-cell');
+          enhTd.innerHTML = '';
+
+          // แสดงเฉพาะถ้าเป็น Weapon/Armor
+          if (isWeapon(item) || isArmor(item)) {
+            const sel = document.createElement('select');
+            sel.className = 'enhance-select p-1 rounded bg-gray-700 text-white';
+            sel.dataset.id = item.id;
+
+            const label = isWeapon(item) ? 'Weapon' : 'Armor';
+            [0,1,2,3].forEach(lv=>{
+              const opt = document.createElement('option');
+              opt.value = String(lv);
+              opt.textContent = lv === 0 ? '-' : `${label}+${lv}`;
+              sel.appendChild(opt);
+            });
+
+            // โหลดค่าที่เคยเลือกไว้ (ถ้ามี)
+            sel.value = String(getEnhanceLevel(item.id));
+
+            sel.addEventListener('change', ()=>{
+              enhanceMap.set(item.id, Number(sel.value)||0);
+            });
+
+            enhTd.appendChild(sel);
+          } else {
+            enhTd.textContent = '—';
+            enhTd.classList.add('text-gray-500');
           }
 
           const cb = row.querySelector('.row-select');
@@ -1138,7 +1220,7 @@
 
         // === เพิ่มคอลสแปนของแถวคำอธิบายให้รองรับคอลัมน์ใหม่ ( +1 ) ===
         container.querySelectorAll('tr[id^="desc-"] td').forEach(td=>{
-          td.colSpan = (isAdminMode ? 10 : 9); // เดิมคือ 9/8 เพิ่มมาอีก 1 คอลัมน์
+          td.colSpan = (isAdminMode ? 11 : 10); // เดิมคือ 9/8 เพิ่มมาอีก 1 คอลัมน์
         });
 
         // อัปเดตแถบเครื่องมือด้านบนให้ตรงกับสถานะล่าสุด
