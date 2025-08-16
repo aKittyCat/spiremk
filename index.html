@@ -750,6 +750,15 @@
         return ` [${label}+${key}]`;
       }
 
+      // ป้ายแบบสั้นไว้แสดงในคอลัมน์ Enhance
+      function enhanceLabel(it, key){
+        if (key === '0') return '-';
+        if (key === 'bloodshed') return 'Bloodshed Blade';
+        if (key === 'clockwork') return 'Clockwork Armor';
+        const label = isWeapon(it) ? 'Weapon' : 'Armor';
+        return `${label}+${key}`;
+      }
+
       // ราคาเพิ่มจากการเลือก
       function getEnhancePrice(it){
         const key = getEnhanceKey(it.id);
@@ -1156,7 +1165,7 @@
           // === คอลัมน์ "Enhance" ต่อแถว ===
           if (!row.querySelector('.enhance-cell')) {
             const td = document.createElement('td');
-            td.className = 'px-2 py-2 text-center enhance-cell';
+            td.className = 'px-2 py-2 text-left enhance-cell';
             // ใส่ถัดจากคอลัมน์เช็คบ็อกซ์ (ตำแหน่ง index 1)
             row.insertBefore(td, row.children[1] || null);
           }
@@ -1166,7 +1175,7 @@
           // แสดงเฉพาะถ้าเป็น Weapon/Armor
           if (isWeapon(item) || isArmor(item)) {
             const sel = document.createElement('select');
-            sel.className = 'enhance-select p-1 rounded bg-gray-700 text-white';
+            sel.className = 'enhance-select p-1 rounded bg-gray-700 text-white hidden';
             sel.dataset.id = item.id;
 
             // รายการตัวเลือก
@@ -1196,15 +1205,33 @@
             // โหลดค่าที่เคยเลือกไว้
             sel.value = getEnhanceKey(item.id);
 
-            // บันทึกค่าเป็น "string" (ห้าม Number(...) เพราะจะทำให้ 'bloodshed'/'clockwork' หาย)
-            sel.addEventListener('change', ()=>{
-              enhanceMap.set(item.id, sel.value);
+            // ป้ายแสดงผล (กดเพื่อแก้)
+            const badge = document.createElement('button');
+            badge.type = 'button';
+            badge.className = 'enh-badge bg-gray-700/60 hover:bg-gray-700 text-xs px-2 py-0.5 rounded';
+            badge.textContent = enhanceLabel(item, sel.value);
+
+            // สลับโหมด
+            badge.addEventListener('click', ()=>{
+              badge.classList.add('hidden');
+              sel.classList.remove('hidden');
+              sel.focus();
             });
 
+            // เปลี่ยนค่าแล้วอัปเดตทั้งแผนที่และป้าย
+            sel.addEventListener('change', ()=>{
+              enhanceMap.set(item.id, sel.value);      // เก็บ key เป็น string ('1','2','bloodshed'...)
+              badge.textContent = enhanceLabel(item, sel.value);
+            });
+
+            // ออกจากโหมดแก้ (คลิกนอก/แท็บออก)
+            sel.addEventListener('blur', ()=>{
+              sel.classList.add('hidden');
+              badge.classList.remove('hidden');
+            });
+
+            enhTd.appendChild(badge);
             enhTd.appendChild(sel);
-          } else {
-            enhTd.textContent = '—';
-            enhTd.classList.add('text-gray-500');
           }
 
           const cb = row.querySelector('.row-select');
