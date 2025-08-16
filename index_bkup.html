@@ -38,6 +38,8 @@
       .rarity-artifact { background-color: #ef4444; color: white; }
       .rarity-mundane { background-color: #2d0097; color: white; }
       .hint-badge { font-size: 0.75rem; padding: .15rem .5rem; border-radius: .375rem; }
+
+      #itemsList table { table-layout: fixed; width: 100%; }
     </style>
   </head>
 
@@ -716,26 +718,44 @@
       }
 
       // === Global state ===
-      // ===== ราคาเพิ่มของอัปเกรด (ปรับตัวเลขได้ตามต้องการ) =====
-      const ENHANCE_PRICE = {
-        weapon: { 0: 0, 1: 450, 2: 900, 3: 1350 },   // Weapon +1/+2/+3
-        armor:  { 0: 0, 1: 450, 2: 900, 3: 1350 }, // Armor  +1/+2/+3
-      };
-
-      // เก็บระดับที่เลือกไว้ต่อ item.id -> 0|1|2|3
+      // เก็บระดับ/ชนิดที่เลือกไว้ต่อ item.id -> '0' | '1' | '2' | '3' | 'bloodshed' | 'clockwork'
       const enhanceMap = new Map();
 
-      // ตรวจชนิด (รองรับค่า type อย่าง "Weapon,", "Weapon, Rod", "Shield")
+      // ตรวจชนิด (รองรับค่า type อย่าง "Weapon,", "Weapon, Rod", และ "Shield" ให้เป็นเกราะ)
       function isWeapon(it) { return /\bweapon\b/i.test(it.type || "")|| /\bwand\b/i.test(it.type || "")|| /\brod\b/i.test(it.type || ""); }
       function isArmor(it)  { return /\barmor\b/i.test(it.type || ""); }
 
-      function getEnhanceLevel(id){ return enhanceMap.get(id) ?? 0; }
+      // ราคาส่วนเพิ่ม (แก้ตัวเลขได้)
+      const ENHANCE_PRICE = {
+        weapon: { '0':0, '1':450, '2':900, '3':1350, bloodshed:580 },
+        armor:  { '0':0, '1':450, '2':900, '3':1350, clockwork:440 }
+      };
+
+      // อ่าน key ที่เลือก (string)
+      function getEnhanceKey(id){ return String(enhanceMap.get(id) ?? '0'); }
+
+      // เพื่อความเข้ากันได้เก่า: แปลง key เป็นตัวเลข 0..3 (กรณีเป็นชื่อพิเศษ ให้เป็น 0)
+      function getEnhanceLevel(id){
+        const k = getEnhanceKey(id);
+        const n = parseInt(k,10);
+        return Number.isFinite(n) ? n : 0;
+      }
+
+      // ป้ายที่จะแสดงหลังชื่อ
+      function enhanceTag(it, key){
+        if (key === '0') return '';
+        if (key === 'bloodshed') return ' [Bloodshed Blade]';
+        if (key === 'clockwork') return ' [Clockwork Armor]';
+        const label = isWeapon(it) ? 'Weapon' : 'Armor';
+        return ` [${label}+${key}]`;
+      }
+
+      // ราคาเพิ่มจากการเลือก
       function getEnhancePrice(it){
-        const lv = getEnhanceLevel(it.id);
-        if (lv === 0) return 0;
-        if (isWeapon(it)) return ENHANCE_PRICE.weapon[lv] ?? 0;
-        if (isArmor(it))  return ENHANCE_PRICE.armor[lv]  ?? 0;
-        return 0;
+        const key = getEnhanceKey(it.id);
+        const table = isWeapon(it) ? ENHANCE_PRICE.weapon : (isArmor(it) ? ENHANCE_PRICE.armor : null);
+        if (!table) return 0;
+        return table[key] ?? 0;
       }
 
       // รายการที่เลือกอยู่ทั้งหมด (คงอยู่แม้กรอง/เรียงใหม่)
@@ -1051,7 +1071,7 @@
                         ${item.nameLink ? `<a href="${item.nameLink}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.name)}</a>` : `${escapeHtml(item.name)}`}
                       </div>
                     </td>
-                    <td class="px-4 py-3 text-gray-300 text-sm whitespace-nowrap">${escapeHtml(item.type)}</td>
+                    <td class="px-4 py-3 text-gray-300 text-sm break-words">${escapeHtml(item.type)}</td>
                     <td class="px-4 py-3 text-center whitespace-nowrap">
                       <span class="px-2 py-1 rounded text-xs font-bold ${item.attune === "Yes" ? "bg-green-600 text-white" : "bg-red-600 text-white"}">
                         ${item.attune === "Yes" ? "ใช่" : "ไม่"}
@@ -1071,7 +1091,7 @@
                       </span>
                     </td>
                     <td class="px-4 py-3 text-right font-bold text-white-400 whitespace-nowrap">${escapeHtml(item.price)}</td>
-                    <td class="px-4 py-3 text-center text-sm text-gray-400 whitespace-nowrap">${escapeHtml(item.book)}</td>
+                    <td class="px-4 py-3 text-center text-sm text-gray-400 break-words">${escapeHtml(item.book)}</td>
                     ${isAdminMode ? `
                       <td class="px-4 py-3 text-center whitespace-nowrap">
                         <div class="flex items-center justify-center gap-2">
@@ -1149,19 +1169,36 @@
             sel.className = 'enhance-select p-1 rounded bg-gray-700 text-white';
             sel.dataset.id = item.id;
 
-            const label = isWeapon(item) ? 'Weapon' : 'Armor';
-            [0,1,2,3].forEach(lv=>{
+            // รายการตัวเลือก
+            const opts = isWeapon(item)
+              ? [
+                  {v:'0', t:'-'},
+                  {v:'1', t:'Weapon+1'},
+                  {v:'2', t:'Weapon+2'},
+                  {v:'3', t:'Weapon+3'},
+                  {v:'bloodshed', t:'Bloodshed Blade'}
+                ]
+              : [
+                  {v:'0', t:'-'},
+                  {v:'1', t:'Armor+1'},
+                  {v:'2', t:'Armor+2'},
+                  {v:'3', t:'Armor+3'},
+                  {v:'clockwork', t:'Clockwork Armor'}
+                ];
+
+            opts.forEach(o=>{
               const opt = document.createElement('option');
-              opt.value = String(lv);
-              opt.textContent = lv === 0 ? '-' : `${label}+${lv}`;
+              opt.value = o.v;
+              opt.textContent = o.t;
               sel.appendChild(opt);
             });
 
-            // โหลดค่าที่เคยเลือกไว้ (ถ้ามี)
-            sel.value = String(getEnhanceLevel(item.id));
+            // โหลดค่าที่เคยเลือกไว้
+            sel.value = getEnhanceKey(item.id);
 
+            // บันทึกค่าเป็น "string" (ห้าม Number(...) เพราะจะทำให้ 'bloodshed'/'clockwork' หาย)
             sel.addEventListener('change', ()=>{
-              enhanceMap.set(item.id, Number(sel.value)||0);
+              enhanceMap.set(item.id, sel.value);
             });
 
             enhTd.appendChild(sel);
