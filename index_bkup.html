@@ -40,6 +40,26 @@
       .hint-badge { font-size: 0.75rem; padding: .15rem .5rem; border-radius: .375rem; }
 
       #itemsList table { table-layout: fixed; width: 100%; }
+      /* ซ่อนคอลัมน์ Enhance ถ้ายังถูกสร้างอยู่ (ให้ชื่อไอเทมติดกับ checkbox จริง ๆ) */
+      #itemsList th#enhanceHeader,
+      #itemsList td.enhance-cell { display: none !important; }
+
+      /* ย่อช่อง checkbox + ชิดซ้าย */
+      #itemsList thead th:first-child,
+      #itemsList tbody td:first-child {
+        text-align: left;
+        padding-left: .5rem;
+        padding-right: .35rem;
+        width: 2.25rem;     /* พอให้ติ๊กได้สบาย ๆ */
+      }
+
+      /* คอลัมน์ "ชื่อไอเทม" ที่อยู่ถัดจาก checkbox ให้ชิดซ้ายและลดช่องว่างด้านซ้าย */
+      #itemsList thead th:nth-child(2),
+      #itemsList tbody td:nth-child(2) {
+        text-align: left;
+        padding-left: .25rem;
+        padding-right: 1rem;
+      }
     </style>
   </head>
 
@@ -1059,7 +1079,7 @@
                   <th class="px-4 py-3 text-center text-fantasy-gold font-bold">Tier</th>
                   <th class="px-4 py-3 text-center text-fantasy-gold font-bold">Rarity</th>
                   <th class="px-4 py-3 text-right text-fantasy-gold font-bold">ราคา(GP)</th>
-                  <th class="px-4 py-3 text-center text-fantasy-gold font-bold">หนังสือ</th>
+                  <th class="px-4 py-3 text-right text-fantasy-gold font-bold">หนังสือ</th>
                   ${isAdminMode ? `<th class="px-4 py-3 text-center text-fantasy-gold font-bold">จัดการ</th>` : ``}
                 </tr>
               </thead>
@@ -1071,7 +1091,7 @@
                         ${item.nameLink ? `<a href="${item.nameLink}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.name)}</a>` : `${escapeHtml(item.name)}`}
                       </div>
                     </td>
-                    <td class="px-4 py-3 text-gray-300 text-sm break-words">${escapeHtml(item.type)}</td>
+                    <td class="px-4 py-3 text-gray-300 text-sm whitespace-normal">${escapeHtml(item.type)}</td>
                     <td class="px-4 py-3 text-center whitespace-nowrap">
                       <span class="px-2 py-1 rounded text-xs font-bold ${item.attune === "Yes" ? "bg-green-600 text-white" : "bg-red-600 text-white"}">
                         ${item.attune === "Yes" ? "ใช่" : "ไม่"}
@@ -1091,7 +1111,7 @@
                       </span>
                     </td>
                     <td class="px-4 py-3 text-right font-bold text-white-400 whitespace-nowrap">${escapeHtml(item.price)}</td>
-                    <td class="px-4 py-3 text-center text-sm text-gray-400 break-words">${escapeHtml(item.book)}</td>
+                    <td class="px-4 py-3 text-right text-sm text-gray-400 break-words">${escapeHtml(item.book)}</td>
                     ${isAdminMode ? `
                       <td class="px-4 py-3 text-center whitespace-nowrap">
                         <div class="flex items-center justify-center gap-2">
@@ -1106,14 +1126,46 @@
                           </div>
                       </td>` : ``}
                   </tr>
-                  ${item.description ? `
+                  ${(item.description || isWeapon(item) || isArmor(item)) ? `
                     <tr id="desc-${index}" class="hidden border-t border-gray-600">
-                      <td colspan="${isAdminMode ? 9 : 8}" class="px-4 py-3 bg-gray-800">
-                        <div class="text-gray-300 text-sm italic">
-                          <strong class="text-fantasy-gold">รายละเอียด:</strong> ${escapeHtml(item.description)}
-                        </div>
+                      <td colspan="${isAdminMode ? 10 : 9}" class="px-4 py-3 bg-gray-800">
+                        ${ (isWeapon(item) || isArmor(item)) ? `
+                          <div class="mb-3 flex items-center gap-2">
+                            <span class="text-fantasy-gold font-bold">Enhance</span>
+                            <select class="enhance-select p-1 rounded bg-gray-700 text-white"
+                                    data-id="${item.id}">
+                              ${ isWeapon(item)
+                                  ? `
+                                    <option value="0">-</option>
+                                    <option value="1">Weapon+1</option>
+                                    <option value="2">Weapon+2</option>
+                                    <option value="3">Weapon+3</option>
+                                    <option value="bloodshed">Bloodshed Blade</option>
+                                  `
+                                  : `
+                                    <option value="0">-</option>
+                                    <option value="1">Armor+1</option>
+                                    <option value="2">Armor+2</option>
+                                    <option value="3">Armor+3</option>
+                                    <option value="clockwork">Clockwork Armor</option>
+                                  `
+                              }
+                            </select>
+                            <span class="text-xs text-gray-400">
+                              * ค่าที่เลือกจะถูกรวมราคาให้อัตโนมัติเมื่อคัดลอกไป Discord
+                            </span>
+                          </div>
+                        ` : ''}
+
+                        ${ item.description ? `
+                          <div class="text-gray-300 text-sm">
+                            <strong class="text-fantasy-gold">รายละเอียด:</strong>
+                            ${escapeHtml(item.description)}
+                          </div>
+                        ` : '' }
                       </td>
-                    </tr>` : ""}
+                    </tr>
+                  ` : '' }
                 `).join("")}
               </tbody>
             </table>
@@ -1121,22 +1173,24 @@
 
         container.innerHTML = itemsHTML;
 
+        // === ซิงค์ dropdown Enhance ในรายละเอียด ===
+        container.querySelectorAll('.enhance-select').forEach(sel => {
+          const id = sel.dataset.id;
+          // โหลดค่าที่เคยเลือกไว้ (ถ้ามี)
+          sel.value = getEnhanceKey(id);
+          // บันทึกค่าเป็น string ('1','2','bloodshed','clockwork'...)
+          sel.addEventListener('change', () => {
+            enhanceMap.set(id, sel.value);
+          });
+        });
+
         // === เพิ่มคอลัมน์เลือกทั้งหมดในหัวตาราง (ถ้ายังไม่มี) ===
         const headerRow = container.querySelector('thead tr');
         if (headerRow && !container.querySelector('#selectAll')) {
           const th = document.createElement('th');
-          th.className = 'px-2 py-3 text-center text-fantasy-gold font-bold';
+          th.className = 'pl-2 pr-1 py-3 text-left text-fantasy-gold font-bold';
           th.innerHTML = '<input type="checkbox" id="selectAll" class="w-4 h-4 rounded bg-gray-700 border-gray-600">';
           headerRow.prepend(th);
-        }
-        // === หัวคอลัมน์ "Enhance" (ถ้ายังไม่มี) ===
-        if (headerRow && !container.querySelector('#enhanceHeader')) {
-          const th = document.createElement('th');
-          th.id = 'enhanceHeader';
-          th.className = 'px-2 py-3 text-center text-fantasy-gold font-bold';
-          th.textContent = 'Enhance';
-          // วางถัดจากคอลัมน์เช็คบ็อกซ์
-          headerRow.insertBefore(th, headerRow.children[1] || null);
         }
 
         // === ใส่เช็คบ็อกซ์ให้แต่ละแถว + sync กับ selectedIds ===
@@ -1149,62 +1203,9 @@
           // สร้างเซลเช็คบ็อกซ์ (ถ้ายังไม่มี)
           if (!row.querySelector('.row-select')) {
             const td = document.createElement('td');
-            td.className = 'px-4 py-3 text-center';
+            td.className = 'pl-2 pr-1 py-3 text-left';
             td.innerHTML = '<input type="checkbox" class="row-select w-4 h-4 rounded bg-gray-700 border-gray-600">';
             row.prepend(td);
-          }
-          // === คอลัมน์ "Enhance" ต่อแถว ===
-          if (!row.querySelector('.enhance-cell')) {
-            const td = document.createElement('td');
-            td.className = 'px-2 py-2 text-center enhance-cell';
-            // ใส่ถัดจากคอลัมน์เช็คบ็อกซ์ (ตำแหน่ง index 1)
-            row.insertBefore(td, row.children[1] || null);
-          }
-          const enhTd = row.querySelector('.enhance-cell');
-          enhTd.innerHTML = '';
-
-          // แสดงเฉพาะถ้าเป็น Weapon/Armor
-          if (isWeapon(item) || isArmor(item)) {
-            const sel = document.createElement('select');
-            sel.className = 'enhance-select p-1 rounded bg-gray-700 text-white';
-            sel.dataset.id = item.id;
-
-            // รายการตัวเลือก
-            const opts = isWeapon(item)
-              ? [
-                  {v:'0', t:'-'},
-                  {v:'1', t:'Weapon+1'},
-                  {v:'2', t:'Weapon+2'},
-                  {v:'3', t:'Weapon+3'},
-                  {v:'bloodshed', t:'Bloodshed Blade'}
-                ]
-              : [
-                  {v:'0', t:'-'},
-                  {v:'1', t:'Armor+1'},
-                  {v:'2', t:'Armor+2'},
-                  {v:'3', t:'Armor+3'},
-                  {v:'clockwork', t:'Clockwork Armor'}
-                ];
-
-            opts.forEach(o=>{
-              const opt = document.createElement('option');
-              opt.value = o.v;
-              opt.textContent = o.t;
-              sel.appendChild(opt);
-            });
-
-            // โหลดค่าที่เคยเลือกไว้
-            sel.value = getEnhanceKey(item.id);
-
-            // บันทึกค่าเป็น "string" (ห้าม Number(...) เพราะจะทำให้ 'bloodshed'/'clockwork' หาย)
-            sel.addEventListener('change', ()=>{
-              enhanceMap.set(item.id, sel.value);
-            });
-
-            enhTd.appendChild(sel);
-          } else {
-            enhTd.textContent = '—';
-            enhTd.classList.add('text-gray-500');
           }
 
           const cb = row.querySelector('.row-select');
@@ -1257,7 +1258,7 @@
 
         // === เพิ่มคอลสแปนของแถวคำอธิบายให้รองรับคอลัมน์ใหม่ ( +1 ) ===
         container.querySelectorAll('tr[id^="desc-"] td').forEach(td=>{
-          td.colSpan = (isAdminMode ? 11 : 10); // เดิมคือ 9/8 เพิ่มมาอีก 1 คอลัมน์
+          td.colSpan = (isAdminMode ? 10 : 9); // เดิมคือ 9/8 เพิ่มมาอีก 1 คอลัมน์
         });
 
         // อัปเดตแถบเครื่องมือด้านบนให้ตรงกับสถานะล่าสุด

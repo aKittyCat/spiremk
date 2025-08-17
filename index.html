@@ -1079,7 +1079,7 @@
                   <th class="px-4 py-3 text-center text-fantasy-gold font-bold">Tier</th>
                   <th class="px-4 py-3 text-center text-fantasy-gold font-bold">Rarity</th>
                   <th class="px-4 py-3 text-right text-fantasy-gold font-bold">ราคา(GP)</th>
-                  <th class="px-4 py-3 text-center text-fantasy-gold font-bold">หนังสือ</th>
+                  <th class="px-4 py-3 text-right text-fantasy-gold font-bold">หนังสือ</th>
                   ${isAdminMode ? `<th class="px-4 py-3 text-center text-fantasy-gold font-bold">จัดการ</th>` : ``}
                 </tr>
               </thead>
@@ -1091,7 +1091,7 @@
                         ${item.nameLink ? `<a href="${item.nameLink}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.name)}</a>` : `${escapeHtml(item.name)}`}
                       </div>
                     </td>
-                    <td class="px-4 py-3 text-gray-300 text-sm break-words">${escapeHtml(item.type)}</td>
+                    <td class="px-4 py-3 text-gray-300 text-sm whitespace-normal">${escapeHtml(item.type)}</td>
                     <td class="px-4 py-3 text-center whitespace-nowrap">
                       <span class="px-2 py-1 rounded text-xs font-bold ${item.attune === "Yes" ? "bg-green-600 text-white" : "bg-red-600 text-white"}">
                         ${item.attune === "Yes" ? "ใช่" : "ไม่"}
@@ -1111,7 +1111,7 @@
                       </span>
                     </td>
                     <td class="px-4 py-3 text-right font-bold text-white-400 whitespace-nowrap">${escapeHtml(item.price)}</td>
-                    <td class="px-4 py-3 text-center text-sm text-gray-400 break-words">${escapeHtml(item.book)}</td>
+                    <td class="px-4 py-3 text-right text-sm text-gray-400 break-words">${escapeHtml(item.book)}</td>
                     ${isAdminMode ? `
                       <td class="px-4 py-3 text-center whitespace-nowrap">
                         <div class="flex items-center justify-center gap-2">
