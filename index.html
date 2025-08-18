@@ -806,7 +806,7 @@
         return 'weapon';
       }
 
-      // สร้างชุดผู้สมัคร base item จาก currentItems (ไม่ยิง GAS)
+      // สร้างชุด base item จาก currentItems (ไม่ยิง GAS)
       function getBaseCandidates(kind){
         const isWeapon = (t) => /\bweapon\b/i.test(t || "") || /\bwand|rod\b/i.test(t || "");
         const isArmor  = (t) => /\barmor\b/i.test(t || "") || /\bshield\b/i.test(t || "");
