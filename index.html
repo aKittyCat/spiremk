@@ -716,23 +716,6 @@
       </div>
     </div>
 
-    <!-- Generic Variant Picker Modal -->
-    <div id="gvModal" class="fixed inset-0 bg-black/70 hidden z-50">
-      <div class="absolute inset-0 flex items-center justify-center p-4">
-        <div class="bg-gray-800 w-full max-w-2xl rounded-xl border-2 border-fantasy-gold shadow-2xl">
-          <div class="px-5 py-4 border-b border-gray-700 flex items-center gap-3">
-            <h3 class="fantasy-font text-xl font-bold text-fantasy-gold" id="gvTitle">เลือกไอเทมตั้งต้น</h3>
-            <input id="gvSearch" type="text" placeholder="พิมพ์ค้นหา..." class="ml-auto p-2 rounded bg-gray-700 text-white w-56">
-            <button id="gvClose" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600">ปิด</button>
-          </div>
-          <div class="max-h-[60vh] overflow-y-auto" id="gvList"></div>
-          <div class="px-5 py-3 border-t border-gray-700 text-right text-gray-400 text-sm">
-            * ราคา = ราคา Generic Variant + ราคาไอเทมตั้งต้น
-          </div>
-        </div>
-      </div>
-    </div>
-
     <script>
       // === Configuration ===
       const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwqFqqB0SNWDls42z9mYMrixFLC8ZevuXvZDwBq8MISUha-mRtC-vFX9B81Gkvrble-/exec";
@@ -791,45 +774,6 @@
         return table[key] ?? 0;
       }
 
-      // ===== Generic Variant state =====
-      const gvMap = new Map(); // itemId -> {kind:'weapon'|'armor', id, name, price}
-
-      // เป็น Generic Variant ไหม? (type จากข้อมูลในหน้า)
-      function isGenericVariant(it){
-        return /\bgeneric variant\b/i.test(it.type || "");
-      }
-
-      // เดา kind จากชื่อ (ถ้าพิมพ์ว่า Armor/Shield ให้เป็น armor, นอกนั้นเป็น weapon)
-      function guessGVKind(it){
-        const n = (it.name || "");
-        if (/\barmor|shield\b/i.test(n)) return 'armor';
-        return 'weapon';
-      }
-
-      // สร้างชุด base item จาก currentItems (ไม่ยิง GAS)
-      function getBaseCandidates(kind){
-        const isWeapon = (t) => /\bweapon\b/i.test(t || "") || /\bwand|rod\b/i.test(t || "");
-        const isArmor  = (t) => /\barmor\b/i.test(t || "") || /\bshield\b/i.test(t || "");
-        return (currentItems || [])
-          .filter(b => !isGenericVariant(b))
-          .filter(b => kind === 'weapon' ? isWeapon(b.type) : isArmor(b.type))
-          .map(b => ({ id:b.id, name:b.name, price:Number(parsePrice(b.price)) || 0 }))
-          .sort((a,b)=> a.name.localeCompare(b.name));
-      }
-
-      // อ่านสิ่งที่เลือกไว้ของไอเทม Generic Variant (ไว้ใช้ตอนคัดลอก)
-      function getGVAddon(it){
-        if (!isGenericVariant(it)) return null;
-        const s = gvMap.get(it.id);
-        return s ? { name: s.name, price: s.price } : null;
-      }
-
-      // ปลอดภัยเวลาแสดงชื่อ
-      function escapeHtml(str = "") {
-        return String(str).replaceAll("&","&amp;").replaceAll("<","&lt;")
-          .replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
-      }
-
       // รายการที่เลือกอยู่ทั้งหมด (คงอยู่แม้กรอง/เรียงใหม่)
       const selectedIds = new Set();
 
@@ -848,39 +792,31 @@
       function fmt(n) {
         return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
-      function formatDiscordItems(items){
-        const lines = items.map(it=>{
-          const basePrice = parsePrice(it.price);
+      function formatDiscordItems(items) {
+      const lines = items.map(it => {
+        const base  = parsePrice(it.price);     // ราคาเดิมจากรายการ
+        const lv    = getEnhanceLevel(it.id);   // 0..3
+        const extra = getEnhancePrice(it);      // ราคาเพิ่มตาม Weapon/Armor + ระดับ
 
-          // ส่วนเพิ่มจาก Enhance ของอาวุธ/เกราะปกติ
-          const lv    = getEnhanceLevel(it.id);
-          const enh   = getEnhancePrice(it);
-          const tagEnh = (isWeapon(it) || isArmor(it)) && lv > 0
-            ? ` [${isWeapon(it) ? 'Weapon' : 'Armor'}+${lv}]` : '';
+        // ป้ายกำกับเฉพาะเมื่อมีการเลือกระดับ
+        const tagEnh = (isWeapon(it) || isArmor(it)) && lv > 0
+          ? ` [${isWeapon(it) ? 'Weapon' : 'Armor'}+${lv}]`
+          : '';
 
-          // ส่วนเพิ่มจาก Generic Variant (Base Item ที่เลือก)
-          const gv = getGVAddon(it); // null หรือ {name, price}
-          const tagGV = gv ? ` [Base: ${gv.name}]` : '';
+        // ❗ แสดง "ราคาเดิม" บนบรรทัด + วงเล็บ (+extra)
+        const priceTxt = base
+          ? `${fmt(base)} gp${extra ? ` (+${fmt(extra)})` : ''}`
+          : '';
 
-          // บรรทัดราคา: ราคาเดิม + (+Enh) + (+Base)
-          const priceTxt = `${fmt(basePrice)} gp`
-            + (enh ? ` (+${fmt(enh)})` : '')
-            + (gv && gv.price ? ` (+${fmt(gv.price)})` : '');
+        return `- ${it.name}${tagEnh} | ${priceTxt}`;
+      });
 
-          return `- ${it.name}${tagEnh}${tagGV} | ${priceTxt}`;
-        });
+      // ✅ รวมเป็น base + extra ของทุกชิ้น
+      const total = items.reduce((sum, it)=> sum + parsePrice(it.price) + getEnhancePrice(it), 0);
 
-        // รวมยอด = base + enhance + base item (Generic Variant)
-        const total = items.reduce((sum,it)=>{
-          const base = parsePrice(it.price);
-          const enh  = getEnhancePrice(it) || 0;
-          const gv   = getGVAddon(it)?.price || 0;
-          return sum + base + enh + gv;
-        }, 0);
-
-        const header = `# The Spire Market — รายการที่เลือก (${items.length} ชิ้น)`;
-        const footer = `— รวม: ${fmt(total)} gp`;
-        return "```md\n" + header + "\n" + lines.join("\n") + "\n" + footer + "\n```";
+      const header = `# The Spire Market — รายการที่เลือก (${items.length} ชิ้น)`;
+      const footer = `— รวม: ${fmt(total)} gp`;
+      return "```md\n" + header + "\n" + lines.join("\n") + "\n" + footer + "\n```";
       }
 
       let currentItems = [];
@@ -1217,19 +1153,6 @@
                           </div>
                         ` : ''}
 
-                        ${ isGenericVariant(item) ? `
-                          <div class="mb-3 flex items-center gap-2">
-                            <span class="text-fantasy-gold font-bold">Base Item</span>
-                            <button type="button" class="px-3 py-1 rounded bg-fantasy-purple hover:bg-purple-700"
-                                    data-gv-pick="${item.id}">
-                              เลือกไอเทมตั้งต้น
-                            </button>
-                            <span id="gvChip-${item.id}" class="text-xs text-gray-300">
-                              ${ gvMap.get(item.id) ? `${escapeHtml(gvMap.get(item.id).name)} (+${fmt(gvMap.get(item.id).price)} gp)` : '— ยังไม่ได้เลือก —' }
-                            </span>
-                          </div>
-                        ` : '' }
-
                         ${ item.description ? `
                           <div class="text-gray-300 text-sm">
                             <strong class="text-fantasy-gold">รายละเอียด:</strong>
@@ -1245,11 +1168,6 @@
           </div>`;
 
         container.innerHTML = itemsHTML;
-
-        // ปุ่มเลือก base item (เฉพาะ Generic Variant)
-        container.querySelectorAll('[data-gv-pick]').forEach(btn=>{
-          btn.addEventListener('click', () => openGVModal(btn.getAttribute('data-gv-pick')));
-        });
 
         // === ซิงค์ dropdown Enhance ในรายละเอียด ===
         container.querySelectorAll('.enhance-select').forEach(sel => {
@@ -1746,57 +1664,6 @@
         // คำนวณครั้งแรกถ้าองค์ประกอบมีอยู่แล้ว
         calcCrafting();
       };
-
-      function closeGVModal(){ document.getElementById('gvModal')?.classList.add('hidden'); }
-
-      function openGVModal(itemId){
-        const item = (currentItems || []).find(x => String(x.id) === String(itemId));
-        if (!item) return;
-
-        const modal   = document.getElementById('gvModal');
-        const titleEl = document.getElementById('gvTitle');
-        const listEl  = document.getElementById('gvList');
-        const search  = document.getElementById('gvSearch');
-
-        const kind = guessGVKind(item);
-        titleEl.textContent = (kind === 'armor') ? 'เลือกเกราะ/โล่ (Base Item)' : 'เลือกอาวุธ (Base Item)';
-
-        const baseList = getBaseCandidates(kind);
-
-        function render(q=''){
-          const term = q.trim().toLowerCase();
-          listEl.innerHTML = baseList
-            .filter(x => !term || String(x.name).toLowerCase().includes(term))
-            .map(x => `
-              <div class="flex items-center gap-3 px-4 py-2 border-b border-gray-700/40">
-                <div class="flex-1">${escapeHtml(x.name)}</div>
-                <div class="w-24 text-right tabular-nums">${fmt(x.price)} gp</div>
-                <button class="px-2 py-1 rounded bg-fantasy-purple hover:bg-purple-700 text-white"
-                        data-pick="${item.id}" data-bid="${x.id}" data-name="${escapeHtml(x.name)}" data-price="${x.price}">
-                  เลือก
-                </button>
-              </div>
-            `).join('');
-
-          listEl.querySelectorAll('[data-pick]').forEach(btn=>{
-            btn.addEventListener('click', e=>{
-              const name  = e.currentTarget.dataset.name;
-              const price = Number(e.currentTarget.dataset.price)||0;
-              gvMap.set(item.id, { kind, id: e.currentTarget.dataset.bid, name, price });
-              const chip = document.getElementById(`gvChip-${item.id}`);
-              if (chip) chip.textContent = `${name} (+${fmt(price)} gp)`;
-              closeGVModal();
-            });
-          });
-        }
-
-        render();
-        search.value = '';
-        search.oninput = () => render(search.value);
-        modal.classList.remove('hidden');
-        document.getElementById('gvClose').onclick = closeGVModal;
-        modal.onclick = (e)=>{ if (e.target === modal) closeGVModal(); };
-      }
     </script>
 
     <!-- Cloudflare (คงไว้ตามไฟล์เดิม) -->
