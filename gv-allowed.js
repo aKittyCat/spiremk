@@ -16,6 +16,11 @@
     "Twinshot Hand Crossbow","War Pick","Warhammer","Whip","Yklwa"
   ];
 
+  const ARMOR_BASES = [
+    "Breastplate","Chain Mail","Chain Shirt","Half Plate Armor","Hide Armor","Leather Armor","Padded Armor","Plate Armor",
+    "Ring Mail","Scale Mail", "Spiked Armor","Splint Armor","Studded Leather Armor"
+  ];
+
   const makeSet = (arr)=> new Set(arr.map(s=>String(s).toLowerCase()));
 
   // ตั้งค่าวิธีสร้างชื่อ "ผลลัพธ์หลังอัพเกรด" ต่อ base item แต่ละ variant
@@ -23,6 +28,9 @@
     "weapon+1":           { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `${base} +1 ` },
     "weapon+2":           { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `${base} +2 ` },
     "weapon+3":           { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `${base} +3 ` },
+    "armor+1":            { kind: "armor",   list: makeSet(ARMOR_BASES),           makeName: (base)=> `${base} +1 ` },
+    "armor+2":            { kind: "armor",   list: makeSet(ARMOR_BASES),           makeName: (base)=> `${base} +2 ` },
+    "armor+3":            { kind: "armor",   list: makeSet(ARMOR_BASES),           makeName: (base)=> `${base} +3 ` },
     "shield+1":           { kind: "armor",   list: makeSet(["Shield"]),            makeName: (base)=> `${base} +1 ` },
     "adamantine-weapon":  { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Adamantine ${base}` },
     // เพิ่มคีย์ใหม่ ๆ ได้ตามต้องการ เช่น:
