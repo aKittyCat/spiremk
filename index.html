@@ -733,6 +733,7 @@
       </div>
     </div>
 
+    <script src="gv-allowed.js"></script>
     <script>
       // === Configuration ===
       const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwqFqqB0SNWDls42z9mYMrixFLC8ZevuXvZDwBq8MISUha-mRtC-vFX9B81Gkvrble-/exec";
@@ -806,14 +807,52 @@
         return 'weapon';
       }
 
+      // ระบุคีย์ variant จากชื่อไอเทม
+      function getVariantKey(item){
+        const name = String(item?.name || '').toLowerCase().trim();
+        if (/^weapon\s*\+1\b/.test(name)) return 'weapon+1';
+        if (/^weapon\s*\+2\b/.test(name)) return 'weapon+2';
+        if (/^weapon\s*\+3\b/.test(name)) return 'weapon+3';
+        if (/^shield\s*\+1\b/.test(name)) return 'shield+1';
+        if (/^adamantine\s+weapon\b/.test(name)) return 'adamantine-weapon';
+        return null; // ไม่แมตช์: ใช้โหมดกว้างตามประเภท (เดิม)
+      }
+
       // สร้างชุด base item จาก currentItems (ไม่ยิง GAS)
-      function getBaseCandidates(kind){
-        const isWeapon = (t) => /\bweapon\b/i.test(t || "") || /\bwand|rod\b/i.test(t || "");
-        const isArmor  = (t) => /\barmor\b/i.test(t || "") || /\bshield\b/i.test(t || "");
-        return (currentItems || [])
-          .filter(b => !isGenericVariant(b))
-          .filter(b => kind === 'weapon' ? isWeapon(b.type) : isArmor(b.type))
-          .map(b => ({ id:b.id, name:b.name, price:Number(parsePrice(b.price)) || 0 }))
+      function getBaseCandidatesForVariant(item){
+        const key = getVariantKey(item);
+        const all = (currentItems || []).filter(b => !isGenericVariant(b));
+
+        // ถ้ามีรายการอนุญาตตามคีย์ใน GV_ALLOWED → จำกัดเหลือเฉพาะชื่อที่ระบุ
+        if (key && window.GV_ALLOWED && window.GV_ALLOWED[key]) {
+          const spec = window.GV_ALLOWED[key];
+          const allowed = spec.list; // Set(lowercase)
+          return all
+            .filter(b => {
+              // เข้ากลุ่ม weapon/armor ให้ตรง kind ก่อน
+              const isW = /\bweapon\b/i.test(b.type || "") || /\bwand|rod\b/i.test(b.type || "");
+              const isA = /\barmor|shield\b/i.test(b.type || "");
+              if (spec.kind === 'weapon' && !isW) return false;
+              if (spec.kind === 'armor'  && !isA) return false;
+              // จากนั้นคัดด้วยชื่อที่อนุญาต
+              return allowed.has(String(b.name).toLowerCase());
+            })
+            .map(b => ({
+              id: b.id,
+              name: b.name,
+              price: Number(parsePrice(b.price)) || 0,
+              resultName: typeof spec.makeName === 'function' ? spec.makeName(b.name) : b.name
+            }))
+            .sort((a,b)=> a.name.localeCompare(b.name));
+        }
+
+        // fallback: โหมดกว้างตามประเภท (เหมือนเดิม)
+        const kind = guessGVKind(item);
+        const isW = (t) => /\bweapon\b/i.test(t || "") || /\bwand|rod\b/i.test(t || "");
+        const isA = (t) => /\barmor|shield\b/i.test(t || "");
+        return all
+          .filter(b => kind === 'weapon' ? isW(b.type) : isA(b.type))
+          .map(b => ({ id:b.id, name:b.name, price:Number(parsePrice(b.price)) || 0, resultName: b.name }))
           .sort((a,b)=> a.name.localeCompare(b.name));
       }
 
@@ -1761,7 +1800,7 @@
         const kind = guessGVKind(item);
         titleEl.textContent = (kind === 'armor') ? 'เลือกเกราะ/โล่ (Base Item)' : 'เลือกอาวุธ (Base Item)';
 
-        const baseList = getBaseCandidates(kind);
+        const baseList = getBaseCandidatesForVariant(item);
 
         function render(q=''){
           const term = q.trim().toLowerCase();
@@ -1769,10 +1808,15 @@
             .filter(x => !term || String(x.name).toLowerCase().includes(term))
             .map(x => `
               <div class="flex items-center gap-3 px-4 py-2 border-b border-gray-700/40">
-                <div class="flex-1">${escapeHtml(x.name)}</div>
+                <div class="flex-1">
+                  <div>${escapeHtml(x.name)}</div>
+                  <div class="text-xs text-gray-400">→ ${escapeHtml(x.resultName)}</div>
+                </div>
                 <div class="w-24 text-right tabular-nums">${fmt(x.price)} gp</div>
                 <button class="px-2 py-1 rounded bg-fantasy-purple hover:bg-purple-700 text-white"
-                        data-pick="${item.id}" data-bid="${x.id}" data-name="${escapeHtml(x.name)}" data-price="${x.price}">
+                        data-pick="${item.id}" data-bid="${x.id}"
+                        data-name="${escapeHtml(x.name)}" data-rname="${escapeHtml(x.resultName)}"
+                        data-price="${x.price}">
                   เลือก
                 </button>
               </div>
@@ -1780,11 +1824,12 @@
 
           listEl.querySelectorAll('[data-pick]').forEach(btn=>{
             btn.addEventListener('click', e=>{
-              const name  = e.currentTarget.dataset.name;
-              const price = Number(e.currentTarget.dataset.price)||0;
-              gvMap.set(item.id, { kind, id: e.currentTarget.dataset.bid, name, price });
+              const name   = e.currentTarget.dataset.name;
+              const rname  = e.currentTarget.dataset.rname; // ชื่อผลลัพธ์
+              const price  = Number(e.currentTarget.dataset.price)||0;
+              gvMap.set(item.id, { kind, id: e.currentTarget.dataset.bid, name, resultName: rname, price });
               const chip = document.getElementById(`gvChip-${item.id}`);
-              if (chip) chip.textContent = `${name} (+${fmt(price)} gp)`;
+              if (chip) chip.textContent = `${rname} (+${fmt(price)} gp)`;
               closeGVModal();
             });
           });
