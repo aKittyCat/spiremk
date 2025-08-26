@@ -730,7 +730,28 @@
       </div>
     </div>
 
+    <!-- Gemstone Picker Modal -->
+    <div id="gemModal" class="fixed inset-0 bg-black/70 hidden z-50">
+      <div class="absolute inset-0 flex items-center justify-center p-4">
+        <div class="bg-gray-800 w-full max-w-2xl rounded-xl border-2 border-fantasy-gold shadow-2xl">
+          <div class="px-5 py-4 border-b border-gray-700 flex items-center gap-3">
+            <h3 class="fantasy-font text-xl font-bold text-fantasy-gold" id="gemTitle">เลือกอัญมณี</h3>
+            <input id="gemSearch" type="text" placeholder="พิมพ์ค้นหาอัญมณี..." class="ml-auto p-2 rounded bg-gray-700 text-white w-56">
+            <button id="gemClose" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600">ปิด</button>
+          </div>
+          <div class="px-5 py-2 text-sm text-gray-300">
+            ราคา = <span class="text-fantasy-gold">มูลค่าอัญมณี × ตัวคูณ</span>
+          </div>
+          <div class="max-h-[60vh] overflow-y-auto" id="gemList"></div>
+          <div class="px-5 py-3 border-t border-gray-700 text-right text-gray-400 text-sm">
+            * ตัวคูณกำหนดโดยกลุ่มราคา (10/50/100/500/1,000/5,000 gp)
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="gv-allowed.js"></script>
+    <script src="gem-allowed.js"></script>
     <script>
       // === Configuration ===
       const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwqFqqB0SNWDls42z9mYMrixFLC8ZevuXvZDwBq8MISUha-mRtC-vFX9B81Gkvrble-/exec";
@@ -863,17 +884,28 @@
       }
       function formatDiscordItems(items){
         const lines = items.map(it=>{
-          const basePrice = parsePrice(it.price);
-          const gv = getGVAddon(it);             // null หรือ {name, price}
-          const tagGV = gv ? ` [Base: ${gv.name}]` : '';
-          const priceTxt = `${fmt(basePrice)} gp`
-                        + (gv && gv.price ? ` (+${fmt(gv.price)})` : '');
-          return `- ${it.name}${tagGV} | ${priceTxt}`;
+          // ฐานราคาเริ่มจาก price ปกติ
+          let basePrice = parsePrice(it.price);
+
+          // ถ้าเป็น Gemstone และมีการเลือกอัญมณีไว้ ให้ override ด้วยราคาอัญมณีที่คำนวณจาก modal
+          const gem = isGemstone(it) ? getGemAddon(it) : null;
+          if (gem) basePrice = gem.final;
+
+          // ถ้ามี Generic Variant base item ก็ + เพิ่มเข้าไปเหมือนเดิม
+          const gv  = getGVAddon ? getGVAddon(it) : null; // โค้ดเดิมของคุณ
+          const tagGV  = gv ? ` [Base: ${gv.name}]` : '';
+          const tagGem = gem ? ` [Gem: ${gem.name} × ${gem.factor.toFixed(2)}]` : '';
+
+          const priceTxt = `${fmt(basePrice)} gp` + (gv && gv.price ? ` (+${fmt(gv.price)})` : '');
+
+          return `- ${it.name}${tagGem}${tagGV} | ${priceTxt}`;
         });
 
         const total = items.reduce((sum,it)=>{
-          const base = parsePrice(it.price);
-          const gv   = getGVAddon(it)?.price || 0;
+          let base = parsePrice(it.price);
+          const gem = isGemstone(it) ? getGemAddon(it) : null;
+          if (gem) base = gem.final;
+          const gv  = getGVAddon ? (getGVAddon(it)?.price || 0) : 0;
           return sum + base + gv;
         }, 0);
 
@@ -1204,6 +1236,21 @@
                           </div>
                         ` : '' }
 
+                        ${ isGemstone(item) ? `
+                          <div class="mb-3 flex items-center gap-2">
+                            <span class="text-fantasy-gold font-bold">เลือกอัญมณี</span>
+                            <button type="button" class="px-3 py-1 rounded bg-fantasy-purple hover:bg-purple-700"
+                                    data-gem-pick="${item.id}">
+                              เลือกอัญมณี
+                            </button>
+                            <span id="gemChip-${item.id}" class="text-xs text-gray-300">
+                              ${ gemMap.get(item.id)
+                                  ? `${escapeHtml(gemMap.get(item.id).name)} × ${ (gemMap.get(item.id).factor||1).toFixed(2) } = ${fmt(gemMap.get(item.id).final||0)} gp`
+                                  : '— ยังไม่ได้เลือก —' }
+                            </span>
+                          </div>
+                        ` : '' }
+
                         ${ item.description ? `
                           <div class="text-gray-300 text-sm">
                             <strong class="text-fantasy-gold">รายละเอียด:</strong>
@@ -1223,6 +1270,11 @@
         // ปุ่มเลือก base item (เฉพาะ Generic Variant)
         container.querySelectorAll('[data-gv-pick]').forEach(btn=>{
           btn.addEventListener('click', () => openGVModal(btn.getAttribute('data-gv-pick')));
+        });
+
+        // ปุ่มเลือกอัญมณี (เฉพาะ Gemstone)
+        container.querySelectorAll('[data-gem-pick]').forEach(btn=>{
+          btn.addEventListener('click', () => openGemModal(btn.getAttribute('data-gem-pick')));
         });
 
         // === เพิ่มคอลัมน์เลือกทั้งหมดในหัวตาราง (ถ้ายังไม่มี) ===
@@ -1766,6 +1818,109 @@
         document.getElementById('gvClose').onclick = closeGVModal;
         modal.onclick = (e)=>{ if (e.target === modal) closeGVModal(); };
       }
+    </script>
+
+    <script>
+    // ===== Gemstone Variant state =====
+    const gemMap = new Map(); // itemId -> { name, base, factor, final }
+
+    function isGemstone(it){
+      const t = String(it.type || "").trim().toLowerCase();
+      return t === "gemstone";
+    }
+
+    // ดึง "กลุ่มราคา" 10/50/100/500/1000/5000 จาก item (ดู price ก่อน, ไม่งั้นลองเดาจากชื่อ)
+    function getGemBaseFromItem(item){
+      const priceNum = parsePrice(item?.price);
+      if (priceNum && window.GEM_GROUPS?.[priceNum]) return priceNum;
+
+      const m = String(item?.name || "").match(/(\d[\d,]*)\s*gp/i);
+      if (m){
+        const v = Number(m[1].replace(/,/g,""));
+        if (window.GEM_GROUPS?.[v]) return v;
+      }
+      // ถ้าระบุไม่ได้ ให้คืน null (เดี๋ยวตอนเปิด modal จะรวมทุกกลุ่ม)
+      return null;
+    }
+
+    function closeGemModal(){ document.getElementById('gemModal')?.classList.add('hidden'); }
+
+    function openGemModal(itemId){
+      const item = (currentItems || []).find(x => String(x.id) === String(itemId));
+      if (!item) return;
+
+      const modal   = document.getElementById('gemModal');
+      const listEl  = document.getElementById('gemList');
+      const search  = document.getElementById('gemSearch');
+
+      const base = getGemBaseFromItem(item);                 // 10, 50, ... หรือ null
+      const groups = window.GEM_GROUPS || {};
+      const rules  = window.GEM_RULES  || {};
+
+      // สร้างลิสต์อัญมณี (ถ้ารู้กลุ่ม ก็เอาเฉพาะกลุ่มนั้น; ถ้าไม่รู้รวมทุกกลุ่ม)
+      const rows = [];
+      const keys = base ? [base] : Object.keys(groups).map(Number).sort((a,b)=>a-b);
+
+      keys.forEach(k=>{
+        const factor = rules[k] || 1;
+        const names  = groups[k] || [];
+        names.forEach(name=>{
+          rows.push({ name, base:k, factor, final: Math.round(k*factor) });
+        });
+      });
+
+      function render(q=''){
+        const term = q.trim().toLowerCase();
+        const data = rows.filter(x => !term || x.name.toLowerCase().includes(term));
+        listEl.innerHTML = data.map(x => `
+          <div class="flex items-center gap-3 px-4 py-2 border-b border-gray-700/40">
+            <div class="flex-1">
+              <div>${escapeHtml(x.name)}</div>
+              <div class="text-xs text-gray-400">→ ${x.base} gp × ${x.factor.toFixed(2)} = <span class="text-fantasy-gold">${fmt(x.final)} gp</span></div>
+            </div>
+            <button class="px-2 py-1 rounded bg-fantasy-purple hover:bg-purple-700 text-white"
+                    data-pick="${item.id}"
+                    data-name="${escapeHtml(x.name)}"
+                    data-base="${x.base}"
+                    data-factor="${x.factor}"
+                    data-final="${x.final}">
+              เลือก
+            </button>
+          </div>
+        `).join('');
+
+        listEl.querySelectorAll('[data-pick]').forEach(btn=>{
+          btn.addEventListener('click', e=>{
+            const el = e.currentTarget;
+            const sel = {
+              name:  el.dataset.name,
+              base:  Number(el.dataset.base)||0,
+              factor:Number(el.dataset.factor)||1,
+              final: Number(el.dataset.final)||0,
+            };
+            gemMap.set(item.id, sel);
+            const chip = document.getElementById(`gemChip-${item.id}`);
+            if (chip) chip.textContent = `${sel.name} × ${sel.factor.toFixed(2)} = ${fmt(sel.final)} gp`;
+            closeGemModal();
+          });
+        });
+      }
+
+      render();
+      search.value = '';
+      search.oninput = () => render(search.value);
+
+      modal.classList.remove('hidden');
+      document.getElementById('gemClose').onclick = closeGemModal;
+      modal.onclick = (e)=>{ if (e.target === modal) closeGemModal(); };
+    }
+
+    // helper สำหรับรวมราคาไป Discord
+    function getGemAddon(it){
+      const sel = gemMap.get(it.id);
+      if (!sel) return null;
+      return { name: sel.name, factor: sel.factor, final: sel.final };
+    }
     </script>
 
     <!-- Cloudflare (คงไว้ตามไฟล์เดิม) -->
