@@ -21,6 +21,10 @@
     "Ring Mail","Scale Mail", "Spiked Armor","Splint Armor","Studded Leather Armor"
   ];
 
+  const SHIELD_BASES = [
+    "Shield"
+  ];
+
   const makeSet = (arr)=> new Set(arr.map(s=>String(s).toLowerCase()));
 
   // ตั้งค่าวิธีสร้างชื่อ "ผลลัพธ์หลังอัพเกรด" ต่อ base item แต่ละ variant
