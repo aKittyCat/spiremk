@@ -35,9 +35,9 @@
     "armor+1":            { kind: "armor",   list: makeSet(ARMOR_BASES),           makeName: (base)=> `${base} +1 ` },
     "armor+2":            { kind: "armor",   list: makeSet(ARMOR_BASES),           makeName: (base)=> `${base} +2 ` },
     "armor+3":            { kind: "armor",   list: makeSet(ARMOR_BASES),           makeName: (base)=> `${base} +3 ` },
-    "shield+1":           { kind: "shield",   list: makeSet(["Shield"]),            makeName: (base)=> `${base} +1 ` },
-    "shield+2":           { kind: "shield",   list: makeSet(["Shield"]),            makeName: (base)=> `${base} +2 ` },
-    "shield+3":           { kind: "shield",   list: makeSet(["Shield"]),            makeName: (base)=> `${base} +3 ` },
+    "shield+1":           { kind: "shield",   list: makeSet(["SHIELD_BASES"]),            makeName: (base)=> `${base} +1 ` },
+    "shield+2":           { kind: "shield",   list: makeSet(["SHIELD_BASES"]),            makeName: (base)=> `${base} +2 ` },
+    "shield+3":           { kind: "shield",   list: makeSet(["SHIELD_BASES"]),            makeName: (base)=> `${base} +3 ` },
     "adamantine-weapon":  { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Adamantine ${base}` },
     // เพิ่มคีย์ใหม่ ๆ ได้ตามต้องการ เช่น:
     // "armor+2": { kind: "armor", list: makeSet([...]), makeName: (base)=> `+2 ${base}` },
