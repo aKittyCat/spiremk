@@ -40,9 +40,6 @@
       .hint-badge { font-size: 0.75rem; padding: .15rem .5rem; border-radius: .375rem; }
 
       #itemsList table { table-layout: fixed; width: 100%; }
-      /* ซ่อนคอลัมน์ Enhance ถ้ายังถูกสร้างอยู่ (ให้ชื่อไอเทมติดกับ checkbox จริง ๆ) */
-      #itemsList th#enhanceHeader,
-      #itemsList td.enhance-cell { display: none !important; }
 
       /* ย่อช่อง checkbox + ชิดซ้าย */
       #itemsList thead th:first-child,
@@ -752,45 +749,9 @@
       }
 
       // === Global state ===
-      // เก็บระดับ/ชนิดที่เลือกไว้ต่อ item.id -> '0' | '1' | '2' | '3' | 'bloodshed' | 'clockwork'
-      const enhanceMap = new Map();
-
-      // ตรวจชนิด (รองรับค่า type อย่าง "Weapon,", "Weapon, Rod", และ "Shield" ให้เป็นเกราะ)
+      // ตรวจชนิด (รองรับค่า type อย่าง "Weapon,", "Weapon, Rod", และ "Shield")
       function isWeapon(it) { return /\bweapon\b/i.test(it.type || "")|| /\bwand\b/i.test(it.type || "")|| /\brod\b/i.test(it.type || ""); }
       function isArmor(it)  { return /\barmor\b/i.test(it.type || ""); }
-
-      // ราคาส่วนเพิ่ม (แก้ตัวเลขได้)
-      const ENHANCE_PRICE = {
-        weapon: { '0':0, '1':450, '2':900, '3':1350, bloodshed:580 },
-        armor:  { '0':0, '1':450, '2':900, '3':1350, clockwork:440 }
-      };
-
-      // อ่าน key ที่เลือก (string)
-      function getEnhanceKey(id){ return String(enhanceMap.get(id) ?? '0'); }
-
-      // เพื่อความเข้ากันได้เก่า: แปลง key เป็นตัวเลข 0..3 (กรณีเป็นชื่อพิเศษ ให้เป็น 0)
-      function getEnhanceLevel(id){
-        const k = getEnhanceKey(id);
-        const n = parseInt(k,10);
-        return Number.isFinite(n) ? n : 0;
-      }
-
-      // ป้ายที่จะแสดงหลังชื่อ
-      function enhanceTag(it, key){
-        if (key === '0') return '';
-        if (key === 'bloodshed') return ' [Bloodshed Blade]';
-        if (key === 'clockwork') return ' [Clockwork Armor]';
-        const label = isWeapon(it) ? 'Weapon' : 'Armor';
-        return ` [${label}+${key}]`;
-      }
-
-      // ราคาเพิ่มจากการเลือก
-      function getEnhancePrice(it){
-        const key = getEnhanceKey(it.id);
-        const table = isWeapon(it) ? ENHANCE_PRICE.weapon : (isArmor(it) ? ENHANCE_PRICE.armor : null);
-        if (!table) return 0;
-        return table[key] ?? 0;
-      }
 
       // ===== Generic Variant state =====
       const gvMap = new Map(); // itemId -> {kind:'weapon'|'armor', id, name, price}
@@ -890,31 +851,17 @@
       function formatDiscordItems(items){
         const lines = items.map(it=>{
           const basePrice = parsePrice(it.price);
-
-          // ส่วนเพิ่มจาก Enhance ของอาวุธ/เกราะปกติ
-          const lv    = getEnhanceLevel(it.id);
-          const enh   = getEnhancePrice(it);
-          const tagEnh = (isWeapon(it) || isArmor(it)) && lv > 0
-            ? ` [${isWeapon(it) ? 'Weapon' : 'Armor'}+${lv}]` : '';
-
-          // ส่วนเพิ่มจาก Generic Variant (Base Item ที่เลือก)
-          const gv = getGVAddon(it); // null หรือ {name, price}
+          const gv = getGVAddon(it);             // null หรือ {name, price}
           const tagGV = gv ? ` [Base: ${gv.name}]` : '';
-
-          // บรรทัดราคา: ราคาเดิม + (+Enh) + (+Base)
           const priceTxt = `${fmt(basePrice)} gp`
-            + (enh ? ` (+${fmt(enh)})` : '')
-            + (gv && gv.price ? ` (+${fmt(gv.price)})` : '');
-
-          return `- ${it.name}${tagEnh}${tagGV} | ${priceTxt}`;
+                        + (gv && gv.price ? ` (+${fmt(gv.price)})` : '');
+          return `- ${it.name}${tagGV} | ${priceTxt}`;
         });
 
-        // รวมยอด = base + enhance + base item (Generic Variant)
         const total = items.reduce((sum,it)=>{
           const base = parsePrice(it.price);
-          const enh  = getEnhancePrice(it) || 0;
           const gv   = getGVAddon(it)?.price || 0;
-          return sum + base + enh + gv;
+          return sum + base + gv;
         }, 0);
 
         const header = `# The Spire Market — รายการที่เลือก (${items.length} ชิ้น)`;
@@ -1225,35 +1172,10 @@
                           </div>
                       </td>` : ``}
                   </tr>
-                  ${(item.description || isWeapon(item) || isArmor(item)) ? `
+                  ${(item.description || isGenericVariant(item)) ? `
                     <tr id="desc-${index}" class="hidden border-t border-gray-600">
                       <td colspan="${isAdminMode ? 10 : 9}" class="px-4 py-3 bg-gray-800">
                         ${ (isWeapon(item) || isArmor(item)) ? `
-                          <div class="mb-3 flex items-center gap-2">
-                            <span class="text-fantasy-gold font-bold">Enhance</span>
-                            <select class="enhance-select p-1 rounded bg-gray-700 text-white"
-                                    data-id="${item.id}">
-                              ${ isWeapon(item)
-                                  ? `
-                                    <option value="0">-</option>
-                                    <option value="1">Weapon+1</option>
-                                    <option value="2">Weapon+2</option>
-                                    <option value="3">Weapon+3</option>
-                                    <option value="bloodshed">Bloodshed Blade</option>
-                                  `
-                                  : `
-                                    <option value="0">-</option>
-                                    <option value="1">Armor+1</option>
-                                    <option value="2">Armor+2</option>
-                                    <option value="3">Armor+3</option>
-                                    <option value="clockwork">Clockwork Armor</option>
-                                  `
-                              }
-                            </select>
-                            <span class="text-xs text-gray-400">
-                              * ค่าที่เลือกจะถูกรวมราคาให้อัตโนมัติเมื่อคัดลอกไป Discord
-                            </span>
-                          </div>
                         ` : ''}
 
                         ${ isGenericVariant(item) ? `
@@ -1288,17 +1210,6 @@
         // ปุ่มเลือก base item (เฉพาะ Generic Variant)
         container.querySelectorAll('[data-gv-pick]').forEach(btn=>{
           btn.addEventListener('click', () => openGVModal(btn.getAttribute('data-gv-pick')));
-        });
-
-        // === ซิงค์ dropdown Enhance ในรายละเอียด ===
-        container.querySelectorAll('.enhance-select').forEach(sel => {
-          const id = sel.dataset.id;
-          // โหลดค่าที่เคยเลือกไว้ (ถ้ามี)
-          sel.value = getEnhanceKey(id);
-          // บันทึกค่าเป็น string ('1','2','bloodshed','clockwork'...)
-          sel.addEventListener('change', () => {
-            enhanceMap.set(id, sel.value);
-          });
         });
 
         // === เพิ่มคอลัมน์เลือกทั้งหมดในหัวตาราง (ถ้ายังไม่มี) ===
