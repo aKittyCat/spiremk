@@ -695,7 +695,7 @@
     <!-- Footer -->
     <footer class="bg-black bg-opacity-50 border-t border-fantasy-gold mt-12">
       <div class="container mx-auto px-4 py-6 text-center">
-        <p class="text-gray-400 content-font">🏰 The Spire Market - aKittyCat</p>
+        <p class="text-gray-400 content-font">🏰 The Spire Market - aKittyCat🐈</p>
       </div>
     </footer>
 
@@ -770,13 +770,26 @@
 
       // ระบุคีย์ variant จากชื่อไอเทม
       function getVariantKey(item){
-        const name = String(item?.name || '').toLowerCase().trim();
-        if (/^weapon\s*\+1\b/.test(name)) return 'weapon+1';
-        if (/^weapon\s*\+2\b/.test(name)) return 'weapon+2';
-        if (/^weapon\s*\+3\b/.test(name)) return 'weapon+3';
-        if (/^shield\s*\+1\b/.test(name)) return 'shield+1';
-        if (/^adamantine\s+weapon\b/.test(name)) return 'adamantine-weapon';
-        return null; // ไม่แมตช์: ใช้โหมดกว้างตามประเภท (เดิม)
+        const raw = String(item?.name || '').trim();
+        const lower = raw.toLowerCase();
+
+        // 1) จับ +N เช่น "Weapon +2", "Armor+3", "Shield +1"
+        const m = lower.match(/^(weapon|armor|shield)\s*\+(\d+)\b/);
+        if (m) return `${m[1]}+${m[2]}`;
+
+        // 2) แปลงชื่อเป็น slug แล้วลองเทียบกับ GV_ALLOWED
+        //    - ลบ apostrophe
+        //    - บีบช่องว่างรอบเครื่องหมาย +
+        //    - แทนที่ตัวอื่นด้วย '-'
+        const slug = lower
+          .replace(/['’]/g, '')
+          .replace(/\s*\+\s*(\d+)/g, '+$1')
+          .replace(/[^a-z0-9+]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+
+        if (window.GV_ALLOWED && window.GV_ALLOWED[slug]) return slug;
+
+        return null;
       }
 
       // สร้างชุด base item จาก currentItems (ไม่ยิง GAS)
