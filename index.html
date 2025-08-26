@@ -57,6 +57,8 @@
         padding-left: .25rem;
         padding-right: 1rem;
       }
+
+      #itemsList input.row-select:disabled { opacity: .35; cursor: not-allowed; }
     </style>
   </head>
 
@@ -752,6 +754,7 @@
 
     <script src="gv-allowed.js"></script>
     <script src="gem-allowed.js"></script>
+    <script src="select-rules.js"></script>
     <script>
       // === Configuration ===
       const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwqFqqB0SNWDls42z9mYMrixFLC8ZevuXvZDwBq8MISUha-mRtC-vFX9B81Gkvrble-/exec";
@@ -963,7 +966,7 @@
           if (head) head.checked = false;
 
           // ปลดเช็คทุกแถวที่มองเห็น และลบไฮไลต์
-          document.querySelectorAll('#itemsList .row-select').forEach(cb => {
+          document.querySelectorAll('#itemsList .row-select:not(:disabled)').forEach(cb => {
             cb.checked = false;
             const row = cb.closest('tr[data-row-index]');
             if (row) row.classList.remove('ring-1','ring-fantasy-gold','bg-gray-700/40');
@@ -1305,6 +1308,19 @@
           cb.dataset.id = item.id;
           cb.checked = selectedIds.has(item.id);
 
+          // ตรวจว่าปิดการเลือกหรือไม่
+          const lockReason = window.SELECT_RULES && window.SELECT_RULES.shouldDisable
+            ? window.SELECT_RULES.shouldDisable(item)
+            : null;
+
+          if (lockReason) {
+            cb.disabled = true;
+            cb.checked  = false;
+            cb.title    = lockReason;
+            selectedIds.delete(item.id);     // กันเผื่อเคยถูกเลือกไว้
+            row.classList.add('opacity-60'); // ทำให้ซีดลงเล็กน้อย
+          }
+
           // ไฮไลต์แถวที่ถูกเลือก
           function paint(selected) {
             row.classList.toggle('ring-1', selected);
@@ -1322,7 +1338,7 @@
             updateBulkActionsUI();
 
             // sync กับ selectAll บนหัวตาราง
-            const allChecked = Array.from(container.querySelectorAll('.row-select')).every(x=> x.checked);
+            const allChecked = Array.from(container.querySelectorAll('.row-select:not(:disabled)')).every(x=> x.checked);
             const selAll = container.querySelector('#selectAll');
             if (selAll) selAll.checked = allChecked;
             const selAllTop = document.getElementById('selectAllTop');
@@ -1334,11 +1350,11 @@
         const selectAll = container.querySelector('#selectAll');
         if (selectAll) {
           // ตั้งค่าเริ่มต้นตามสถานะในแถว
-          selectAll.checked = rows.length > 0 && Array.from(container.querySelectorAll('.row-select')).every(x=> x.checked);
+          selectAll.checked = rows.length > 0 && Array.from(container.querySelectorAll('.row-select:not(:disabled)')).every(x=> x.checked);
 
           selectAll.addEventListener('change', (e)=>{
             const want = e.target.checked;
-            container.querySelectorAll('.row-select').forEach(cb=>{
+            container.querySelectorAll('.row-select:not(:disabled)').forEach(cb=>{
               if (cb.checked !== want) {
                 cb.checked = want;
                 cb.dispatchEvent(new Event('change', {bubbles:false}));
