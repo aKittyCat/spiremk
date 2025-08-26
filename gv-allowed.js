@@ -40,6 +40,13 @@
     "shield+3":           { kind: "shield",   list: makeSet(["SHIELD_BASES"]),            makeName: (base)=> `${base} +3 ` },
     "adamantine-weapon":  { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Adamantine ${base}` },
     "ruidium-weapon":   { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Ruidium ${base}` },
+    "smoldering-armor": { kind: "armor",   list: makeSet(ARMOR_BASES),           makeName: (base)=> `Smoldering ${base}` },
+    "silvered-weapon":   { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Silvered ${base}` },
+    "vicious-weapon":    { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Vicious ${base}` },
+    "vicious-weapon+1": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Vicious ${base} +1 ` },
+    "weapon-of-certain-death": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Weapon of Certain Death ${base}` },
+    "weapon-of-throne's-command": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Weapon of Throne's Command ${base}` },
+    "weapon-of-warning": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Weapon of Warning ${base}` },
     // เพิ่มคีย์ใหม่ ๆ ได้ตามต้องการ เช่น:
     // "armor+2": { kind: "armor", list: makeSet([...]), makeName: (base)=> `+2 ${base}` },
   };
