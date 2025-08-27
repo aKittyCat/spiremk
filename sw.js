@@ -1,8 +1,8 @@
-const STATIC_CACHE = 'spire-static-v1';
-const DATA_CACHE = 'spire-data-v1';
+const STATIC_CACHE = 'spire-static-v2';
+const DATA_CACHE = 'spire-data-v2';
 const STATIC_ASSETS = [
-  '/', '/index.html',
-  '/gv-allowed.js', '/gem-allowed.js', '/select-rules.js',
+  // === ยังไม่ใช้ '/', '/index.html',
+  // === '/gv-allowed?v=2025-08-27-1.js', '/gem-allowed?v=2025-08-27-1.js', '/select-rules?v=2025-08-27-1.js',
 ];
 
 self.addEventListener('install', (e) => {
