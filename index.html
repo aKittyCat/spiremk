@@ -759,6 +759,37 @@
       // === Configuration ===
       const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwqFqqB0SNWDls42z9mYMrixFLC8ZevuXvZDwBq8MISUha-mRtC-vFX9B81Gkvrble-/exec";
 
+      // === Browser cache (SWR) ===
+      const CACHE = {
+        items: 'spire.items.v1',
+        updates: 'spire.updates.v1',
+      };
+      const TTL = { items: 5 * 60_000, updates: 10 * 60_000 }; // 5 และ 10 นาที
+
+      const now = () => Date.now();
+
+      function readCache(key) {
+        try {
+          const raw = localStorage.getItem(key);
+          if (!raw) return null;
+          const obj = JSON.parse(raw);
+          if (!obj || !obj.data || !obj.exp) return null;
+          if (obj.exp < now()) return null;           // หมดอายุ -> ถือว่าไม่มี
+          return obj.data;
+        } catch { return null; }
+      }
+
+      function writeCache(key, data, ttlMs) {
+        try {
+          localStorage.setItem(key, JSON.stringify({ data, exp: now() + ttlMs }));
+        } catch {}
+      }
+
+      async function fetchJSON(url, { signal } = {}) {
+        const res = await fetch(url, { signal });
+        return await res.json();
+      }
+
       // === Helper: ตัดตัวกลางลิงก์ของ Google ===
       function unwrapGoogleRedirect(url){
         if(!url) return "";
@@ -1107,37 +1138,60 @@
       }
 
       async function loadItems() {
-        try {
-          const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getItems`);
-          const data = await response.json();
-          currentItems = (data.items || []).map(it => ({
-            ...it,
-            nameLink: unwrapGoogleRedirect(it.nameLink)
-          }));
+        const cached = readCache(CACHE.items);
+        if (cached?.items) {
+          currentItems = cached.items.map(it => ({ ...it, nameLink: unwrapGoogleRedirect(it.nameLink) }));
           displayItems(currentItems);
-        } catch (error) {
-          console.error("Error loading items:", error);
-          document.getElementById("itemsList").innerHTML = `
-            <div class="text-center py-8 text-red-400">
-              <p>เกิดข้อผิดพลาดในการโหลดข้อมูล</p>
-              <button onclick="loadItems()" class="mt-4 bg-fantasy-gold text-black px-4 py-2 rounded">ลองใหม่</button>
-            </div>`;
+        }
+
+        const controller = new AbortController();
+        const to = setTimeout(() => controller.abort(), 10_000);
+        try {
+          const fresh = await fetchJSON(`${GOOGLE_SCRIPT_URL}?action=getItems`, { signal: controller.signal });
+          clearTimeout(to);
+          if (fresh?.items) {
+            writeCache(CACHE.items, fresh, TTL.items);
+            currentItems = fresh.items.map(it => ({ ...it, nameLink: unwrapGoogleRedirect(it.nameLink) }));
+            // ป้องกัน re-render 
+            displayItems(currentItems);
+          }
+        } catch (e) {
+          if (!cached) {
+            console.error("Error loading items:", e);
+            document.getElementById("itemsList").innerHTML =
+              `<div class="text-center py-8 text-red-400">
+                <p>เกิดข้อผิดพลาดในการโหลดข้อมูล</p>
+                <button onclick="loadItems()" class="mt-4 bg-fantasy-gold text-black px-4 py-2 rounded">ลองใหม่</button>
+              </div>`;
+          }
         }
       }
 
       async function loadUpdates() {
-        try {
-          const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getUpdates`);
-          const data = await response.json();
-          currentUpdates = data.updates || [];
+        const cached = readCache(CACHE.updates);
+        if (cached?.updates) {
+          currentUpdates = cached.updates;
           displayUpdates(currentUpdates);
-        } catch (error) {
-          console.error("Error loading updates:", error);
-          document.getElementById("updatesList").innerHTML = `
-            <div class="text-center py-8 text-red-400">
-              <p>เกิดข้อผิดพลาดในการโหลดข้อมูล</p>
-              <button onclick="loadUpdates()" class="mt-4 bg-fantasy-gold text-black px-4 py-2 rounded">ลองใหม่</button>
-            </div>`;
+        }
+        const controller = new AbortController();
+        const to = setTimeout(() => controller.abort(), 10_000);
+        try {
+          const fresh = await fetchJSON(`${GOOGLE_SCRIPT_URL}?action=getUpdates`, { signal: controller.signal });
+          clearTimeout(to);
+          if (fresh?.updates) {
+            writeCache(CACHE.updates, fresh, TTL.updates);
+            currentUpdates = fresh.updates;
+            displayUpdates(currentUpdates);
+          }
+        } catch (e) {
+          if (!cached) {
+            console.error("Error loading updates:", e);
+            document.getElementById("updatesList").innerHTML =
+              `<div class="text-center py-8 text-red-400">
+                <p>เกิดข้อผิดพลาดในการโหลดข้อมูล</p>
+                <button onclick="loadUpdates()" class="mt-4 bg-fantasy-gold text-black px-4 py-2 rounded">ลองใหม่</button>
+              </div>`;
+          }
         }
       }
 
@@ -1937,6 +1991,12 @@
       if (!sel) return null;
       return { name: sel.name, factor: sel.factor, final: sel.final };
     }
+    </script>
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js');
+      }
     </script>
 
     <!-- Cloudflare (คงไว้ตามไฟล์เดิม) -->
