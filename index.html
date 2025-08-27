@@ -765,7 +765,7 @@
         items: 'spire.items.v1',
         updates: 'spire.updates.v1',
       };
-      const TTL = { items: 2 * 60_000, updates: 2 * 60_000 }; // 2 นาที
+      const TTL = { items: 60_000, updates: 60_000 }; // 2 * 60_000 : 2 นาที
 
       const now = () => Date.now();
 
@@ -787,8 +787,14 @@
       }
 
       async function fetchJSON(url, { signal } = {}) {
-        const res = await fetch(url, { signal });
-        return await res.json();
+        const res = await fetch(url, { signal, cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const txt = await res.text();
+        try { return JSON.parse(txt); }
+        catch (e) {
+          console.error('Non-JSON from server:', txt.slice(0,200));
+          throw e;
+        }
       }
 
       // === Helper: ตัดตัวกลางลิงก์ของ Google ===
@@ -1998,6 +2004,9 @@
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('./sw.js');
       }
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') loadData();
+      });
     </script>
 
     <!-- Cloudflare (คงไว้ตามไฟล์เดิม) -->
