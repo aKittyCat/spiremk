@@ -4,7 +4,9 @@
   const DISABLE_TYPES = new Set([
     // ตัวอย่าง:
     // 'Gemstone',
+    'Trade Good',
     'Treasure (Gemstone)',
+    'Mount',
   ].map(s => s.toLowerCase().trim()));
 
   // ปิดการเลือกตาม "ชื่อไอเทม"
