@@ -1052,6 +1052,24 @@
           window.CART.addSelected(ids);
         });
 
+        document.getElementById('itemsList').addEventListener('click', (e) => {
+          const btn = e.target.closest('.add-cart-btn');
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+
+          // ดึง id จาก data-add-id หรือจาก tr[data-id] เป็นตัวสำรอง
+          let id = btn.dataset.addId;
+          if (!id) {
+            const tr = btn.closest('tr');
+            id = tr?.dataset?.id || tr?.getAttribute('data-id') || '';
+          }
+
+          if (id && window.CART && typeof window.CART.addSelected === 'function') {
+            window.CART.addSelected([id]);
+          }
+        });
+
         document.getElementById('selectAllTop').addEventListener('change', (e)=>{
           // ส่งต่อสถานะไปที่ checkbox รวมในหัวตาราง (ถ้ามีแล้ว)
           const tableCheckAll = document.querySelector('#itemsList #selectAll');
@@ -1310,8 +1328,17 @@
                 ${items.map((item, index) => `
                   <tr class="border-t border-gray-700 hover:bg-gray-700 transition-colors cursor-pointer" data-row-index="${index}">
                     <td class="px-4 py-3">
-                      <div class="font-semibold text-white hover:text-fantasy-gold">
-                        ${item.nameLink ? `<a href="${item.nameLink}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.name)}</a>` : `${escapeHtml(item.name)}`}
+                      <div class="flex items-center gap-2">
+                        <button type="button"
+                          <button class="add-cart-btn inline-flex items-center justify-center w-6 h-6 rounded hover:bg-gray-600/40"
+                          data-add-id="${item.id}" title="ใส่ตะกร้า" 
+                        >🛒</button>
+
+                        <div class="font-semibold text-white hover:text-fantasy-gold">
+                          ${item.nameLink
+                            ? `<a href="${item.nameLink}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.name)}</a>`
+                            : `${escapeHtml(item.name)}`}
+                        </div>
                       </div>
                     </td>
                     <td class="px-4 py-3 text-gray-300 text-sm whitespace-normal">${escapeHtml(item.type)}</td>
