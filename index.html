@@ -1515,7 +1515,16 @@
 
         // คลิกแถวเพื่อ toggle รายละเอียด
         container.querySelectorAll('tbody tr[data-row-index]').forEach((row) => {
-          row.addEventListener('click', () => {
+          row.addEventListener('click', (e) => {
+            // กันไม่ให้การคลิกพวกปุ่ม/เช็คบ็อกซ์ ไปทริกเกอร์เปิดรายละเอียด
+            if (
+              e.target.closest('.add-cart-btn') ||     // ปุ่มตะกร้า
+              e.target.closest('.row-select')   ||     // checkbox เลือกแถว
+              e.target.closest('[data-gv-pick]')||     // ปุ่มเลือก base item (GV)
+              e.target.closest('[data-gem-pick]')||    // ปุ่มเลือกอัญมณี
+              e.target.closest('.btn-edit-item')       // ปุ่มแก้ไข (แอดมิน)
+            ) return;
+
             const idx = row.getAttribute('data-row-index');
             toggleDescription('desc-' + idx);
           });
