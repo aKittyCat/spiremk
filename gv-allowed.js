@@ -110,9 +110,9 @@
     "silvered-weapon":   { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Silvered ${base}` },
     "vicious-weapon":    { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Vicious ${base}` },
     "vicious-weapon+1": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Vicious ${base} +1` },
-    "weapon-of-certain-death": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> ` ${base} of Certain Death` },
-    "weapon-of-throne's-command": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> ` ${base} of Throne's Command` },
-    "weapon-of-warning": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Weapon of Warning ${base}` },
+    "weapon-of-certain-death": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `${base} of Certain Death` },
+    "weapon-of-throne's-command": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `${base} of Throne's Command` },
+    "weapon-of-warning": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `${base} of Warning` },
     "zephyr-armor":     { kind: "armor",   list: makeSet(ZEPHYR_ARMOR_BASES),     makeName: (base)=> `Zephyr ${base}` },
     // เพิ่มคีย์ใหม่ ๆ ได้ตามต้องการ เช่น:
     // "armor+2": { kind: "armor", list: makeSet([...]), makeName: (base)=> `+2 ${base}` },
