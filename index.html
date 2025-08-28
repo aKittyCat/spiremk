@@ -22,53 +22,107 @@
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:wght@400;600&display=swap");
 
-      .fantasy-font { font-family: "Cinzel", serif; }
-      .content-font { font-family: "Crimson Text", serif; }
+      .fantasy-font {
+        font-family: "Cinzel", serif;
+      }
+      .content-font {
+        font-family: "Crimson Text", serif;
+      }
 
-      .scroll-container { max-height: 70vh; overflow-y: auto; }
+      .scroll-container {
+        max-height: 70vh;
+        overflow-y: auto;
+      }
 
-      .admin-panel { display: none; }
-      .admin-panel.active { display: block; }
+      .admin-panel {
+        display: none;
+      }
+      .admin-panel.active {
+        display: block;
+      }
 
-      .rarity-common { background-color: #6b7280; color: white; }
-      .rarity-uncommon { background-color: #10b981; color: white; }
-      .rarity-rare { background-color: #3b82f6; color: white; }
-      .rarity-very-rare { background-color: #8b5cf6; color: white; }
-      .rarity-legendary { background-color: #f59e0b; color: white; }
-      .rarity-artifact { background-color: #ef4444; color: white; }
-      .rarity-mundane { background-color: #2d0097; color: white; }
-      .hint-badge { font-size: 0.75rem; padding: .15rem .5rem; border-radius: .375rem; }
+      .rarity-common {
+        background-color: #6b7280;
+        color: white;
+      }
+      .rarity-uncommon {
+        background-color: #10b981;
+        color: white;
+      }
+      .rarity-rare {
+        background-color: #3b82f6;
+        color: white;
+      }
+      .rarity-very-rare {
+        background-color: #8b5cf6;
+        color: white;
+      }
+      .rarity-legendary {
+        background-color: #f59e0b;
+        color: white;
+      }
+      .rarity-artifact {
+        background-color: #ef4444;
+        color: white;
+      }
+      .rarity-mundane {
+        background-color: #2d0097;
+        color: white;
+      }
+      .hint-badge {
+        font-size: 0.75rem;
+        padding: 0.15rem 0.5rem;
+        border-radius: 0.375rem;
+      }
 
-      #itemsList table { table-layout: fixed; width: 100%; }
+      #itemsList table {
+        table-layout: fixed;
+        width: 100%;
+      }
 
       /* ย่อช่อง checkbox + ชิดซ้าย */
       #itemsList thead th:first-child,
       #itemsList tbody td:first-child {
         text-align: left;
-        padding-left: .5rem;
-        padding-right: .35rem;
-        width: 2.25rem;     /* พอให้ติ๊กได้สบาย ๆ */
+        padding-left: 0.5rem;
+        padding-right: 0.35rem;
+        width: 2.25rem; /* พอให้ติ๊กได้สบาย ๆ */
       }
 
       /* คอลัมน์ "ชื่อไอเทม" ที่อยู่ถัดจาก checkbox ให้ชิดซ้ายและลดช่องว่างด้านซ้าย */
       #itemsList thead th:nth-child(2),
       #itemsList tbody td:nth-child(2) {
         text-align: left;
-        padding-left: .25rem;
+        padding-left: 0.25rem;
         padding-right: 1rem;
       }
 
-      #itemsList input.row-select:disabled { opacity: .35; cursor: not-allowed; }
+      #itemsList input.row-select:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+      }
     </style>
   </head>
 
-  <body class="bg-gradient-to-br from-gray-900 via-purple-900 to-gray-800 min-h-screen text-white">
+  <body
+    class="bg-gradient-to-br from-gray-900 via-purple-900 to-gray-800 min-h-screen text-white"
+  >
     <!-- Header -->
-    <header class="bg-black bg-opacity-50 backdrop-blur-sm border-b border-fantasy-gold">
+    <header
+      class="bg-black bg-opacity-50 backdrop-blur-sm border-b border-fantasy-gold"
+    >
       <div class="container mx-auto px-4 py-6">
         <div class="flex items-center justify-between">
-          <h1 href="index.html" class="fantasy-font text-3xl md:text-4xl font-bold text-fantasy-gold">🏰 The Spire Market</h1>
-          <button id="adminToggle" class="bg-fantasy-purple hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors">
+          <h1
+            href="index.html"
+            class="fantasy-font text-3xl md:text-4xl font-bold text-fantasy-gold"
+          >
+            🏰 The Spire Market
+          </h1>
+          <button
+            id="adminToggle"
+            class="bg-fantasy-purple hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors"
+          >
             Admin Panel
           </button>
         </div>
@@ -79,12 +133,42 @@
     <nav class="bg-black bg-opacity-30 backdrop-blur-sm sticky top-0 z-40">
       <div class="container mx-auto px-4">
         <div class="flex flex-wrap justify-center space-x-2 md:space-x-6 py-4">
-          <button class="nav-btn active bg-fantasy-gold text-black px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105" data-page="guide">📜 คำแนะนำ</button>
-          <button class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105" data-page="mundane">☠️ Mundane Item</button>
-          <button class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105" data-page="gemstone">💎 Gemstone</button>
-          <button class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105" data-page="items">⚔️ รายการสินค้า</button>
-          <button class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105" data-page="crafting">🔨 Crafting</button>
-          <button class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105" data-page="updates">📰 อัพเดท</button>
+          <button
+            class="nav-btn active bg-fantasy-gold text-black px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
+            data-page="guide"
+          >
+            📜 คำแนะนำ
+          </button>
+          <button
+            class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
+            data-page="mundane"
+          >
+            ☠️ Mundane Item
+          </button>
+          <button
+            class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
+            data-page="gemstone"
+          >
+            💎 Gemstone
+          </button>
+          <button
+            class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
+            data-page="items"
+          >
+            ⚔️ รายการสินค้า
+          </button>
+          <button
+            class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
+            data-page="crafting"
+          >
+            🔨 Crafting
+          </button>
+          <button
+            class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
+            data-page="updates"
+          >
+            📰 อัพเดท
+          </button>
         </div>
       </div>
     </nav>
@@ -92,43 +176,116 @@
     <!-- Main Content -->
     <main class="max-w-none mx-auto px-4 py-8">
       <!-- Admin Panel -->
-      <div id="adminPanel" class="admin-panel mb-8 bg-black bg-opacity-50 rounded-xl p-6 border border-fantasy-red">
-        <h2 class="fantasy-font text-2xl font-bold text-fantasy-red mb-4">🛡️ Admin Panel</h2>
+      <div
+        id="adminPanel"
+        class="admin-panel mb-8 bg-black bg-opacity-50 rounded-xl p-6 border border-fantasy-red"
+      >
+        <h2 class="fantasy-font text-2xl font-bold text-fantasy-red mb-4">
+          🛡️ Admin Panel
+        </h2>
         <div class="grid md:grid-cols-2 gap-6">
           <!-- Add/Edit Item Form -->
           <div class="bg-gray-800 rounded-lg p-4">
             <div class="flex items-center justify-between mb-2">
               <h3 class="font-bold text-fantasy-gold">เพิ่ม/แก้ไขไอเทม</h3>
-              <span id="itemEditHint" class="hidden bg-yellow-500 text-black hint-badge">โหมดแก้ไข</span>
+              <span
+                id="itemEditHint"
+                class="hidden bg-yellow-500 text-black hint-badge"
+                >โหมดแก้ไข</span
+              >
             </div>
             <form id="itemForm" class="space-y-3">
               <input type="hidden" id="itemId" />
-              <input type="text" id="itemName" placeholder="ชื่อไอเทม" class="w-full p-2 rounded bg-gray-700 text-white" required />
-              <input type="url" id="itemNameLink" placeholder="ลิงก์รายละเอียด (ถ้ามี)" class="w-full p-2 rounded bg-gray-700 text-white" />
-              <select id="itemAttune" class="w-full p-2 rounded bg-gray-700 text-white">
+              <input
+                type="text"
+                id="itemName"
+                placeholder="ชื่อไอเทม"
+                class="w-full p-2 rounded bg-gray-700 text-white"
+                required
+              />
+              <input
+                type="url"
+                id="itemNameLink"
+                placeholder="ลิงก์รายละเอียด (ถ้ามี)"
+                class="w-full p-2 rounded bg-gray-700 text-white"
+              />
+              <select
+                id="itemAttune"
+                class="w-full p-2 rounded bg-gray-700 text-white"
+              >
                 <option value="No">No Attunement</option>
                 <option value="Yes">Requires Attunement</option>
               </select>
-              <select id="itemPerDis" class="w-full p-2 rounded bg-gray-700 text-white">
+              <select
+                id="itemPerDis"
+                class="w-full p-2 rounded bg-gray-700 text-white"
+              >
                 <option value="ถาวร">ไอเทมถาวร</option>
                 <option value="ใช้แล้วทิ้ง">ไอเทมใช้แล้วทิ้ง</option>
               </select>
-              <input type="text" id="itemType" placeholder="ประเภท" class="w-full p-2 rounded bg-gray-700 text-white" required />
-              <input type="text" id="itemPrice" placeholder="ราคา" class="w-full p-2 rounded bg-gray-700 text-white" required />
-              <select id="itemTier" class="w-full p-2 rounded bg-gray-700 text-white">
-                <option value="Tier 0">Tier 0</option><option value="Tier 1">Tier 1</option><option value="Tier 2">Tier 2</option>
-                <option value="Tier 3">Tier 3</option><option value="Tier 4">Tier 4</option><option value="Tier 5">Tier 5</option>
+              <input
+                type="text"
+                id="itemType"
+                placeholder="ประเภท"
+                class="w-full p-2 rounded bg-gray-700 text-white"
+                required
+              />
+              <input
+                type="text"
+                id="itemPrice"
+                placeholder="ราคา"
+                class="w-full p-2 rounded bg-gray-700 text-white"
+                required
+              />
+              <select
+                id="itemTier"
+                class="w-full p-2 rounded bg-gray-700 text-white"
+              >
+                <option value="Tier 0">Tier 0</option>
+                <option value="Tier 1">Tier 1</option>
+                <option value="Tier 2">Tier 2</option>
+                <option value="Tier 3">Tier 3</option>
+                <option value="Tier 4">Tier 4</option>
+                <option value="Tier 5">Tier 5</option>
               </select>
-              <select id="itemRarity" class="w-full p-2 rounded bg-gray-700 text-white">
-                <option value="Common">Common</option><option value="Uncommon">Uncommon</option><option value="Rare">Rare</option>
-                <option value="Very Rare">Very Rare</option><option value="Legendary">Legendary</option><option value="Artifact">Artifact</option>
+              <select
+                id="itemRarity"
+                class="w-full p-2 rounded bg-gray-700 text-white"
+              >
+                <option value="Common">Common</option>
+                <option value="Uncommon">Uncommon</option>
+                <option value="Rare">Rare</option>
+                <option value="Very Rare">Very Rare</option>
+                <option value="Legendary">Legendary</option>
+                <option value="Artifact">Artifact</option>
                 <option value="Mundane">Mundane</option>
               </select>
-              <input type="text" id="itemBook" placeholder="หนังสือ" class="w-full p-2 rounded bg-gray-700 text-white" required />
-              <textarea id="itemDescription" placeholder="รายละเอียด" class="w-full p-2 rounded bg-gray-700 text-white h-20"></textarea>
+              <input
+                type="text"
+                id="itemBook"
+                placeholder="หนังสือ"
+                class="w-full p-2 rounded bg-gray-700 text-white"
+                required
+              />
+              <textarea
+                id="itemDescription"
+                placeholder="รายละเอียด"
+                class="w-full p-2 rounded bg-gray-700 text-white h-20"
+              ></textarea>
               <div class="flex gap-2">
-                <button type="submit" class="flex-1 bg-fantasy-gold text-black py-2 rounded font-bold hover:bg-yellow-500 transition-colors">บันทึกไอเทม</button>
-                <button type="button" id="itemCancelEdit" class="px-4 py-2 rounded bg-gray-600 hover:bg-gray-700">ยกเลิกแก้ไข</button>
+                <button
+                  type="submit"
+                  class="flex-1 bg-fantasy-gold text-black py-2 rounded font-bold hover:bg-yellow-500 transition-colors"
+                >
+                  บันทึกไอเทม
+                </button>
+                <button
+                  type="button"
+                  id="itemCancelEdit"
+                  class="px-4 py-2 rounded bg-gray-600 hover:bg-gray-700"
+                >
+                  ยกเลิกแก้ไข
+                </button>
               </div>
             </form>
           </div>
@@ -137,16 +294,47 @@
           <div class="bg-gray-800 rounded-lg p-4">
             <div class="flex items-center justify-between mb-2">
               <h3 class="font-bold text-fantasy-gold">เพิ่มข่าวอัพเดท</h3>
-              <span id="updateEditHint" class="hidden bg-yellow-500 text-black hint-badge">โหมดแก้ไข</span>
+              <span
+                id="updateEditHint"
+                class="hidden bg-yellow-500 text-black hint-badge"
+                >โหมดแก้ไข</span
+              >
             </div>
             <form id="updateForm" class="space-y-3">
               <input type="hidden" id="updateId" />
-              <input type="text" id="updateTitle" placeholder="หัวข้อ" class="w-full p-2 rounded bg-gray-700 text-white" required />
-              <input type="date" id="updateDate" class="w-full p-2 rounded bg-gray-700 text-white" required />
-              <textarea id="updateContent" placeholder="เนื้อหา" class="w-full p-2 rounded bg-gray-700 text-white h-20" required></textarea>
+              <input
+                type="text"
+                id="updateTitle"
+                placeholder="หัวข้อ"
+                class="w-full p-2 rounded bg-gray-700 text-white"
+                required
+              />
+              <input
+                type="date"
+                id="updateDate"
+                class="w-full p-2 rounded bg-gray-700 text-white"
+                required
+              />
+              <textarea
+                id="updateContent"
+                placeholder="เนื้อหา"
+                class="w-full p-2 rounded bg-gray-700 text-white h-20"
+                required
+              ></textarea>
               <div class="flex gap-2">
-                <button type="submit" class="flex-1 bg-fantasy-purple text-white py-2 rounded font-bold hover:bg-purple-700 transition-colors">บันทึกอัพเดท</button>
-                <button type="button" id="updateCancelEdit" class="px-4 py-2 rounded bg-gray-600 hover:bg-gray-700">ยกเลิกแก้ไข</button>
+                <button
+                  type="submit"
+                  class="flex-1 bg-fantasy-purple text-white py-2 rounded font-bold hover:bg-purple-700 transition-colors"
+                >
+                  บันทึกอัพเดท
+                </button>
+                <button
+                  type="button"
+                  id="updateCancelEdit"
+                  class="px-4 py-2 rounded bg-gray-600 hover:bg-gray-700"
+                >
+                  ยกเลิกแก้ไข
+                </button>
               </div>
             </form>
           </div>
@@ -158,17 +346,35 @@
         <!-- Guide Page -->
         <div id="guidePage" class="page-content">
           <div class="bg-black bg-opacity-50 rounded-xl p-8 backdrop-blur-sm">
-            <h2 class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center">📜 คำแนะนำการซื้อ/ขายไอเทม</h2>
+            <h2
+              class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center"
+            >
+              📜 คำแนะนำการซื้อ/ขายไอเทม
+            </h2>
             <div class="content-font text-lg space-y-6">
               <div class="bg-gray-800 rounded-lg p-6">
                 <h3 class="text-xl font-bold text-fantasy-gold mb-4">
                   🛒 ซื้อไอเทมระดับ Mundane
                 </h3>
                 <ul class="space-y-2 text-gray-300">
-                  <li>• ผู้เล่นสามารถซื้อไอเทมพื้นฐานต่างๆ เช่น เกราะ, อาวุธ, อุปกรณ์ผจญภัย (Adventuring Gear) ในราคาตามที่ระบุไว้ใน Player's Handbook 2014 และขายในราคาครึ่งนึงของราคาดั้งเดิม</li>
-                  <li>• ผู้เล่นต้องบันทึกการซื้อ/ขายใน Tracking Sheet และในดิสคอร์ท</li>
-                  <li>• ไอเทมบางอย่างจะมีราคาแยกต่างหาก เช่น Mundane Item, Tattoo, Manual, และ Misc</li>
-                  <li>• ไอเทมบางอย่างไม่สามารถซื้อจากร้านค้าได้ ตัวละครจะต้องทำการสร้างขึ้นมาเท่านั้น โดยสามารถดูรายชื่อไอเทมได้ใน Crafting Only Item</li>
+                  <li>
+                    • ผู้เล่นสามารถซื้อไอเทมพื้นฐานต่างๆ เช่น เกราะ, อาวุธ,
+                    อุปกรณ์ผจญภัย (Adventuring Gear) ในราคาตามที่ระบุไว้ใน
+                    Player's Handbook 2014 และขายในราคาครึ่งนึงของราคาดั้งเดิม
+                  </li>
+                  <li>
+                    • ผู้เล่นต้องบันทึกการซื้อ/ขายใน Tracking Sheet
+                    และในดิสคอร์ท
+                  </li>
+                  <li>
+                    • ไอเทมบางอย่างจะมีราคาแยกต่างหาก เช่น Mundane Item, Tattoo,
+                    Manual, และ Misc
+                  </li>
+                  <li>
+                    • ไอเทมบางอย่างไม่สามารถซื้อจากร้านค้าได้
+                    ตัวละครจะต้องทำการสร้างขึ้นมาเท่านั้น
+                    โดยสามารถดูรายชื่อไอเทมได้ใน Crafting Only Item
+                  </li>
                 </ul>
               </div>
               <div class="bg-gray-800 rounded-lg p-6">
@@ -176,12 +382,34 @@
                   💰 ซื้อ/ขาย Magic Item
                 </h3>
                 <ul class="space-y-2 text-gray-300">
-                  <li>• DM สามารถเปิดร้านค้าใน Session ของตัวเองเพื่อให้ผู้เล่นใช้ได้โดยใช้รายการไอเทมและราคาจากหน้าต่างๆ ตาม Tier</li>
-                  <li>• เมื่อ DM เปิดร้านค้าใน Session ราคาที่ขายสามารถสูงกว่าเดิมได้แต่ไม่สามารถต่ำกว่าราคาตั้งต้นได้ DM สามารถกำหนดจำนวนไอเทมที่จะขายได้ด้วยเช่นกัน</li>
+                  <li>
+                    • DM สามารถเปิดร้านค้าใน Session
+                    ของตัวเองเพื่อให้ผู้เล่นใช้ได้โดยใช้รายการไอเทมและราคาจากหน้าต่างๆ
+                    ตาม Tier
+                  </li>
+                  <li>
+                    • เมื่อ DM เปิดร้านค้าใน Session
+                    ราคาที่ขายสามารถสูงกว่าเดิมได้แต่ไม่สามารถต่ำกว่าราคาตั้งต้นได้
+                    DM สามารถกำหนดจำนวนไอเทมที่จะขายได้ด้วยเช่นกัน
+                  </li>
                   <li>• สำหรับผู้เล่นที่ต้องการซื้อไอเทม สามารถทำได้ 2 วิธี</li>
-                  <li>1. ระหว่างอยู่ใน Session ถ้า DM อนุญาต ผู้เล่นสามารถบันทึกรายชื่อไอเทมและราคาที่ต้องการซื้อได้ในแชแนล waters-gate-marketplace</li>
-                  <li>2. นอก Session ไม่ว่าจะเป็นการโรลเพลย์หรือต้องการซื้อไอเทมทันที ผู้เล่นสามารถส่งรายชื่อและราคาที่ต้องการซื้อได้ในแชแนล waters-gate-marketplace</li>
-                  <li>• ตัวอย่างวิธีส่งรายชื่อไอเทมจะอยู่ที่ปักหมุดในแชแนลประตูน้ำ แชแนลประตูน้ำจะถูกเปิด slowmode เอาไว้ ถ้ารายชื่อไอเทมที่ส่งยังไม่ได้รับการยืนยัน ผู้เล่นยังสามารถทำการแก้ไขรายชื่อไอเทมที่จะซื้อ/ขายได้ตลอด</li>
+                  <li>
+                    1. ระหว่างอยู่ใน Session ถ้า DM อนุญาต
+                    ผู้เล่นสามารถบันทึกรายชื่อไอเทมและราคาที่ต้องการซื้อได้ในแชแนล
+                    waters-gate-marketplace
+                  </li>
+                  <li>
+                    2. นอก Session
+                    ไม่ว่าจะเป็นการโรลเพลย์หรือต้องการซื้อไอเทมทันที
+                    ผู้เล่นสามารถส่งรายชื่อและราคาที่ต้องการซื้อได้ในแชแนล
+                    waters-gate-marketplace
+                  </li>
+                  <li>
+                    • ตัวอย่างวิธีส่งรายชื่อไอเทมจะอยู่ที่ปักหมุดในแชแนลประตูน้ำ
+                    แชแนลประตูน้ำจะถูกเปิด slowmode เอาไว้
+                    ถ้ารายชื่อไอเทมที่ส่งยังไม่ได้รับการยืนยัน
+                    ผู้เล่นยังสามารถทำการแก้ไขรายชื่อไอเทมที่จะซื้อ/ขายได้ตลอด
+                  </li>
                 </ul>
               </div>
               <div class="bg-gray-800 rounded-lg p-6">
@@ -189,12 +417,42 @@
                   ⚒️ อัพเกรดไอเทม
                 </h3>
                 <ul class="space-y-2 text-gray-300">
-                  <li>• ไอเทมที่สามารถทำการอัพเกรดได้มีเพียงไอเทมอย่าง +1 Weapon, +1 Armor, Generic Variant, หรือ Vestige of Divergence เท่านั้น โดยสามารถทำได้ ดังนี้</li>
-                  <li>- +1 Item - ผู้เล่นสามารถจ่ายแค่ค่าไอเทมโดยไม่ต้องจ่ายค่าอาวุธถ้าตัวละครมีอาวุธที่ต้องการใช้อยู่แล้ว เช่น หากมีไอเทม Longsword อยู่แล้ว สามารถจ่ายทอง 450gp เพื่ออัพเกรดเป็น +1 Longsword โดยที่ไม่ต้องจ่าย 15gp เพิ่มสำหรับ Longsword</li>
-                  <li>- Generic Variant - ผู้เล่นสามารถจ่ายค่าไอเทมโดยไม่ต้องจ่ายค่าอาวุธแบบเดีนวกันกับ +1 item</li>
-                  <li>- Vestige of Divergence - ผู้เล่นสามารถอัพเกรดไอเทมได้โดยใช้คำสั่ง !craft ภายในแชแนล crafting ในดิสคอร์ท ผู้เล่นสามารถตรวจสอบรายละเอียดเพิ่มเติมได้จากในเซิร์ฟเวอร์</li>
-                  <li>*ผู้เล่นไม่สามารถเปลี่ยน +1 item ไปเป็น Generic Variant ได้ และไอเทม Generic Variant ไม่สามารถเปลี่ยนเป็น +1 Item ได้</li>
-                  <li>**ผู้เล่นสามารถอัพเกรดไอเทมจาก +1 item ไปเป็น +2 item ได้โดยจ่ายแค่ราคาส่วนต่าง เช่น ถ้าตัวละครต้องการอัพเกรดไอเทมจาก +1 Dagger ไปเป็น +2 Dagger ตัวละครสามารถจ่ายส่วนต่าง 450gp เพื่ออัพเกรดได้ ในกรณีที่ถ้าเป็น Dagger ปกติ ให้ใช้วิธีเดียวกันกับ +1 Item คือ จ่ายทอง 900gp เพื่ออัพเกรดโดยไม่ต้องจ่ายราคาอาวุธเพิ่ม (+3 item ก็จะใช้วิธีอัพเกรดแบบเดียวกัน)</li>
+                  <li>
+                    • ไอเทมที่สามารถทำการอัพเกรดได้มีเพียงไอเทมอย่าง +1 Weapon,
+                    +1 Armor, Generic Variant, หรือ Vestige of Divergence
+                    เท่านั้น โดยสามารถทำได้ ดังนี้
+                  </li>
+                  <li>
+                    - +1 Item -
+                    ผู้เล่นสามารถจ่ายแค่ค่าไอเทมโดยไม่ต้องจ่ายค่าอาวุธถ้าตัวละครมีอาวุธที่ต้องการใช้อยู่แล้ว
+                    เช่น หากมีไอเทม Longsword อยู่แล้ว สามารถจ่ายทอง 450gp
+                    เพื่ออัพเกรดเป็น +1 Longsword โดยที่ไม่ต้องจ่าย 15gp
+                    เพิ่มสำหรับ Longsword
+                  </li>
+                  <li>
+                    - Generic Variant -
+                    ผู้เล่นสามารถจ่ายค่าไอเทมโดยไม่ต้องจ่ายค่าอาวุธแบบเดีนวกันกับ
+                    +1 item
+                  </li>
+                  <li>
+                    - Vestige of Divergence -
+                    ผู้เล่นสามารถอัพเกรดไอเทมได้โดยใช้คำสั่ง !craft ภายในแชแนล
+                    crafting ในดิสคอร์ท
+                    ผู้เล่นสามารถตรวจสอบรายละเอียดเพิ่มเติมได้จากในเซิร์ฟเวอร์
+                  </li>
+                  <li>
+                    *ผู้เล่นไม่สามารถเปลี่ยน +1 item ไปเป็น Generic Variant ได้
+                    และไอเทม Generic Variant ไม่สามารถเปลี่ยนเป็น +1 Item ได้
+                  </li>
+                  <li>
+                    **ผู้เล่นสามารถอัพเกรดไอเทมจาก +1 item ไปเป็น +2 item
+                    ได้โดยจ่ายแค่ราคาส่วนต่าง เช่น
+                    ถ้าตัวละครต้องการอัพเกรดไอเทมจาก +1 Dagger ไปเป็น +2 Dagger
+                    ตัวละครสามารถจ่ายส่วนต่าง 450gp เพื่ออัพเกรดได้
+                    ในกรณีที่ถ้าเป็น Dagger ปกติ ให้ใช้วิธีเดียวกันกับ +1 Item
+                    คือ จ่ายทอง 900gp เพื่ออัพเกรดโดยไม่ต้องจ่ายราคาอาวุธเพิ่ม
+                    (+3 item ก็จะใช้วิธีอัพเกรดแบบเดียวกัน)
+                  </li>
                 </ul>
               </div>
             </div>
@@ -204,7 +462,11 @@
         <!-- Gemstone Page -->
         <div id="gemstonePage" class="page-content hidden">
           <div class="bg-black bg-opacity-50 rounded-xl p-8 backdrop-blur-sm">
-            <h2 class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center">💎 กฏเกี่ยวกับการซื้อ Gemstone</h2>
+            <h2
+              class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center"
+            >
+              💎 กฏเกี่ยวกับการซื้อ Gemstone
+            </h2>
             <div class="content-font text-lg space-y-6">
               <div class="bg-gray-800 rounded-lg p-6">
                 <h3 class="text-xl font-bold text-fantasy-gold mb-4">
@@ -212,9 +474,7 @@
                 </h3>
                 <div class="grid md:grid-cols-3 gap-x-0 gap-y-4">
                   <div>
-                    <h4 class="font-bold text-green-400 mb-2">
-                      ชื่อ
-                    </h4>
+                    <h4 class="font-bold text-green-400 mb-2">ชื่อ</h4>
                     <ul class="text-gray-300 space-y-1">
                       <li>• 10 gp Gemstones</li>
                       <li>• 50 gp Gemstones</li>
@@ -225,9 +485,7 @@
                     </ul>
                   </div>
                   <div>
-                    <h4 class="font-bold text-orange-400 mb-2">
-                      Tier	
-                    </h4>
+                    <h4 class="font-bold text-orange-400 mb-2">Tier</h4>
                     <ul class="text-gray-300 space-y-1">
                       <li>Tier 0</li>
                       <li>Tier 1</li>
@@ -238,9 +496,7 @@
                     </ul>
                   </div>
                   <div>
-                    <h4 class="font-bold text-blue-400 mb-2">
-                      ราคา
-                    </h4>
+                    <h4 class="font-bold text-blue-400 mb-2">ราคา</h4>
                     <ul class="text-gray-300 space-y-1">
                       <li>ราคาตั้งต้นx1</li>
                       <li>ราคาตั้งต้นx1.1</li>
@@ -257,8 +513,18 @@
                   📋 กฏการซื้อขาย
                 </h3>
                 <ul class="space-y-2 text-gray-300">
-                  <li>1. ผู้เล่นสามารถรับสิทธิ์การซื้อ Gemstone ได้จากการลงเซสชั่นที่ทาง DM ได้ลงวันสำหรับ Reward Action Surge (รางวัล DM x2) เท่านั้นโดยสิทธิ์นั้นจะมีระยะเวลา 24 ชั่วโมงหลังจบเซสชั่น</li>
-                  <li>2. ราคาของ Gemstone จะถูกปรับตามระดับของ Gemstone นั้นๆ โดยเมื่อผู้เล่นจะซื้อ Gemstone ผู้เล่นจะต้องจ่ายทองตามเรทของ Gemstone นั้นๆ เช่น หากผู้เล่นต้องการจะซื้อ Opal 200gp worth ผู้เล่นต้องจ่ายทอง 200x1.75=350gp</li>
+                  <li>
+                    1. ผู้เล่นสามารถรับสิทธิ์การซื้อ Gemstone
+                    ได้จากการลงเซสชั่นที่ทาง DM ได้ลงวันสำหรับ Reward Action
+                    Surge (รางวัล DM x2) เท่านั้นโดยสิทธิ์นั้นจะมีระยะเวลา 24
+                    ชั่วโมงหลังจบเซสชั่น
+                  </li>
+                  <li>
+                    2. ราคาของ Gemstone จะถูกปรับตามระดับของ Gemstone นั้นๆ
+                    โดยเมื่อผู้เล่นจะซื้อ Gemstone ผู้เล่นจะต้องจ่ายทองตามเรทของ
+                    Gemstone นั้นๆ เช่น หากผู้เล่นต้องการจะซื้อ Opal 200gp worth
+                    ผู้เล่นต้องจ่ายทอง 200x1.75=350gp
+                  </li>
                 </ul>
               </div>
             </div>
@@ -268,16 +534,38 @@
         <!-- Mundane Page -->
         <div id="mundanePage" class="page-content hidden">
           <div class="bg-black bg-opacity-50 rounded-xl p-8 backdrop-blur-sm">
-            <h2 class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center"> 💀 กฏเกี่ยวกับยาพิษ</h2>
+            <h2
+              class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center"
+            >
+              💀 กฏเกี่ยวกับยาพิษ
+            </h2>
             <div class="content-font text-lg space-y-6">
               <div class="bg-gray-800 rounded-lg p-6">
                 <h3 class="text-xl font-bold text-fantasy-gold mb-4">
-                  📋 กฏเกี่ยวกับการสร้างยาพิษและรวบรวมวัตถุดิบสำหรับยาพิษ (PHB, p.258)
+                  📋 กฏเกี่ยวกับการสร้างยาพิษและรวบรวมวัตถุดิบสำหรับยาพิษ (PHB,
+                  p.258)
                 </h3>
                 <ul class="space-y-2 text-gray-300">
-                  <li>• ตัวละครสามารถใช้กฏจาก Player's Handbook (PHB) ในการสร้างยาพิษถ้าตัวละครมี Proficiency สำหรับ Poisoner's Kit โดยยาพิษส่วนใหญ่สามารถสร้างได้เลยยกเว้นบางอันที่ต้องการวัตถุดิบพิเศษ เช่น Wyvern Poision</li>
-                  <li>• ตัวละครสามารถทำการเก็บวัตถุดิบจากสิ่งมีพิษได้ โดยที่เป้าหมายต้องหมดสภาพหรือตายแล้ว การเก็บวัตถุดิบใช้เวลา 1d6 นาทีและ DC 20 Intelligence (Nature) Check หรือ Poisoner's Kit Check</li>
-                  <li>• สำหรับตัวละครมี Proficiency ถ้าเช็คสำเร็จ ตัวละครจะได้รับวัตถุดิบสำหรับสร้างยาพิษได้ 1 อัน หากไม่สำเร็จ ตัวละครจะไม่ได้รับวัตถุดิบ และถ้าแต้มที่ขาดเท่ากับ 5 หรือมากกว่า ตัวละครจะได้รับผลจากพิษแทน</li>
+                  <li>
+                    • ตัวละครสามารถใช้กฏจาก Player's Handbook (PHB)
+                    ในการสร้างยาพิษถ้าตัวละครมี Proficiency สำหรับ Poisoner's
+                    Kit
+                    โดยยาพิษส่วนใหญ่สามารถสร้างได้เลยยกเว้นบางอันที่ต้องการวัตถุดิบพิเศษ
+                    เช่น Wyvern Poision
+                  </li>
+                  <li>
+                    • ตัวละครสามารถทำการเก็บวัตถุดิบจากสิ่งมีพิษได้
+                    โดยที่เป้าหมายต้องหมดสภาพหรือตายแล้ว การเก็บวัตถุดิบใช้เวลา
+                    1d6 นาทีและ DC 20 Intelligence (Nature) Check หรือ
+                    Poisoner's Kit Check
+                  </li>
+                  <li>
+                    • สำหรับตัวละครมี Proficiency ถ้าเช็คสำเร็จ
+                    ตัวละครจะได้รับวัตถุดิบสำหรับสร้างยาพิษได้ 1 อัน
+                    หากไม่สำเร็จ ตัวละครจะไม่ได้รับวัตถุดิบ
+                    และถ้าแต้มที่ขาดเท่ากับ 5 หรือมากกว่า
+                    ตัวละครจะได้รับผลจากพิษแทน
+                  </li>
                 </ul>
               </div>
               <div class="bg-gray-800 rounded-lg p-6">
@@ -285,11 +573,21 @@
                   📋 กฏเกี่ยวกับการใช้ยาพิษ
                 </h3>
                 <ul class="space-y-2 text-gray-300">
-                  <li>• ผู้เล่นสามารถใช้ Action เพื่อใช้ยาพิษประเภท Injury สำหรับเคลือบอาวุธ, ลูกธนู, กระสุน, หรืออุปกรณ์ประเภทคล้ายกันได้</li>
-                  <li>• ไอเทมประเภท Ammunition สามารถเคลือบยาพิษได้ 3 อันต่อยาพิษ 1 อัน เมื่อทำการเคลือบแล้วยาพิษจะมีผลอยู่ 1 นาที</li>
-                  <li>• ถ้าตัวละครไม่มี Poisoner's Kit Proficiency ตัวละครมีโอกาสที่จะได้รับผลของยาพิษเมื่อใช้</li>
+                  <li>
+                    • ผู้เล่นสามารถใช้ Action เพื่อใช้ยาพิษประเภท Injury
+                    สำหรับเคลือบอาวุธ, ลูกธนู, กระสุน,
+                    หรืออุปกรณ์ประเภทคล้ายกันได้
+                  </li>
+                  <li>
+                    • ไอเทมประเภท Ammunition สามารถเคลือบยาพิษได้ 3 อันต่อยาพิษ
+                    1 อัน เมื่อทำการเคลือบแล้วยาพิษจะมีผลอยู่ 1 นาที
+                  </li>
+                  <li>
+                    • ถ้าตัวละครไม่มี Poisoner's Kit Proficiency
+                    ตัวละครมีโอกาสที่จะได้รับผลของยาพิษเมื่อใช้
+                  </li>
                 </ul>
-              </div>   
+              </div>
             </div>
           </div>
         </div>
@@ -297,17 +595,26 @@
         <!-- ===== Cart Page ===== -->
         <section id="cartPage" class="page-content hidden">
           <div class="container mx-auto px-4 py-10">
-            <h2 class="text-2xl md:text-3xl font-bold text-fantasy-gold mb-6">🛒 ตะกร้าสินค้า</h2>
+            <h2 class="text-2xl md:text-3xl font-bold text-fantasy-gold mb-6">
+              🛒 ตะกร้าสินค้า
+            </h2>
 
-            <div id="cartEmpty" class="text-gray-400">ยังไม่มีสินค้าในตะกร้า</div>
+            <div id="cartEmpty" class="text-gray-400">
+              ยังไม่มีสินค้าในตะกร้า
+            </div>
 
-            <div id="cartTable" class="hidden bg-gray-800/60 rounded-lg overflow-hidden">
+            <div
+              id="cartTable"
+              class="hidden bg-gray-800/60 rounded-lg overflow-hidden"
+            >
               <table class="w-full text-sm">
                 <thead class="bg-gray-900/60">
                   <tr>
                     <th class="text-left px-4 py-3 w-2/5">สินค้า</th>
                     <th class="text-left px-4 py-3">ตัวเลือก</th>
-                    <th class="text-right px-4 py-3 whitespace-nowrap">ราคาต่อชิ้น</th>
+                    <th class="text-right px-4 py-3 whitespace-nowrap">
+                      ราคาต่อชิ้น
+                    </th>
                     <th class="text-center px-4 py-3">จำนวน</th>
                     <th class="text-right px-4 py-3">รวม</th>
                     <th class="px-2 py-3 w-12"></th>
@@ -317,15 +624,32 @@
               </table>
             </div>
 
-            <div id="cartFooter" class="hidden mt-4 flex items-center justify-between">
+            <div
+              id="cartFooter"
+              class="hidden mt-4 flex items-center justify-between"
+            >
               <div class="text-lg">
-                รวมทั้งหมด: <span id="cartTotal" class="font-bold text-fantasy-gold tabular-nums">0</span> gp
+                รวมทั้งหมด:
+                <span
+                  id="cartTotal"
+                  class="font-bold text-fantasy-gold tabular-nums"
+                  >0</span
+                >
+                gp
               </div>
               <div class="flex gap-2">
-                <button id="copyCartEmbedBtn"
-                  class="bg-fantasy-gold text-black px-4 py-2 rounded font-bold hover:bg-yellow-400">คัดลอกใบซื้อ</button>
-                <button id="clearCartBtn"
-                  class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded font-semibold">ล้างตะกร้า</button>
+                <button
+                  id="copyCartEmbedBtn"
+                  class="bg-fantasy-gold text-black px-4 py-2 rounded font-bold hover:bg-yellow-400"
+                >
+                  คัดลอกใบซื้อ
+                </button>
+                <button
+                  id="clearCartBtn"
+                  class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded font-semibold"
+                >
+                  ล้างตะกร้า
+                </button>
               </div>
             </div>
           </div>
@@ -334,19 +658,39 @@
         <!-- Crafting Page -->
         <div id="craftingPage" class="page-content hidden">
           <div class="bg-black bg-opacity-50 rounded-xl p-8 backdrop-blur-sm">
-            <h2 class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center">🔨 กฏเกี่ยวกับการ Crafting</h2>
+            <h2
+              class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center"
+            >
+              🔨 กฏเกี่ยวกับการ Crafting
+            </h2>
             <div class="content-font text-lg space-y-6">
               <div class="bg-gray-800 rounded-lg p-6">
                 <h3 class="text-xl font-bold text-fantasy-gold mb-4">
                   ⚒️ Crafing Rule
                 </h3>
                 <ul class="space-y-2 text-gray-300">
-                  <li>• ตัวละครต้องมี proficient เกี่ยวกับเครื่องมือที่จะใช้สร้างของ เช่น Smith's Tools สำหรับอาวุธและเกราะ</li>
-                  <li>• ผู้เล่นต้องจ่ายค่าใช้จ่ายและ Favor ก่อนเริ่มสร้างของ</li>
-                  <li>• ผู้เล่นสามารถยกเลิกการสร้างของได้โดยใช้คำสั่ง !craft discard แต่ค่าใช้จ่ายทุกอย่างและเวลาที่ใช้ไปจะไม่ได้รับคืน</li>
-                  <li>• ไอเทม Artifact, ไอเทมระดับ Legendary และบางไอเทมในระดับอื่นๆจะได้จากการสร้างเท่านั้น</li>
+                  <li>
+                    • ตัวละครต้องมี proficient
+                    เกี่ยวกับเครื่องมือที่จะใช้สร้างของ เช่น Smith's Tools
+                    สำหรับอาวุธและเกราะ
+                  </li>
+                  <li>
+                    • ผู้เล่นต้องจ่ายค่าใช้จ่ายและ Favor ก่อนเริ่มสร้างของ
+                  </li>
+                  <li>
+                    • ผู้เล่นสามารถยกเลิกการสร้างของได้โดยใช้คำสั่ง !craft
+                    discard แต่ค่าใช้จ่ายทุกอย่างและเวลาที่ใช้ไปจะไม่ได้รับคืน
+                  </li>
+                  <li>
+                    • ไอเทม Artifact, ไอเทมระดับ Legendary
+                    และบางไอเทมในระดับอื่นๆจะได้จากการสร้างเท่านั้น
+                  </li>
                   <li>• โบนัสจากไอเทมไม่สามารถใช้ในการสร้างไอเทมได้</li>
-                  <li>• โบนัสที่สามารถใช้ในการสร้างไอเทมได้มีแค่โบนัสที่เป็น Spell, Class Feature, หรือจากตัวละครของตัวเองเท่านั้น เช่น Prof. bonus, Guidance, Flash of Genius, etc</li>
+                  <li>
+                    • โบนัสที่สามารถใช้ในการสร้างไอเทมได้มีแค่โบนัสที่เป็น
+                    Spell, Class Feature, หรือจากตัวละครของตัวเองเท่านั้น เช่น
+                    Prof. bonus, Guidance, Flash of Genius, etc
+                  </li>
                 </ul>
               </div>
               <div class="bg-gray-800 rounded-lg p-6">
@@ -354,47 +698,112 @@
                   🪙 Crafing Cost
                 </h3>
                 <ul class="space-y-2 text-gray-300">
-                  <li>• ตัวละครต้องจ่ายทองจำนวนครึ่งนึงของไอเทมที่จะสร้างและ Favor ตามประเภทและระดับของไอเทม</li>
+                  <li>
+                    • ตัวละครต้องจ่ายทองจำนวนครึ่งนึงของไอเทมที่จะสร้างและ Favor
+                    ตามประเภทและระดับของไอเทม
+                  </li>
                 </ul>
                 <div class="overflow-x-auto rounded-lg shadow-lg">
                   <table class="min-w-full text-sm text-white">
                     <thead>
                       <tr class="bg-orange-700">
-                        <th class="px-4 py-3 border border-orange-600 text-left font-bold">Tier</th>
-                        <th class="px-4 py-3 border border-orange-600 text-center font-bold">ไอเทมใช้แล้วทิ้ง</th>
-                        <th class="px-4 py-3 border border-orange-600 text-center font-bold">ไอเทมถาวร</th>
+                        <th
+                          class="px-4 py-3 border border-orange-600 text-left font-bold"
+                        >
+                          Tier
+                        </th>
+                        <th
+                          class="px-4 py-3 border border-orange-600 text-center font-bold"
+                        >
+                          ไอเทมใช้แล้วทิ้ง
+                        </th>
+                        <th
+                          class="px-4 py-3 border border-orange-600 text-center font-bold"
+                        >
+                          ไอเทมถาวร
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr class="bg-orange-800 hover:bg-orange-700/80">
-                        <td class="px-4 py-2 border border-orange-700">Tier 0-1</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">6</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">12</td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          Tier 0-1
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          6
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          12
+                        </td>
                       </tr>
                       <tr class="bg-orange-900 hover:bg-orange-700/80">
-                        <td class="px-4 py-2 border border-orange-700">Tier 2</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">10</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">20</td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          Tier 2
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          10
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          20
+                        </td>
                       </tr>
                       <tr class="bg-orange-800 hover:bg-orange-700/80">
-                        <td class="px-4 py-2 border border-orange-700">Tier 3</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">20</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">40</td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          Tier 3
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          20
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          40
+                        </td>
                       </tr>
                       <tr class="bg-orange-900 hover:bg-orange-700/80">
-                        <td class="px-4 py-2 border border-orange-700">Tier 4</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">30</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">60</td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          Tier 4
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          30
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          60
+                        </td>
                       </tr>
                       <tr class="bg-orange-800 hover:bg-orange-700/80">
-                        <td class="px-4 py-2 border border-orange-700">Tier 5</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">40</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">80</td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          Tier 5
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          40
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          80
+                        </td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
-              </div>        
+              </div>
               <div class="bg-gray-800 rounded-lg p-6">
                 <h3 class="text-xl font-bold text-fantasy-gold mb-4">
                   💡 Crafting DC Table:
@@ -403,48 +812,158 @@
                   <table class="min-w-full text-sm text-white">
                     <thead>
                       <tr class="bg-orange-700">
-                        <th class="px-4 py-3 border border-orange-600 text-left font-bold">Tier</th>
-                        <th class="px-4 py-3 border border-orange-600 text-center font-bold">ไอเทมใช้แล้วทิ้ง</th>
-                        <th class="px-4 py-3 border border-orange-600 text-center font-bold">จำนวน Check</th>
-                        <th class="px-4 py-3 border border-orange-600 text-center font-bold">ไอเทมถาวร</th>
-                        <th class="px-4 py-3 border border-orange-600 text-center font-bold">จำนวน Check</th>
+                        <th
+                          class="px-4 py-3 border border-orange-600 text-left font-bold"
+                        >
+                          Tier
+                        </th>
+                        <th
+                          class="px-4 py-3 border border-orange-600 text-center font-bold"
+                        >
+                          ไอเทมใช้แล้วทิ้ง
+                        </th>
+                        <th
+                          class="px-4 py-3 border border-orange-600 text-center font-bold"
+                        >
+                          จำนวน Check
+                        </th>
+                        <th
+                          class="px-4 py-3 border border-orange-600 text-center font-bold"
+                        >
+                          ไอเทมถาวร
+                        </th>
+                        <th
+                          class="px-4 py-3 border border-orange-600 text-center font-bold"
+                        >
+                          จำนวน Check
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr class="bg-orange-800 hover:bg-orange-700/80">
-                        <td class="px-4 py-2 border border-orange-700">Tier 0-1</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">12</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">1</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">14</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">4</td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          Tier 0-1
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          12
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          1
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          14
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          4
+                        </td>
                       </tr>
                       <tr class="bg-orange-900 hover:bg-orange-700/80">
-                        <td class="px-4 py-2 border border-orange-700">Tier 2</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">14</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">4</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">16</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">8</td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          Tier 2
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          14
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          4
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          16
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          8
+                        </td>
                       </tr>
                       <tr class="bg-orange-800 hover:bg-orange-700/80">
-                        <td class="px-4 py-2 border border-orange-700">Tier 3</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">20</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">10</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">22</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">20</td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          Tier 3
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          20
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          10
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          22
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          20
+                        </td>
                       </tr>
                       <tr class="bg-orange-900 hover:bg-orange-700/80">
-                        <td class="px-4 py-2 border border-orange-700">Tier 4</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">22</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">20</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">26</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">40</td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          Tier 4
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          22
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          20
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          26
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          40
+                        </td>
                       </tr>
                       <tr class="bg-orange-800 hover:bg-orange-700/80">
-                        <td class="px-4 py-2 border border-orange-700">Tier 5</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">25</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">30</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">28</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">50</td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          Tier 5
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          25
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          30
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          28
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          50
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -452,10 +971,15 @@
               </div>
               <!-- 🧮 Crafting Calculator -->
               <div class="bg-gray-800 rounded-lg p-6 mt-6">
-                <h3 class="text-xl font-bold text-fantasy-gold mb-4">🧮 Crafting Calculator</h3>
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  🧮 Crafting Calculator
+                </h3>
 
                 <div class="grid md:grid-cols-4 gap-4">
-                  <select id="craftTier" class="p-2 rounded bg-gray-700 text-white">
+                  <select
+                    id="craftTier"
+                    class="p-2 rounded bg-gray-700 text-white"
+                  >
                     <option value="">เลือก Tier</option>
                     <option value="Tier 0">Tier 0</option>
                     <option value="Tier 1">Tier 1</option>
@@ -465,18 +989,28 @@
                     <option value="Tier 5">Tier 5</option>
                   </select>
 
-                  <select id="craftType" class="p-2 rounded bg-gray-700 text-white">
+                  <select
+                    id="craftType"
+                    class="p-2 rounded bg-gray-700 text-white"
+                  >
                     <option value="">เลือกประเภท</option>
                     <option value="ใช้แล้วทิ้ง">ไอเทมใช้แล้วทิ้ง</option>
                     <option value="ถาวร">ไอเทมถาวร</option>
                   </select>
 
-                  <input id="craftPrice" type="number" min="0" step="1"
-                        placeholder="ราคาตั้งต้นไอเทม (gp)"
-                        class="p-2 rounded bg-gray-700 text-white" />
+                  <input
+                    id="craftPrice"
+                    type="number"
+                    min="0"
+                    step="1"
+                    placeholder="ราคาตั้งต้นไอเทม (gp)"
+                    class="p-2 rounded bg-gray-700 text-white"
+                  />
 
-                  <button id="craftReset"
-                          class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded">
+                  <button
+                    id="craftReset"
+                    class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded"
+                  >
                     ล้างค่า
                   </button>
                 </div>
@@ -495,13 +1029,16 @@
                     <div id="outChecks" class="text-2xl font-bold">—</div>
                   </div>
                   <div class="bg-gray-900 rounded p-3">
-                    <div class="text-sm text-gray-400">ต้นทุนทอง (ครึ่งหนึ่ง)</div>
+                    <div class="text-sm text-gray-400">
+                      ต้นทุนทอง (ครึ่งหนึ่ง)
+                    </div>
                     <div id="outGold" class="text-2xl font-bold">—</div>
                   </div>
                 </div>
-      
+
                 <p class="text-xs text-gray-400 mt-3">
-                  * ทอง = ครึ่งหนึ่งของราคาตั้งต้นไอเทมที่กรอก | ตาราง Favor อิงจาก Crafing Cost | DC และจำนวนเช็คอิงจาก Crafting DC Table
+                  * ทอง = ครึ่งหนึ่งของราคาตั้งต้นไอเทมที่กรอก | ตาราง Favor
+                  อิงจาก Crafing Cost | DC และจำนวนเช็คอิงจาก Crafting DC Table
                 </p>
               </div>
               <div class="bg-gray-800 rounded-lg p-6">
@@ -509,67 +1046,162 @@
                   🔨 Tool Proficiencies Needed
                 </h3>
                 <ul class="space-y-2 text-gray-300">
-                  <li>• ในการสร้างไอเทม ตัวละครต้องมี proficiency ที่เกี่ยวข้องกับเครื่องมือที่ใช้สำหรับการสร้างไอเทมแต่ละประเภท โดยเครื่องมือแต่ละอย่างจะใช้ค่าสถานะต่างกันไปในการสร้างไอเทม</li>
+                  <li>
+                    • ในการสร้างไอเทม ตัวละครต้องมี proficiency
+                    ที่เกี่ยวข้องกับเครื่องมือที่ใช้สำหรับการสร้างไอเทมแต่ละประเภท
+                    โดยเครื่องมือแต่ละอย่างจะใช้ค่าสถานะต่างกันไปในการสร้างไอเทม
+                  </li>
                 </ul>
                 <div class="overflow-x-auto rounded-lg shadow-lg">
                   <table class="min-w-full text-sm text-white">
                     <thead>
                       <tr class="bg-orange-700">
-                        <th class="px-4 py-3 border border-orange-600 text-left font-bold">ประเภทไอเทม</th>
-                        <th class="px-4 py-3 border border-orange-600 text-left font-bold">Tool Proficiencies</th>
-                        <th class="px-4 py-3 border border-orange-600 text-left font-bold">Stats ที่ต้องใช้</th>
+                        <th
+                          class="px-4 py-3 border border-orange-600 text-left font-bold"
+                        >
+                          ประเภทไอเทม
+                        </th>
+                        <th
+                          class="px-4 py-3 border border-orange-600 text-left font-bold"
+                        >
+                          Tool Proficiencies
+                        </th>
+                        <th
+                          class="px-4 py-3 border border-orange-600 text-left font-bold"
+                        >
+                          Stats ที่ต้องใช้
+                        </th>
                       </tr>
                     </thead>
                     <tbody class="[&>tr>td]:align-top">
                       <tr class="bg-orange-800 hover:bg-orange-700/80">
-                        <td class="px-4 py-2 border border-orange-700">Armor</td>
-                        <td class="px-4 py-2 border border-orange-700 break-words">Cobbler's, Leatherworker's, Smith's, Tinker's, Weaver's</td>
-                        <td class="px-4 py-2 border border-orange-700">STR / DEX</td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          Armor
+                        </td>
+                        <td
+                          class="px-4 py-2 border border-orange-700 break-words"
+                        >
+                          Cobbler's, Leatherworker's, Smith's, Tinker's,
+                          Weaver's
+                        </td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          STR / DEX
+                        </td>
                       </tr>
                       <tr class="bg-orange-900 hover:bg-orange-700/80">
-                        <td class="px-4 py-2 border border-orange-700">Adventure Gear</td>
-                        <td class="px-4 py-2 border border-orange-700 break-words">Carpenter's, Leatherworker's, Smith's, Tinker's</td>
-                        <td class="px-4 py-2 border border-orange-700">INT / WIS</td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          Adventure Gear
+                        </td>
+                        <td
+                          class="px-4 py-2 border border-orange-700 break-words"
+                        >
+                          Carpenter's, Leatherworker's, Smith's, Tinker's
+                        </td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          INT / WIS
+                        </td>
                       </tr>
                       <tr class="bg-orange-800 hover:bg-orange-700/80">
-                        <td class="px-4 py-2 border border-orange-700">Ammunition</td>
-                        <td class="px-4 py-2 border border-orange-700 break-words">Smith's, Tinker's, Woodcarver's</td>
-                        <td class="px-4 py-2 border border-orange-700">DEX / WIS</td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          Ammunition
+                        </td>
+                        <td
+                          class="px-4 py-2 border border-orange-700 break-words"
+                        >
+                          Smith's, Tinker's, Woodcarver's
+                        </td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          DEX / WIS
+                        </td>
                       </tr>
                       <tr class="bg-orange-900 hover:bg-orange-700/80">
-                        <td class="px-4 py-2 border border-orange-700">Potion / Poison</td>
-                        <td class="px-4 py-2 border border-orange-700 break-words">Alchemist's, Brewer's, Herbalist's, Poisoner's</td>
-                        <td class="px-4 py-2 border border-orange-700">CON / WIS</td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          Potion / Poison
+                        </td>
+                        <td
+                          class="px-4 py-2 border border-orange-700 break-words"
+                        >
+                          Alchemist's, Brewer's, Herbalist's, Poisoner's
+                        </td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          CON / WIS
+                        </td>
                       </tr>
                       <tr class="bg-orange-800 hover:bg-orange-700/80">
                         <td class="px-4 py-2 border border-orange-700">Ring</td>
-                        <td class="px-4 py-2 border border-orange-700 break-words">Glassblower's, Jeweler's, Tinker's</td>
-                        <td class="px-4 py-2 border border-orange-700">DEX / CHA</td>
+                        <td
+                          class="px-4 py-2 border border-orange-700 break-words"
+                        >
+                          Glassblower's, Jeweler's, Tinker's
+                        </td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          DEX / CHA
+                        </td>
                       </tr>
                       <tr class="bg-orange-900 hover:bg-orange-700/80">
-                        <td class="px-4 py-2 border border-orange-700">Scroll</td>
-                        <td class="px-4 py-2 border border-orange-700 break-words">Calligrapher's, Forgery</td>
-                        <td class="px-4 py-2 border border-orange-700">DEX / INT</td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          Scroll
+                        </td>
+                        <td
+                          class="px-4 py-2 border border-orange-700 break-words"
+                        >
+                          Calligrapher's, Forgery
+                        </td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          DEX / INT
+                        </td>
                       </tr>
                       <tr class="bg-orange-800 hover:bg-orange-700/80">
-                        <td class="px-4 py-2 border border-orange-700">Shield</td>
-                        <td class="px-4 py-2 border border-orange-700 break-words">Carpenter's, Smith's, Woodcarver's</td>
-                        <td class="px-4 py-2 border border-orange-700">STR / CON</td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          Shield
+                        </td>
+                        <td
+                          class="px-4 py-2 border border-orange-700 break-words"
+                        >
+                          Carpenter's, Smith's, Woodcarver's
+                        </td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          STR / CON
+                        </td>
                       </tr>
                       <tr class="bg-orange-900 hover:bg-orange-700/80">
-                        <td class="px-4 py-2 border border-orange-700">Wand | Rod</td>
-                        <td class="px-4 py-2 border border-orange-700 break-words">Tinker's, Woodcarver's</td>
-                        <td class="px-4 py-2 border border-orange-700">INT / WIS / CHA</td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          Wand | Rod
+                        </td>
+                        <td
+                          class="px-4 py-2 border border-orange-700 break-words"
+                        >
+                          Tinker's, Woodcarver's
+                        </td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          INT / WIS / CHA
+                        </td>
                       </tr>
                       <tr class="bg-orange-800 hover:bg-orange-700/80">
-                        <td class="px-4 py-2 border border-orange-700">Weapon</td>
-                        <td class="px-4 py-2 border border-orange-700 break-words">Smith's, Tinker's, Woodcarver's</td>
-                        <td class="px-4 py-2 border border-orange-700">STR / DEX / CON</td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          Weapon
+                        </td>
+                        <td
+                          class="px-4 py-2 border border-orange-700 break-words"
+                        >
+                          Smith's, Tinker's, Woodcarver's
+                        </td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          STR / DEX / CON
+                        </td>
                       </tr>
                       <tr class="bg-orange-900 hover:bg-orange-700/80">
-                        <td class="px-4 py-2 border border-orange-700">Wondrous Item</td>
-                        <td class="px-4 py-2 border border-orange-700 break-words">Any applicable tool</td>
-                        <td class="px-4 py-2 border border-orange-700">INT / CHA</td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          Wondrous Item
+                        </td>
+                        <td
+                          class="px-4 py-2 border border-orange-700 break-words"
+                        >
+                          Any applicable tool
+                        </td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          INT / CHA
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -581,43 +1213,114 @@
                   🏪 Exalting Vestige of Divergence Magic Item
                 </h3>
                 <ul class="space-y-2 text-gray-300">
-                  <li>• ไอเทม Vestige of Divergence สามารถยกระดับได้โดยใช้คำสั่ง !craft โดยแต่ละระดับจะมีจำนวน check และจำนวน Favor ที่ต้องจ่ายที่ต่างกันแต่ระดับ DC จะยังเท่าเดิมและใช้ค่าทักษะ Arcana หรือ Religion เท่านั้น</li>
-                  <li>• โบนัสจากไอเทมไม่สามารถใช้สำหรับการยกระดับได้แต่โบนัสที่เป็น Spell, Class Feature, หรือจากตัวละครของตัวเอง เช่น Prof. bonus, Guidance, Flash of Genius, etc ยังคงสามารถใช้ได้</li>
-                  <li>ตัวอย่างคำสั่ง: !craft vod awakened "Circlet of Barbed Vision" arcana</li>
+                  <li>
+                    • ไอเทม Vestige of Divergence สามารถยกระดับได้โดยใช้คำสั่ง
+                    !craft โดยแต่ละระดับจะมีจำนวน check และจำนวน Favor
+                    ที่ต้องจ่ายที่ต่างกันแต่ระดับ DC จะยังเท่าเดิมและใช้ค่าทักษะ
+                    Arcana หรือ Religion เท่านั้น
+                  </li>
+                  <li>
+                    •
+                    โบนัสจากไอเทมไม่สามารถใช้สำหรับการยกระดับได้แต่โบนัสที่เป็น
+                    Spell, Class Feature, หรือจากตัวละครของตัวเอง เช่น Prof.
+                    bonus, Guidance, Flash of Genius, etc ยังคงสามารถใช้ได้
+                  </li>
+                  <li>
+                    ตัวอย่างคำสั่ง: !craft vod awakened "Circlet of Barbed
+                    Vision" arcana
+                  </li>
                 </ul>
                 <div class="overflow-x-auto rounded-lg shadow-lg">
                   <table class="min-w-full text-sm text-white">
                     <thead>
                       <tr class="bg-orange-700">
-                        <th class="px-4 py-3 border border-orange-600 text-left font-bold">&nbsp;</th>
-                        <th class="px-4 py-3 border border-orange-600 text-center font-bold">DC</th>
-                        <th class="px-4 py-3 border border-orange-600 text-center font-bold">จำนวน Check</th>
-                        <th class="px-4 py-3 border border-orange-600 text-center font-bold">Favor ที่ต้องใช้</th>
+                        <th
+                          class="px-4 py-3 border border-orange-600 text-left font-bold"
+                        >
+                          &nbsp;
+                        </th>
+                        <th
+                          class="px-4 py-3 border border-orange-600 text-center font-bold"
+                        >
+                          DC
+                        </th>
+                        <th
+                          class="px-4 py-3 border border-orange-600 text-center font-bold"
+                        >
+                          จำนวน Check
+                        </th>
+                        <th
+                          class="px-4 py-3 border border-orange-600 text-center font-bold"
+                        >
+                          Favor ที่ต้องใช้
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr class="bg-orange-800 hover:bg-orange-700/80">
-                        <td class="px-4 py-2 border border-orange-700">Dormant</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">0</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">0</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">0</td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          Dormant
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          0
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          0
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          0
+                        </td>
                       </tr>
                       <tr class="bg-orange-900 hover:bg-orange-700/80">
-                        <td class="px-4 py-2 border border-orange-700">Awakened</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">20</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">20</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">50</td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          Awakened
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          20
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          20
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          50
+                        </td>
                       </tr>
                       <tr class="bg-orange-800 hover:bg-orange-700/80">
-                        <td class="px-4 py-2 border border-orange-700">Exalted</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">20</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">50</td>
-                        <td class="px-4 py-2 text-center border border-orange-700">100</td>
+                        <td class="px-4 py-2 border border-orange-700">
+                          Exalted
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          20
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          50
+                        </td>
+                        <td
+                          class="px-4 py-2 text-center border border-orange-700"
+                        >
+                          100
+                        </td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
-              </div>   
+              </div>
             </div>
           </div>
         </div>
@@ -625,15 +1328,25 @@
         <!-- Items Page -->
         <div id="itemsPage" class="page-content hidden">
           <div class="bg-black bg-opacity-50 rounded-xl p-4 backdrop-blur-sm">
-            <h2 class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center">⚔️ รายการสินค้า</h2>
+            <h2
+              class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center"
+            >
+              ⚔️ รายการสินค้า
+            </h2>
             <p class="text-gray-300 mb-4 text-center">
-              * ในกรณีขายไอเทม ทุกไอเทมที่ซื้อสามารถขายได้ในราคาครึ่งนึงของราคาตั้งต้น<br>
-              * ไอเทมบางอย่างอาจจะไม่มีในร้านนี้เนื่องจากเป็นไอเทมแบบ Homebrew<br>
-              * หากมีปัญหาใดๆ หรือข้อเสนอแนะ สามารถแจ้งได้ที่ <a class="text-fantasy-gold">Staff</a>
+              * ในกรณีขายไอเทม
+              ทุกไอเทมที่ซื้อสามารถขายได้ในราคาครึ่งนึงของราคาตั้งต้น<br />
+              * ไอเทมบางอย่างอาจจะไม่มีในร้านนี้เนื่องจากเป็นไอเทมแบบ
+              Homebrew<br />
+              * หากมีปัญหาใดๆ หรือข้อเสนอแนะ สามารถแจ้งได้ที่
+              <a class="text-fantasy-gold">Staff</a>
             </p>
             <!-- Filters -->
             <div class="mb-6 grid md:grid-cols-4 gap-4">
-              <select id="tierFilter" class="p-2 rounded bg-gray-700 text-white">
+              <select
+                id="tierFilter"
+                class="p-2 rounded bg-gray-700 text-white"
+              >
                 <option value="">ทุก Tier</option>
                 <option value="Tier 0">Tier 0</option>
                 <option value="Tier 1">Tier 1</option>
@@ -643,7 +1356,10 @@
                 <option value="Tier 5">Tier 5</option>
                 <option value="Mundane Item">Mundane Item</option>
               </select>
-              <select id="rarityFilter" class="p-2 rounded bg-gray-700 text-white">
+              <select
+                id="rarityFilter"
+                class="p-2 rounded bg-gray-700 text-white"
+              >
                 <option value="">ทุก Rarity</option>
                 <option value="Common">Common</option>
                 <option value="Uncommon">Uncommon</option>
@@ -653,17 +1369,26 @@
                 <option value="Artifact">Artifact</option>
                 <option value="Mundane">Mundane</option>
               </select>
-              <select id="attuneFilter" class="p-2 rounded bg-gray-700 text-white">
+              <select
+                id="attuneFilter"
+                class="p-2 rounded bg-gray-700 text-white"
+              >
                 <option value="">Attune</option>
                 <option value="Yes">ต้อง Attune</option>
                 <option value="No">ไม่ต้อง Attune</option>
               </select>
-              <select id="PerDisFilter" class="p-2 rounded bg-gray-700 text-white">
+              <select
+                id="PerDisFilter"
+                class="p-2 rounded bg-gray-700 text-white"
+              >
                 <option value="">ทุกการใช้งาน</option>
                 <option value="ถาวร">ไอเทมถาวร</option>
                 <option value="ใช้แล้วทิ้ง">ไอเทมใช้แล้วทิ้ง</option>
               </select>
-              <select id="typeFilter" class="p-2 rounded bg-gray-700 text-white">
+              <select
+                id="typeFilter"
+                class="p-2 rounded bg-gray-700 text-white"
+              >
                 <option value="">ประเภทไอเทมทั้งหมด</option>
                 <option value="Adventuring Gear">Adventuring Gear</option>
                 <option value="Ammunition">Ammunition</option>
@@ -684,47 +1409,77 @@
                 <option value="Rod">Weapon, Rod</option>
                 <option value="Wand">Weapon, Wand</option>
                 <option value="Wondrous Item">Wondrous Item</option>
-                <option value="Wondrous item (Tattoo)">Wondrous Item, Tattoo</option>
+                <option value="Wondrous item (Tattoo)">
+                  Wondrous Item, Tattoo
+                </option>
               </select>
-              <input type="text" id="searchFilter" placeholder="ค้นหาชื่อไอเทม..." class="p-2 rounded bg-gray-700 text-white" />
+              <input
+                type="text"
+                id="searchFilter"
+                placeholder="ค้นหาชื่อไอเทม..."
+                class="p-2 rounded bg-gray-700 text-white"
+              />
             </div>
 
             <!-- Bulk actions -->
             <div id="bulkActions" class="flex items-center gap-3 mt-3">
-              <label class="inline-flex items-center gap-2 text-sm text-gray-300">
-                <input id="selectAllTop" type="checkbox" class="w-4 h-4 rounded bg-gray-700 border-gray-600">
+              <label
+                class="inline-flex items-center gap-2 text-sm text-gray-300"
+              >
+                <input
+                  id="selectAllTop"
+                  type="checkbox"
+                  class="w-4 h-4 rounded bg-gray-700 border-gray-600"
+                />
                 เลือกทั้งหมด
               </label>
 
-              <button id="copySelectedBtn"
-                      class="bg-fantasy-gold text-black px-3 py-2 rounded font-bold hover:bg-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed"
-                      disabled>
+              <button
+                id="copySelectedBtn"
+                class="bg-fantasy-gold text-black px-3 py-2 rounded font-bold hover:bg-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled
+              >
                 คัดลอกที่เลือกไป Discord
               </button>
 
-              <button id="clearSelectionBtn"
-                class="bg-gray-700 hover:bg-gray-600 px-3 py-2 rounded font-semibold">
+              <button
+                id="clearSelectionBtn"
+                class="bg-gray-700 hover:bg-gray-600 px-3 py-2 rounded font-semibold"
+              >
                 ยกเลิกการเลือกทั้งหมด
               </button>
 
-              <button id="addToCartBtn"
+              <button
+                id="addToCartBtn"
                 class="bg-emerald-500 text-black px-3 py-2 rounded font-bold hover:bg-emerald-400 disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled>
+                disabled
+              >
                 เพิ่มลงตะกร้า
               </button>
 
-              <button class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
-                      data-page="cart">
-                🛒 ตะกร้า <span id="cartBadge" class="ml-1 text-xs bg-fantasy-gold text-black px-2 py-0.5 rounded hidden">0</span>
+              <button
+                class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
+                data-page="cart"
+              >
+                🛒 ตะกร้า
+                <span
+                  id="cartBadge"
+                  class="ml-1 text-xs bg-fantasy-gold text-black px-2 py-0.5 rounded hidden"
+                  >0</span
+                >
               </button>
 
-              <span id="selectedCount" class="text-xs text-gray-400">(0 รายการ)</span>
+              <span id="selectedCount" class="text-xs text-gray-400"
+                >(0 รายการ)</span
+              >
             </div>
 
             <!-- Items List -->
             <div id="itemsList" class="scroll-container">
               <div class="text-center py-8">
-                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-fantasy-gold mx-auto mb-4"></div>
+                <div
+                  class="animate-spin rounded-full h-12 w-12 border-b-2 border-fantasy-gold mx-auto mb-4"
+                ></div>
                 <p class="text-gray-400">กำลังโหลดข้อมูล...</p>
               </div>
             </div>
@@ -734,10 +1489,16 @@
         <!-- Updates Page -->
         <div id="updatesPage" class="page-content hidden">
           <div class="bg-black bg-opacity-50 rounded-xl p-8 backdrop-blur-sm">
-            <h2 class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center">📰 รายการอัพเดทร้านค้า</h2>
+            <h2
+              class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center"
+            >
+              📰 รายการอัพเดทร้านค้า
+            </h2>
             <div id="updatesList" class="scroll-container">
               <div class="text-center py-8">
-                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-fantasy-gold mx-auto mb-4"></div>
+                <div
+                  class="animate-spin rounded-full h-12 w-12 border-b-2 border-fantasy-gold mx-auto mb-4"
+                ></div>
                 <p class="text-gray-400">กำลังโหลดข้อมูล...</p>
               </div>
             </div>
@@ -749,19 +1510,47 @@
     <!-- Footer -->
     <footer class="bg-black bg-opacity-50 border-t border-fantasy-gold mt-12">
       <div class="container mx-auto px-4 py-6 text-center">
-        <p class="text-gray-400 content-font">🏰 The Spire Market - aKittyCat🐈</p>
+        <p class="text-gray-400 content-font">
+          🏰 The Spire Market - aKittyCat🐈
+        </p>
       </div>
     </footer>
 
     <!-- Admin Login Modal -->
-    <div id="adminModal" class="fixed inset-0 bg-black bg-opacity-75 hidden z-50 flex items-center justify-center">
-      <div class="bg-gray-800 rounded-xl p-8 max-w-md w-full mx-4 shadow-2xl border-2 border-fantasy-gold">
-        <h3 class="fantasy-font text-2xl font-bold text-fantasy-gold mb-6 text-center">🔐 Admin Login</h3>
+    <div
+      id="adminModal"
+      class="fixed inset-0 bg-black bg-opacity-75 hidden z-50 flex items-center justify-center"
+    >
+      <div
+        class="bg-gray-800 rounded-xl p-8 max-w-md w-full mx-4 shadow-2xl border-2 border-fantasy-gold"
+      >
+        <h3
+          class="fantasy-font text-2xl font-bold text-fantasy-gold mb-6 text-center"
+        >
+          🔐 Admin Login
+        </h3>
         <form id="adminLoginForm">
-          <input type="password" id="adminPassword" placeholder="รหัสผ่าน Admin" class="w-full p-3 rounded bg-gray-700 text-white mb-4" required />
+          <input
+            type="password"
+            id="adminPassword"
+            placeholder="รหัสผ่าน Admin"
+            class="w-full p-3 rounded bg-gray-700 text-white mb-4"
+            required
+          />
           <div class="flex gap-4">
-            <button type="submit" class="flex-1 bg-fantasy-gold text-black py-2 rounded font-bold hover:bg-yellow-500 transition-colors">เข้าสู่ระบบ</button>
-            <button type="button" id="cancelAdmin" class="flex-1 bg-gray-600 text-white py-2 rounded font-bold hover:bg-gray-700 transition-colors">ยกเลิก</button>
+            <button
+              type="submit"
+              class="flex-1 bg-fantasy-gold text-black py-2 rounded font-bold hover:bg-yellow-500 transition-colors"
+            >
+              เข้าสู่ระบบ
+            </button>
+            <button
+              type="button"
+              id="cancelAdmin"
+              class="flex-1 bg-gray-600 text-white py-2 rounded font-bold hover:bg-gray-700 transition-colors"
+            >
+              ยกเลิก
+            </button>
           </div>
         </form>
       </div>
@@ -770,14 +1559,35 @@
     <!-- Generic Variant Picker Modal -->
     <div id="gvModal" class="fixed inset-0 bg-black/70 hidden z-50">
       <div class="absolute inset-0 flex items-center justify-center p-4">
-        <div class="bg-gray-800 w-full max-w-2xl rounded-xl border-2 border-fantasy-gold shadow-2xl">
-          <div class="px-5 py-4 border-b border-gray-700 flex items-center gap-3">
-            <h3 class="fantasy-font text-xl font-bold text-fantasy-gold" id="gvTitle">เลือกไอเทมตั้งต้น</h3>
-            <input id="gvSearch" type="text" placeholder="พิมพ์ค้นหา..." class="ml-auto p-2 rounded bg-gray-700 text-white w-56">
-            <button id="gvClose" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600">ปิด</button>
+        <div
+          class="bg-gray-800 w-full max-w-2xl rounded-xl border-2 border-fantasy-gold shadow-2xl"
+        >
+          <div
+            class="px-5 py-4 border-b border-gray-700 flex items-center gap-3"
+          >
+            <h3
+              class="fantasy-font text-xl font-bold text-fantasy-gold"
+              id="gvTitle"
+            >
+              เลือกไอเทมตั้งต้น
+            </h3>
+            <input
+              id="gvSearch"
+              type="text"
+              placeholder="พิมพ์ค้นหา..."
+              class="ml-auto p-2 rounded bg-gray-700 text-white w-56"
+            />
+            <button
+              id="gvClose"
+              class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600"
+            >
+              ปิด
+            </button>
           </div>
           <div class="max-h-[60vh] overflow-y-auto" id="gvList"></div>
-          <div class="px-5 py-3 border-t border-gray-700 text-right text-gray-400 text-sm">
+          <div
+            class="px-5 py-3 border-t border-gray-700 text-right text-gray-400 text-sm"
+          >
             * ราคา = ราคา Generic Variant + ราคาไอเทมตั้งต้น
           </div>
         </div>
@@ -787,17 +1597,38 @@
     <!-- Gemstone Picker Modal -->
     <div id="gemModal" class="fixed inset-0 bg-black/70 hidden z-50">
       <div class="absolute inset-0 flex items-center justify-center p-4">
-        <div class="bg-gray-800 w-full max-w-2xl rounded-xl border-2 border-fantasy-gold shadow-2xl">
-          <div class="px-5 py-4 border-b border-gray-700 flex items-center gap-3">
-            <h3 class="fantasy-font text-xl font-bold text-fantasy-gold" id="gemTitle">เลือกอัญมณี</h3>
-            <input id="gemSearch" type="text" placeholder="พิมพ์ค้นหาอัญมณี..." class="ml-auto p-2 rounded bg-gray-700 text-white w-56">
-            <button id="gemClose" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600">ปิด</button>
+        <div
+          class="bg-gray-800 w-full max-w-2xl rounded-xl border-2 border-fantasy-gold shadow-2xl"
+        >
+          <div
+            class="px-5 py-4 border-b border-gray-700 flex items-center gap-3"
+          >
+            <h3
+              class="fantasy-font text-xl font-bold text-fantasy-gold"
+              id="gemTitle"
+            >
+              เลือกอัญมณี
+            </h3>
+            <input
+              id="gemSearch"
+              type="text"
+              placeholder="พิมพ์ค้นหาอัญมณี..."
+              class="ml-auto p-2 rounded bg-gray-700 text-white w-56"
+            />
+            <button
+              id="gemClose"
+              class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600"
+            >
+              ปิด
+            </button>
           </div>
           <div class="px-5 py-2 text-sm text-gray-300">
             ราคา = <span class="text-fantasy-gold">มูลค่าอัญมณี × ตัวคูณ</span>
           </div>
           <div class="max-h-[60vh] overflow-y-auto" id="gemList"></div>
-          <div class="px-5 py-3 border-t border-gray-700 text-right text-gray-400 text-sm">
+          <div
+            class="px-5 py-3 border-t border-gray-700 text-right text-gray-400 text-sm"
+          >
             * ตัวคูณกำหนดโดยกลุ่มราคา (10/50/100/500/1,000/5,000 gp)
           </div>
         </div>
@@ -811,12 +1642,13 @@
     <script src="./cart.js"></script>
     <script>
       // === Configuration ===
-      const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwqFqqB0SNWDls42z9mYMrixFLC8ZevuXvZDwBq8MISUha-mRtC-vFX9B81Gkvrble-/exec";
+      const GOOGLE_SCRIPT_URL =
+        "https://script.google.com/macros/s/AKfycbwqFqqB0SNWDls42z9mYMrixFLC8ZevuXvZDwBq8MISUha-mRtC-vFX9B81Gkvrble-/exec";
 
       // === Browser cache (SWR) ===
       const CACHE = {
-        items: 'spire.items.v1',
-        updates: 'spire.updates.v1',
+        items: "spire.items.v1",
+        updates: "spire.updates.v1",
       };
       const TTL = { items: 60_000, updates: 60_000 }; // 2 * 60_000 : 2 นาที
 
@@ -828,64 +1660,83 @@
           if (!raw) return null;
           const obj = JSON.parse(raw);
           if (!obj || !obj.data || !obj.exp) return null;
-          if (obj.exp < now()) return null;           // หมดอายุ -> ถือว่าไม่มี
+          if (obj.exp < now()) return null; // หมดอายุ -> ถือว่าไม่มี
           return obj.data;
-        } catch { return null; }
+        } catch {
+          return null;
+        }
       }
 
       function writeCache(key, data, ttlMs) {
         try {
-          localStorage.setItem(key, JSON.stringify({ data, exp: now() + ttlMs }));
+          localStorage.setItem(
+            key,
+            JSON.stringify({ data, exp: now() + ttlMs })
+          );
         } catch {}
       }
 
       async function fetchJSON(url, { signal } = {}) {
-        const res = await fetch(url, { signal, cache: 'no-store' });
+        const res = await fetch(url, { signal, cache: "no-store" });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const txt = await res.text();
-        try { return JSON.parse(txt); }
-        catch (e) {
-          console.error('Non-JSON from server:', txt.slice(0,200));
+        try {
+          return JSON.parse(txt);
+        } catch (e) {
+          console.error("Non-JSON from server:", txt.slice(0, 200));
           throw e;
         }
       }
 
       // === Helper: ตัดตัวกลางลิงก์ของ Google ===
-      function unwrapGoogleRedirect(url){
-        if(!url) return "";
-        try{
+      function unwrapGoogleRedirect(url) {
+        if (!url) return "";
+        try {
           const u = new URL(url);
-          if((u.hostname === "www.google.com" || u.hostname === "google.com") && u.pathname === "/url"){
+          if (
+            (u.hostname === "www.google.com" || u.hostname === "google.com") &&
+            u.pathname === "/url"
+          ) {
             const real = u.searchParams.get("q") || u.searchParams.get("url");
             return real || url;
           }
           return url;
-        }catch{ return url; }
+        } catch {
+          return url;
+        }
       }
 
       // === Global state ===
       // ตรวจชนิด (รองรับค่า type อย่าง "Weapon,", "Weapon, Rod", และ "Shield")
-      function isWeapon(it) { return /\bweapon\b/i.test(it.type || "")|| /\bwand\b/i.test(it.type || "")|| /\brod\b/i.test(it.type || ""); }
-      function isArmor(it)  { return /\barmor\b/i.test(it.type || ""); }
+      function isWeapon(it) {
+        return (
+          /\bweapon\b/i.test(it.type || "") ||
+          /\bwand\b/i.test(it.type || "") ||
+          /\brod\b/i.test(it.type || "")
+        );
+      }
+      function isArmor(it) {
+        return /\barmor\b/i.test(it.type || "");
+      }
 
       // ===== Generic Variant state =====
       const gvMap = new Map(); // itemId -> {kind:'weapon'|'armor', id, name, price}
 
       // เป็น Generic Variant ไหม? (type จากข้อมูลในหน้า)
-      function isGenericVariant(it){
+      function isGenericVariant(it) {
         return /\bgeneric variant\b/i.test(it.type || "");
       }
 
       // เดา kind จากชื่อ (ถ้าพิมพ์ว่า Armor/Shield ให้เป็น armor, นอกนั้นเป็น weapon)
-      function guessGVKind(it){
-        const n = (it.name || "");
-        if (/\barmor|shield\b/i.test(n)) return 'armor';
-        return 'weapon';
+      function guessGVKind(it) {
+        const n = it.name || "";
+        if (/\barmor|shield\b/i.test(n)) return "armor";
+        return "weapon";
       }
 
       // ระบุคีย์ variant จากชื่อไอเทม
-      function getVariantKey(item){
-        const raw = String(item?.name || '').trim();
+      function getVariantKey(item) {
+        const raw = String(item?.name || "").trim();
         const lower = raw.toLowerCase();
 
         // 1) จับ +N เช่น "Weapon +2", "Armor+3", "Shield +1"
@@ -897,10 +1748,10 @@
         //    - บีบช่องว่างรอบเครื่องหมาย +
         //    - แทนที่ตัวอื่นด้วย '-'
         const slug = lower
-          .replace(/['’]/g, '')
-          .replace(/\s*\+\s*(\d+)/g, '+$1')
-          .replace(/[^a-z0-9+]+/g, '-')
-          .replace(/^-+|-+$/g, '');
+          .replace(/['’]/g, "")
+          .replace(/\s*\+\s*(\d+)/g, "+$1")
+          .replace(/[^a-z0-9+]+/g, "-")
+          .replace(/^-+|-+$/g, "");
 
         if (window.GV_ALLOWED && window.GV_ALLOWED[slug]) return slug;
 
@@ -908,45 +1759,56 @@
       }
 
       // สร้างชุด base item จาก currentItems (ไม่ยิง GAS)
-      function getBaseCandidatesForVariant(item){
+      function getBaseCandidatesForVariant(item) {
         const key = getVariantKey(item);
-        const all = (currentItems || []).filter(b => !isGenericVariant(b));
+        const all = (currentItems || []).filter((b) => !isGenericVariant(b));
 
         // ถ้ามีรายการอนุญาตตามคีย์ใน GV_ALLOWED → จำกัดเหลือเฉพาะชื่อที่ระบุ
         if (key && window.GV_ALLOWED && window.GV_ALLOWED[key]) {
           const spec = window.GV_ALLOWED[key];
           const allowed = spec.list; // Set(lowercase)
           return all
-            .filter(b => {
+            .filter((b) => {
               // เข้ากลุ่ม weapon/armor ให้ตรง kind ก่อน
-              const isW = /\bweapon\b/i.test(b.type || "") || /\bwand|rod\b/i.test(b.type || "");
+              const isW =
+                /\bweapon\b/i.test(b.type || "") ||
+                /\bwand|rod\b/i.test(b.type || "");
               const isA = /\barmor|shield\b/i.test(b.type || "");
-              if (spec.kind === 'weapon' && !isW) return false;
-              if (spec.kind === 'armor'  && !isA) return false;
+              if (spec.kind === "weapon" && !isW) return false;
+              if (spec.kind === "armor" && !isA) return false;
               // จากนั้นคัดด้วยชื่อที่อนุญาต
               return allowed.has(String(b.name).toLowerCase());
             })
-            .map(b => ({
+            .map((b) => ({
               id: b.id,
               name: b.name,
               price: Number(parsePrice(b.price)) || 0,
-              resultName: typeof spec.makeName === 'function' ? spec.makeName(b.name) : b.name
+              resultName:
+                typeof spec.makeName === "function"
+                  ? spec.makeName(b.name)
+                  : b.name,
             }))
-            .sort((a,b)=> a.name.localeCompare(b.name));
+            .sort((a, b) => a.name.localeCompare(b.name));
         }
 
         // fallback: โหมดกว้างตามประเภท (เหมือนเดิม)
         const kind = guessGVKind(item);
-        const isW = (t) => /\bweapon\b/i.test(t || "") || /\bwand|rod\b/i.test(t || "");
+        const isW = (t) =>
+          /\bweapon\b/i.test(t || "") || /\bwand|rod\b/i.test(t || "");
         const isA = (t) => /\barmor|shield\b/i.test(t || "");
         return all
-          .filter(b => kind === 'weapon' ? isW(b.type) : isA(b.type))
-          .map(b => ({ id:b.id, name:b.name, price:Number(parsePrice(b.price)) || 0, resultName: b.name }))
-          .sort((a,b)=> a.name.localeCompare(b.name));
+          .filter((b) => (kind === "weapon" ? isW(b.type) : isA(b.type)))
+          .map((b) => ({
+            id: b.id,
+            name: b.name,
+            price: Number(parsePrice(b.price)) || 0,
+            resultName: b.name,
+          }))
+          .sort((a, b) => a.name.localeCompare(b.name));
       }
 
       // อ่านสิ่งที่เลือกไว้ของไอเทม Generic Variant (ไว้ใช้ตอนคัดลอก)
-      function getGVAddon(it){
+      function getGVAddon(it) {
         if (!isGenericVariant(it)) return null;
         const s = gvMap.get(it.id);
         return s ? { name: s.name, price: s.price } : null;
@@ -954,8 +1816,12 @@
 
       // ปลอดภัยเวลาแสดงชื่อ
       function escapeHtml(str = "") {
-        return String(str).replaceAll("&","&amp;").replaceAll("<","&lt;")
-          .replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+        return String(str)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
       }
 
       // รายการที่เลือกอยู่ทั้งหมด (คงอยู่แม้กรอง/เรียงใหม่)
@@ -963,24 +1829,24 @@
 
       // UI ของแถบ bulk actions (นับจำนวน & เปิด/ปิดปุ่ม)
       function updateBulkActionsUI() {
-        const txt = document.getElementById('selectedCount');
+        const txt = document.getElementById("selectedCount");
         if (txt) txt.textContent = `(${selectedIds.size} รายการ)`;
-        const btn = document.getElementById('copySelectedBtn');
+        const btn = document.getElementById("copySelectedBtn");
         if (btn) btn.disabled = selectedIds.size === 0;
 
-        const addBtn = document.getElementById('addToCartBtn');
+        const addBtn = document.getElementById("addToCartBtn");
         if (addBtn) addBtn.disabled = selectedIds.size === 0;
       }
 
       function parsePrice(s) {
-        const n = Number(String(s||'').replace(/[^0-9.]/g,''));
+        const n = Number(String(s || "").replace(/[^0-9.]/g, ""));
         return isFinite(n) ? n : 0;
       }
       function fmt(n) {
         return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
-      function formatDiscordItems(items){
-        const lines = items.map(it=>{
+      function formatDiscordItems(items) {
+        const lines = items.map((it) => {
           // ฐานราคาเริ่มจาก price ปกติ
           let basePrice = parsePrice(it.price);
 
@@ -989,26 +1855,32 @@
           if (gem) basePrice = gem.final;
 
           // ถ้ามี Generic Variant base item ก็ + เพิ่มเข้าไปเหมือนเดิม
-          const gv  = getGVAddon ? getGVAddon(it) : null; // โค้ดเดิมของคุณ
-          const tagGV  = gv ? ` [Base: ${gv.name}]` : '';
-          const tagGem = gem ? ` [Gem: ${gem.name} × ${gem.factor.toFixed(2)}]` : '';
+          const gv = getGVAddon ? getGVAddon(it) : null; // โค้ดเดิมของคุณ
+          const tagGV = gv ? ` [Base: ${gv.name}]` : "";
+          const tagGem = gem
+            ? ` [Gem: ${gem.name} × ${gem.factor.toFixed(2)}]`
+            : "";
 
-          const priceTxt = `${fmt(basePrice)} gp` + (gv && gv.price ? ` (+${fmt(gv.price)})` : '');
+          const priceTxt =
+            `${fmt(basePrice)} gp` +
+            (gv && gv.price ? ` (+${fmt(gv.price)})` : "");
 
           return `- ${it.name}${tagGem}${tagGV} | ${priceTxt}`;
         });
 
-        const total = items.reduce((sum,it)=>{
+        const total = items.reduce((sum, it) => {
           let base = parsePrice(it.price);
           const gem = isGemstone(it) ? getGemAddon(it) : null;
           if (gem) base = gem.final;
-          const gv  = getGVAddon ? (getGVAddon(it)?.price || 0) : 0;
+          const gv = getGVAddon ? getGVAddon(it)?.price || 0 : 0;
           return sum + base + gv;
         }, 0);
 
         const header = `# The Spire Market — ใบสั่งซื้อ (${items.length} ชิ้น)`;
         const footer = `— รวม: ${fmt(total)} gp`;
-        return "```md\n" + header + "\n" + lines.join("\n") + "\n" + footer + "\n```";
+        return (
+          "```md\n" + header + "\n" + lines.join("\n") + "\n" + footer + "\n```"
+        );
       }
 
       let currentItems = [];
@@ -1030,62 +1902,75 @@
       });
 
       function setupEventListeners() {
-        document.getElementById('copySelectedBtn').addEventListener('click', async () => {
-          const items = currentItems.filter(it => selectedIds.has(it.id));
-          const text = formatDiscordItems(items);
-          await navigator.clipboard.writeText(text);
-          const btn = document.getElementById('copySelectedBtn');
-          const old = btn.textContent;
-          btn.textContent = 'คัดลอกแล้ว ✓';
-          setTimeout(()=> btn.textContent = old, 1500);
-        });
+        document
+          .getElementById("copySelectedBtn")
+          .addEventListener("click", async () => {
+            const items = currentItems.filter((it) => selectedIds.has(it.id));
+            const text = formatDiscordItems(items);
+            await navigator.clipboard.writeText(text);
+            const btn = document.getElementById("copySelectedBtn");
+            const old = btn.textContent;
+            btn.textContent = "คัดลอกแล้ว ✓";
+            setTimeout(() => (btn.textContent = old), 1500);
+          });
 
-        document.getElementById('addToCartBtn').addEventListener('click', () => {
-          const ids = Array.from(selectedIds);
-          if (!ids.length) return;
+        document
+          .getElementById("addToCartBtn")
+          .addEventListener("click", () => {
+            const ids = Array.from(selectedIds);
+            if (!ids.length) return;
 
-          if (!window.CART || typeof window.CART.addSelected !== 'function') {
-            console.warn('CART API not loaded');
-            alert('ตะกร้ายังไม่พร้อมใช้งาน');
-            return;
-          }
-          window.CART.addSelected(ids);
-        });
+            if (!window.CART || typeof window.CART.addSelected !== "function") {
+              console.warn("CART API not loaded");
+              alert("ตะกร้ายังไม่พร้อมใช้งาน");
+              return;
+            }
+            window.CART.addSelected(ids);
+          });
 
-        document.getElementById('itemsList').addEventListener('click', (e) => {
-          const btn = e.target.closest('.add-cart-btn'); // แก้ selector ให้ตรงปุ่ม
+        document.getElementById("itemsList").addEventListener("click", (e) => {
+          const btn = e.target.closest(".add-cart-btn"); // แก้ selector ให้ตรงปุ่ม
           if (!btn) return;
           e.preventDefault();
           e.stopPropagation(); // กันไม่ให้คลิกไปทริกเกอร์เลือกแถว
 
           const id = btn.dataset.addId;
-          if (window.CART && typeof window.CART.addSelected === 'function') {
+          if (window.CART && typeof window.CART.addSelected === "function") {
             window.CART.addSelected([id]);
           } else {
-            console.warn('CART not ready');
+            console.warn("CART not ready");
           }
         });
 
-        document.getElementById('clearSelectionBtn').addEventListener('click', () => {
-          // ล้างชุดที่เลือกค้างไว้ทั้งหมด
-          selectedIds.clear();
+        document
+          .getElementById("clearSelectionBtn")
+          .addEventListener("click", () => {
+            // ล้างชุดที่เลือกค้างไว้ทั้งหมด
+            selectedIds.clear();
 
-          // ปลดเช็คที่ "เลือกทั้งหมด" ทั้งด้านบนและหัวตาราง
-          const top = document.getElementById('selectAllTop');
-          if (top) top.checked = false;
-          const head = document.querySelector('#itemsList #selectAll');
-          if (head) head.checked = false;
+            // ปลดเช็คที่ "เลือกทั้งหมด" ทั้งด้านบนและหัวตาราง
+            const top = document.getElementById("selectAllTop");
+            if (top) top.checked = false;
+            const head = document.querySelector("#itemsList #selectAll");
+            if (head) head.checked = false;
 
-          // ปลดเช็คทุกแถวที่มองเห็น และลบไฮไลต์
-          document.querySelectorAll('#itemsList .row-select:not(:disabled)').forEach(cb => {
-            cb.checked = false;
-            const row = cb.closest('tr[data-row-index]');
-            if (row) row.classList.remove('ring-1','ring-fantasy-gold','bg-gray-700/40');
+            // ปลดเช็คทุกแถวที่มองเห็น และลบไฮไลต์
+            document
+              .querySelectorAll("#itemsList .row-select:not(:disabled)")
+              .forEach((cb) => {
+                cb.checked = false;
+                const row = cb.closest("tr[data-row-index]");
+                if (row)
+                  row.classList.remove(
+                    "ring-1",
+                    "ring-fantasy-gold",
+                    "bg-gray-700/40"
+                  );
+              });
+
+            // อัปเดตแถบเครื่องมือ (ตัวนับ/ปุ่มคัดลอก)
+            updateBulkActionsUI();
           });
-
-          // อัปเดตแถบเครื่องมือ (ตัวนับ/ปุ่มคัดลอก)
-          updateBulkActionsUI();
-        });
 
         // Navigation
         navButtons.forEach((btn) => {
@@ -1096,24 +1981,48 @@
         adminToggle.addEventListener("click", showAdminLogin);
 
         // Admin login
-        document.getElementById("adminLoginForm").addEventListener("submit", handleAdminLogin);
-        document.getElementById("cancelAdmin").addEventListener("click", hideAdminLogin);
+        document
+          .getElementById("adminLoginForm")
+          .addEventListener("submit", handleAdminLogin);
+        document
+          .getElementById("cancelAdmin")
+          .addEventListener("click", hideAdminLogin);
 
         // Forms
-        document.getElementById("itemForm").addEventListener("submit", handleItemSubmit);
-        document.getElementById("updateForm").addEventListener("submit", handleUpdateSubmit);
+        document
+          .getElementById("itemForm")
+          .addEventListener("submit", handleItemSubmit);
+        document
+          .getElementById("updateForm")
+          .addEventListener("submit", handleUpdateSubmit);
 
         // Cancel edit buttons
-        document.getElementById("itemCancelEdit").addEventListener("click", clearItemForm);
-        document.getElementById("updateCancelEdit").addEventListener("click", clearUpdateForm);  
+        document
+          .getElementById("itemCancelEdit")
+          .addEventListener("click", clearItemForm);
+        document
+          .getElementById("updateCancelEdit")
+          .addEventListener("click", clearUpdateForm);
 
         // Filters
-        document.getElementById("tierFilter").addEventListener("change", filterItems);
-        document.getElementById("rarityFilter").addEventListener("change", filterItems);
-        document.getElementById("attuneFilter").addEventListener("change", filterItems);
-        document.getElementById("PerDisFilter").addEventListener("change", filterItems);
-        document.getElementById("typeFilter").addEventListener("change", filterItems);
-        document.getElementById("searchFilter").addEventListener("input", filterItems);
+        document
+          .getElementById("tierFilter")
+          .addEventListener("change", filterItems);
+        document
+          .getElementById("rarityFilter")
+          .addEventListener("change", filterItems);
+        document
+          .getElementById("attuneFilter")
+          .addEventListener("change", filterItems);
+        document
+          .getElementById("PerDisFilter")
+          .addEventListener("change", filterItems);
+        document
+          .getElementById("typeFilter")
+          .addEventListener("change", filterItems);
+        document
+          .getElementById("searchFilter")
+          .addEventListener("input", filterItems);
 
         // Close modal on outside click
         adminModal.addEventListener("click", (e) => {
@@ -1175,7 +2084,10 @@
         fd.append("password", password);
 
         try {
-          const res = await fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: fd });
+          const res = await fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            body: fd,
+          });
           const data = await res.json();
 
           if (data && data.success && data.token) {
@@ -1188,7 +2100,9 @@
             hideAdminLogin();
 
             // Set today's date as default
-            document.getElementById("updateDate").value = new Date().toISOString().split("T")[0];
+            document.getElementById("updateDate").value = new Date()
+              .toISOString()
+              .split("T")[0];
 
             refreshAdminUI(); // แสดงปุ่มจัดการ
           } else {
@@ -1220,26 +2134,36 @@
       async function loadItems() {
         const cached = readCache(CACHE.items);
         if (cached?.items) {
-          currentItems = cached.items.map(it => ({ ...it, nameLink: unwrapGoogleRedirect(it.nameLink) }));
+          currentItems = cached.items.map((it) => ({
+            ...it,
+            nameLink: unwrapGoogleRedirect(it.nameLink),
+          }));
           displayItems(currentItems);
         }
 
         const controller = new AbortController();
         const to = setTimeout(() => controller.abort(), 10_000);
         try {
-          const fresh = await fetchJSON(`${GOOGLE_SCRIPT_URL}?action=getItems`, { signal: controller.signal });
+          const fresh = await fetchJSON(
+            `${GOOGLE_SCRIPT_URL}?action=getItems`,
+            { signal: controller.signal }
+          );
           clearTimeout(to);
           if (fresh?.items) {
             writeCache(CACHE.items, fresh, TTL.items);
-            currentItems = fresh.items.map(it => ({ ...it, nameLink: unwrapGoogleRedirect(it.nameLink) }));
-            // ป้องกัน re-render 
+            currentItems = fresh.items.map((it) => ({
+              ...it,
+              nameLink: unwrapGoogleRedirect(it.nameLink),
+            }));
+            // ป้องกัน re-render
             displayItems(currentItems);
           }
         } catch (e) {
           if (!cached) {
             console.error("Error loading items:", e);
-            document.getElementById("itemsList").innerHTML =
-              `<div class="text-center py-8 text-red-400">
+            document.getElementById(
+              "itemsList"
+            ).innerHTML = `<div class="text-center py-8 text-red-400">
                 <p>เกิดข้อผิดพลาดในการโหลดข้อมูล</p>
                 <button onclick="loadItems()" class="mt-4 bg-fantasy-gold text-black px-4 py-2 rounded">ลองใหม่</button>
               </div>`;
@@ -1256,7 +2180,10 @@
         const controller = new AbortController();
         const to = setTimeout(() => controller.abort(), 10_000);
         try {
-          const fresh = await fetchJSON(`${GOOGLE_SCRIPT_URL}?action=getUpdates`, { signal: controller.signal });
+          const fresh = await fetchJSON(
+            `${GOOGLE_SCRIPT_URL}?action=getUpdates`,
+            { signal: controller.signal }
+          );
           clearTimeout(to);
           if (fresh?.updates) {
             writeCache(CACHE.updates, fresh, TTL.updates);
@@ -1266,8 +2193,9 @@
         } catch (e) {
           if (!cached) {
             console.error("Error loading updates:", e);
-            document.getElementById("updatesList").innerHTML =
-              `<div class="text-center py-8 text-red-400">
+            document.getElementById(
+              "updatesList"
+            ).innerHTML = `<div class="text-center py-8 text-red-400">
                 <p>เกิดข้อผิดพลาดในการโหลดข้อมูล</p>
                 <button onclick="loadUpdates()" class="mt-4 bg-fantasy-gold text-black px-4 py-2 rounded">ลองใหม่</button>
               </div>`;
@@ -1308,45 +2236,77 @@
                   <th class="px-4 py-3 text-center text-fantasy-gold font-bold">Rarity</th>
                   <th class="px-4 py-3 text-right text-fantasy-gold font-bold">ราคา(GP)</th>
                   <th class="px-4 py-3 text-right text-fantasy-gold font-bold">หนังสือ</th>
-                  ${isAdminMode ? `<th class="px-4 py-3 text-center text-fantasy-gold font-bold">จัดการ</th>` : ``}
+                  ${
+                    isAdminMode
+                      ? `<th class="px-4 py-3 text-center text-fantasy-gold font-bold">จัดการ</th>`
+                      : ``
+                  }
                 </tr>
               </thead>
               <tbody>
-                ${items.map((item, index) => `
+                ${items
+                  .map(
+                    (item, index) => `
                   <tr class="border-t border-gray-700 hover:bg-gray-700 transition-colors cursor-pointer" data-row-index="${index}">
                     <td class="px-4 py-3">
                       <div class="flex items-center gap-2">
                         <button class="add-cart-btn inline-flex items-center justify-center w-6 h-6 rounded bg-yellow-600/40 hover:bg-yellow-600"
                         data-add-id="${item.id}" title="ใส่ตะกร้า">🛒</button>
                         <div class="font-semibold text-white hover:text-fantasy-gold">
-                          ${item.nameLink
-                            ? `<a href="${item.nameLink}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.name)}</a>`
-                            : `${escapeHtml(item.name)}`}
+                          ${
+                            item.nameLink
+                              ? `<a href="${
+                                  item.nameLink
+                                }" target="_blank" rel="noopener noreferrer">${escapeHtml(
+                                  item.name
+                                )}</a>`
+                              : `${escapeHtml(item.name)}`
+                          }
                         </div>
                       </div>
                     </td>
-                    <td class="px-4 py-3 text-gray-300 text-sm whitespace-normal">${escapeHtml(item.type)}</td>
+                    <td class="px-4 py-3 text-gray-300 text-sm whitespace-normal">${escapeHtml(
+                      item.type
+                    )}</td>
                     <td class="px-4 py-3 text-center whitespace-nowrap">
-                      <span class="px-2 py-1 rounded text-xs font-bold ${item.attune === "Yes" ? "bg-green-600 text-white" : "bg-red-600 text-white"}">
+                      <span class="px-2 py-1 rounded text-xs font-bold ${
+                        item.attune === "Yes"
+                          ? "bg-green-600 text-white"
+                          : "bg-red-600 text-white"
+                      }">
                         ${item.attune === "Yes" ? "ใช่" : "ไม่"}
                       </span>
                     </td>
                     <td class="px-4 py-3 text-center whitespace-nowrap">
-                      <span class="px-2 py-1 rounded text-xs font-bold ${item.perdis === "ถาวร" ? "bg-green-600 text-white" : "bg-yellow-600 text-white"}">
+                      <span class="px-2 py-1 rounded text-xs font-bold ${
+                        item.perdis === "ถาวร"
+                          ? "bg-green-600 text-white"
+                          : "bg-yellow-600 text-white"
+                      }">
                         ${item.perdis === "ถาวร" ? "ถาวร" : "ใช้แล้วทิ้ง"}
                       </span>
                     </td>
                     <td class="px-4 py-3 text-center whitespace-nowrap">
-                      <span class="px-2 py-1 rounded text-xs font-bold bg-blue-600 text-white">${escapeHtml(item.tier)}</span>
+                      <span class="px-2 py-1 rounded text-xs font-bold bg-blue-600 text-white">${escapeHtml(
+                        item.tier
+                      )}</span>
                     </td>
                     <td class="px-4 py-3 text-center whitespace-nowrap">
-                      <span class="px-2 py-1 rounded text-xs font-bold rarity-${item.rarity.toLowerCase().replace(" ", "-")}">
+                      <span class="px-2 py-1 rounded text-xs font-bold rarity-${item.rarity
+                        .toLowerCase()
+                        .replace(" ", "-")}">
                         ${escapeHtml(item.rarity)}
                       </span>
                     </td>
-                    <td class="px-4 py-3 text-right font-bold text-white-400 whitespace-nowrap">${escapeHtml(item.price)}</td>
-                    <td class="px-4 py-3 text-right text-sm text-gray-400 break-words">${escapeHtml(item.book)}</td>
-                    ${isAdminMode ? `
+                    <td class="px-4 py-3 text-right font-bold text-white-400 whitespace-nowrap">${escapeHtml(
+                      item.price
+                    )}</td>
+                    <td class="px-4 py-3 text-right text-sm text-gray-400 break-words">${escapeHtml(
+                      item.book
+                    )}</td>
+                    ${
+                      isAdminMode
+                        ? `
                       <td class="px-4 py-3 text-center whitespace-nowrap">
                         <div class="flex items-center justify-center gap-2">
                             <button class="btn-edit-item bg-yellow-500 hover:bg-yellow-600 text-black text-xs px-3 py-1 rounded"
@@ -1354,56 +2314,102 @@
                               แก้ไข
                             </button>
                             <button class="btn-delete-item bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1 rounded"
-                                    data-id="${item.id}" data-name="${escapeHtml(item.name)}">
+                                    data-id="${
+                                      item.id
+                                    }" data-name="${escapeHtml(item.name)}">
                               ลบ
                             </button>
                           </div>
-                      </td>` : ``}
+                      </td>`
+                        : ``
+                    }
                   </tr>
-                  ${(item.description || isGenericVariant(item)) ? `
+                  ${
+                    item.description || isGenericVariant(item)
+                      ? `
                     <tr id="desc-${index}" class="hidden border-t border-gray-600">
-                      <td colspan="${isAdminMode ? 10 : 9}" class="px-4 py-3 bg-gray-800">
-                        ${ (isWeapon(item) || isArmor(item)) ? `
-                        ` : ''}
+                      <td colspan="${
+                        isAdminMode ? 10 : 9
+                      }" class="px-4 py-3 bg-gray-800">
+                        ${
+                          isWeapon(item) || isArmor(item)
+                            ? `
+                        `
+                            : ""
+                        }
 
-                        ${ isGenericVariant(item) ? `
+                        ${
+                          isGenericVariant(item)
+                            ? `
                           <div class="mb-3 flex items-center gap-2">
                             <span class="text-fantasy-gold font-bold">Base Item</span>
                             <button type="button" class="px-3 py-1 rounded bg-fantasy-purple hover:bg-purple-700"
                                     data-gv-pick="${item.id}">
                               เลือกไอเทมตั้งต้น
                             </button>
-                            <span id="gvChip-${item.id}" class="text-xs text-gray-300">
-                              ${ gvMap.get(item.id) ? `${escapeHtml(gvMap.get(item.id).name)} (+${fmt(gvMap.get(item.id).price)} gp)` : '— ยังไม่ได้เลือก —' }
+                            <span id="gvChip-${
+                              item.id
+                            }" class="text-xs text-gray-300">
+                              ${
+                                gvMap.get(item.id)
+                                  ? `${escapeHtml(
+                                      gvMap.get(item.id).name
+                                    )} (+${fmt(gvMap.get(item.id).price)} gp)`
+                                  : "— ยังไม่ได้เลือก —"
+                              }
                             </span>
                           </div>
-                        ` : '' }
+                        `
+                            : ""
+                        }
 
-                        ${ isGemstone(item) ? `
+                        ${
+                          isGemstone(item)
+                            ? `
                           <div class="mb-3 flex items-center gap-2">
                             <span class="text-fantasy-gold font-bold">Gemstone</span>
                             <button type="button" class="px-3 py-1 rounded bg-fantasy-purple hover:bg-purple-700"
                                     data-gem-pick="${item.id}">
                               เลือกอัญมณี
                             </button>
-                            <span id="gemChip-${item.id}" class="text-xs text-gray-300">
-                              ${ gemMap.get(item.id)
-                                  ? `${escapeHtml(gemMap.get(item.id).name)} × ${ (gemMap.get(item.id).factor||1).toFixed(2) } = ${fmt(gemMap.get(item.id).final||0)} gp`
-                                  : '— ยังไม่ได้เลือก —' }
+                            <span id="gemChip-${
+                              item.id
+                            }" class="text-xs text-gray-300">
+                              ${
+                                gemMap.get(item.id)
+                                  ? `${escapeHtml(
+                                      gemMap.get(item.id).name
+                                    )} × ${(
+                                      gemMap.get(item.id).factor || 1
+                                    ).toFixed(2)} = ${fmt(
+                                      gemMap.get(item.id).final || 0
+                                    )} gp`
+                                  : "— ยังไม่ได้เลือก —"
+                              }
                             </span>
                           </div>
-                        ` : '' }
+                        `
+                            : ""
+                        }
 
-                        ${ item.description ? `
+                        ${
+                          item.description
+                            ? `
                           <div class="text-gray-300 text-sm">
                             <strong class="text-fantasy-gold">รายละเอียด:</strong>
                             ${escapeHtml(item.description)}
                           </div>
-                        ` : '' }
+                        `
+                            : ""
+                        }
                       </td>
                     </tr>
-                  ` : '' }
-                `).join("")}
+                  `
+                      : ""
+                  }
+                `
+                  )
+                  .join("")}
               </tbody>
             </table>
           </div>`;
@@ -1411,128 +2417,147 @@
         container.innerHTML = itemsHTML;
 
         // ปุ่มเลือก base item (เฉพาะ Generic Variant)
-        container.querySelectorAll('[data-gv-pick]').forEach(btn=>{
-          btn.addEventListener('click', () => openGVModal(btn.getAttribute('data-gv-pick')));
+        container.querySelectorAll("[data-gv-pick]").forEach((btn) => {
+          btn.addEventListener("click", () =>
+            openGVModal(btn.getAttribute("data-gv-pick"))
+          );
         });
 
         // ปุ่มเลือกอัญมณี (เฉพาะ Gemstone)
-        container.querySelectorAll('[data-gem-pick]').forEach(btn=>{
-          btn.addEventListener('click', () => openGemModal(btn.getAttribute('data-gem-pick')));
+        container.querySelectorAll("[data-gem-pick]").forEach((btn) => {
+          btn.addEventListener("click", () =>
+            openGemModal(btn.getAttribute("data-gem-pick"))
+          );
         });
 
         // === เพิ่มคอลัมน์เลือกทั้งหมดในหัวตาราง (ถ้ายังไม่มี) ===
-        const headerRow = container.querySelector('thead tr');
-        if (headerRow && !container.querySelector('#selectAll')) {
-          const th = document.createElement('th');
-          th.className = 'pl-2 pr-1 py-3 text-left text-fantasy-gold font-bold';
-          th.innerHTML = '<input type="checkbox" id="selectAll" class="w-4 h-4 rounded bg-gray-700 border-gray-600">';
+        const headerRow = container.querySelector("thead tr");
+        if (headerRow && !container.querySelector("#selectAll")) {
+          const th = document.createElement("th");
+          th.className = "pl-2 pr-1 py-3 text-left text-fantasy-gold font-bold";
+          th.innerHTML =
+            '<input type="checkbox" id="selectAll" class="w-4 h-4 rounded bg-gray-700 border-gray-600">';
           headerRow.prepend(th);
         }
 
         // === ใส่เช็คบ็อกซ์ให้แต่ละแถว + sync กับ selectedIds ===
-        const rows = container.querySelectorAll('tbody tr[data-row-index]');
+        const rows = container.querySelectorAll("tbody tr[data-row-index]");
         rows.forEach((row) => {
-          const idx = Number(row.getAttribute('data-row-index'));
+          const idx = Number(row.getAttribute("data-row-index"));
           const item = items[idx];
           if (!item) return;
 
           // สร้างเซลเช็คบ็อกซ์ (ถ้ายังไม่มี)
-          if (!row.querySelector('.row-select')) {
-            const td = document.createElement('td');
-            td.className = 'pl-2 pr-1 py-3 text-left';
-            td.innerHTML = '<input type="checkbox" class="row-select w-4 h-4 rounded bg-gray-700 border-gray-600">';
+          if (!row.querySelector(".row-select")) {
+            const td = document.createElement("td");
+            td.className = "pl-2 pr-1 py-3 text-left";
+            td.innerHTML =
+              '<input type="checkbox" class="row-select w-4 h-4 rounded bg-gray-700 border-gray-600">';
             row.prepend(td);
           }
 
-          const cb = row.querySelector('.row-select');
+          const cb = row.querySelector(".row-select");
           cb.dataset.id = item.id;
           cb.checked = selectedIds.has(item.id);
 
           // ตรวจว่าปิดการเลือกหรือไม่
-          const lockReason = window.SELECT_RULES && window.SELECT_RULES.shouldDisable
-            ? window.SELECT_RULES.shouldDisable(item)
-            : null;
+          const lockReason =
+            window.SELECT_RULES && window.SELECT_RULES.shouldDisable
+              ? window.SELECT_RULES.shouldDisable(item)
+              : null;
 
           if (lockReason) {
             cb.disabled = true;
-            cb.checked  = false;
-            cb.title    = lockReason;
-            selectedIds.delete(item.id);     // กันเผื่อเคยถูกเลือกไว้
-            row.classList.add('opacity-60'); // ทำให้ซีดลงเล็กน้อย
+            cb.checked = false;
+            cb.title = lockReason;
+            selectedIds.delete(item.id); // กันเผื่อเคยถูกเลือกไว้
+            row.classList.add("opacity-60"); // ทำให้ซีดลงเล็กน้อย
           }
 
           // ไฮไลต์แถวที่ถูกเลือก
           function paint(selected) {
-            row.classList.toggle('ring-1', selected);
-            row.classList.toggle('ring-fantasy-gold', selected);
-            row.classList.toggle('bg-gray-700/40', selected);
+            row.classList.toggle("ring-1", selected);
+            row.classList.toggle("ring-fantasy-gold", selected);
+            row.classList.toggle("bg-gray-700/40", selected);
           }
           paint(cb.checked);
 
           // อย่าให้คลิกเช็คบ็อกซ์ไปทริกเกอร์เปิดรายละเอียด
-          cb.addEventListener('click', (e)=> e.stopPropagation());
-          cb.addEventListener('change', (e)=>{
+          cb.addEventListener("click", (e) => e.stopPropagation());
+          cb.addEventListener("change", (e) => {
             const id = e.target.dataset.id;
-            if (e.target.checked) selectedIds.add(id); else selectedIds.delete(id);
+            if (e.target.checked) selectedIds.add(id);
+            else selectedIds.delete(id);
             paint(e.target.checked);
             updateBulkActionsUI();
 
             // sync กับ selectAll บนหัวตาราง
-            const allChecked = Array.from(container.querySelectorAll('.row-select:not(:disabled)')).every(x=> x.checked);
-            const selAll = container.querySelector('#selectAll');
+            const allChecked = Array.from(
+              container.querySelectorAll(".row-select:not(:disabled)")
+            ).every((x) => x.checked);
+            const selAll = container.querySelector("#selectAll");
             if (selAll) selAll.checked = allChecked;
-            const selAllTop = document.getElementById('selectAllTop');
+            const selAllTop = document.getElementById("selectAllTop");
             if (selAllTop) selAllTop.checked = allChecked && rows.length > 0;
           });
         });
 
         // === ทำงานของ "เลือกทั้งหมด" ที่หัวตาราง ===
-        const selectAll = container.querySelector('#selectAll');
+        const selectAll = container.querySelector("#selectAll");
         if (selectAll) {
           // ตั้งค่าเริ่มต้นตามสถานะในแถว
-          selectAll.checked = rows.length > 0 && Array.from(container.querySelectorAll('.row-select:not(:disabled)')).every(x=> x.checked);
+          selectAll.checked =
+            rows.length > 0 &&
+            Array.from(
+              container.querySelectorAll(".row-select:not(:disabled)")
+            ).every((x) => x.checked);
 
-          selectAll.addEventListener('change', (e)=>{
+          selectAll.addEventListener("change", (e) => {
             const want = e.target.checked;
-            container.querySelectorAll('.row-select:not(:disabled)').forEach(cb=>{
-              if (cb.checked !== want) {
-                cb.checked = want;
-                cb.dispatchEvent(new Event('change', {bubbles:false}));
-              }
-            });
-            const selAllTop = document.getElementById('selectAllTop');
+            container
+              .querySelectorAll(".row-select:not(:disabled)")
+              .forEach((cb) => {
+                if (cb.checked !== want) {
+                  cb.checked = want;
+                  cb.dispatchEvent(new Event("change", { bubbles: false }));
+                }
+              });
+            const selAllTop = document.getElementById("selectAllTop");
             if (selAllTop) selAllTop.checked = want && rows.length > 0;
           });
         }
 
         // === เพิ่มคอลสแปนของแถวคำอธิบายให้รองรับคอลัมน์ใหม่ ( +1 ) ===
-        container.querySelectorAll('tr[id^="desc-"] td').forEach(td=>{
-          td.colSpan = (isAdminMode ? 10 : 9); // เดิมคือ 9/8 เพิ่มมาอีก 1 คอลัมน์
+        container.querySelectorAll('tr[id^="desc-"] td').forEach((td) => {
+          td.colSpan = isAdminMode ? 10 : 9; // เดิมคือ 9/8 เพิ่มมาอีก 1 คอลัมน์
         });
 
         // อัปเดตแถบเครื่องมือด้านบนให้ตรงกับสถานะล่าสุด
         updateBulkActionsUI();
 
         // คลิกแถวเพื่อ toggle รายละเอียด
-        container.querySelectorAll('tbody tr[data-row-index]').forEach((row) => {
-          row.addEventListener('click', (e) => {
-            // กันไม่ให้การคลิกพวกปุ่ม/เช็คบ็อกซ์ ไปทริกเกอร์เปิดรายละเอียด
-            if (
-              e.target.closest('.add-cart-btn') ||     // ปุ่มตะกร้า
-              e.target.closest('.row-select')   ||     // checkbox เลือกแถว
-              e.target.closest('[data-gv-pick]')||     // ปุ่มเลือก base item (GV)
-              e.target.closest('[data-gem-pick]')||    // ปุ่มเลือกอัญมณี
-              e.target.closest('.btn-edit-item')       // ปุ่มแก้ไข (แอดมิน)
-            ) return;
+        container
+          .querySelectorAll("tbody tr[data-row-index]")
+          .forEach((row) => {
+            row.addEventListener("click", (e) => {
+              // กันไม่ให้การคลิกพวกปุ่ม/เช็คบ็อกซ์ ไปทริกเกอร์เปิดรายละเอียด
+              if (
+                e.target.closest(".add-cart-btn") || // ปุ่มตะกร้า
+                e.target.closest(".row-select") || // checkbox เลือกแถว
+                e.target.closest("[data-gv-pick]") || // ปุ่มเลือก base item (GV)
+                e.target.closest("[data-gem-pick]") || // ปุ่มเลือกอัญมณี
+                e.target.closest(".btn-edit-item") // ปุ่มแก้ไข (แอดมิน)
+              )
+                return;
 
-            const idx = row.getAttribute('data-row-index');
-            toggleDescription('desc-' + idx);
+              const idx = row.getAttribute("data-row-index");
+              toggleDescription("desc-" + idx);
+            });
           });
-        });
 
         // ปุ่มแก้ไข (หยุด propagation)
-        container.querySelectorAll('.btn-edit-item').forEach((btn) => {
-          btn.addEventListener('click', (e) => {
+        container.querySelectorAll(".btn-edit-item").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
             e.stopPropagation();
             const id = btn.dataset.id;
             startEditItem(id);
@@ -1540,11 +2565,11 @@
         });
 
         // ปุ่มลบ (หยุด propagation)
-        container.querySelectorAll('.btn-delete-item').forEach((btn) => {
-          btn.addEventListener('click', (e) => {
+        container.querySelectorAll(".btn-delete-item").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
             e.stopPropagation();
             const id = btn.dataset.id;
-            const name = btn.dataset.name || '';
+            const name = btn.dataset.name || "";
             deleteItemConfirm(id, name);
           });
         });
@@ -1561,41 +2586,57 @@
           return;
         }
 
-        container.innerHTML = updates.map((update) => `
+        container.innerHTML = updates
+          .map(
+            (update) => `
           <div class="bg-gray-800 rounded-lg p-6 mb-4">
             <div class="flex justify-between items-start mb-4 gap-3">
               <div>
-                <h3 class="text-xl font-bold text-fantasy-gold">${escapeHtml(update.title)}</h3>
-                <span class="text-sm text-gray-400">${formatDate(update.date)}</span>
+                <h3 class="text-xl font-bold text-fantasy-gold">${escapeHtml(
+                  update.title
+                )}</h3>
+                <span class="text-sm text-gray-400">${formatDate(
+                  update.date
+                )}</span>
               </div>
-              ${isAdminMode ? `
+              ${
+                isAdminMode
+                  ? `
                 <div class="flex gap-2">
                   <button class="btn-edit-update bg-yellow-500 hover:bg-yellow-600 text-black text-xs px-3 py-1 rounded"
                           data-id="${update.id}">
                     แก้ไข
                   </button>
                   <button class="btn-delete-update bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1 rounded"
-                          data-id="${update.id}" data-title="${escapeHtml(update.title)}">
+                          data-id="${update.id}" data-title="${escapeHtml(
+                      update.title
+                    )}">
                     ลบ
                   </button>
-                </div>` : ``}
+                </div>`
+                  : ``
+              }
             </div>
-            <div class="text-gray-300 whitespace-pre-line">${escapeHtml(update.content)}</div>
-          </div>`).join("");
+            <div class="text-gray-300 whitespace-pre-line">${escapeHtml(
+              update.content
+            )}</div>
+          </div>`
+          )
+          .join("");
 
         // ปุ่มแก้ไขอัพเดท
-        container.querySelectorAll('.btn-edit-update').forEach((btn) => {
-          btn.addEventListener('click', () => {
+        container.querySelectorAll(".btn-edit-update").forEach((btn) => {
+          btn.addEventListener("click", () => {
             const id = btn.dataset.id;
             startEditUpdate(id);
           });
         });
 
         // ปุ่มลบอัพเดท
-        container.querySelectorAll('.btn-delete-update').forEach((btn) => {
-          btn.addEventListener('click', async () => {
+        container.querySelectorAll(".btn-delete-update").forEach((btn) => {
+          btn.addEventListener("click", async () => {
             const id = btn.dataset.id;
-            const title = btn.dataset.title || '';
+            const title = btn.dataset.title || "";
             deleteUpdateConfirm(id, title);
           });
         });
@@ -1607,7 +2648,9 @@
         const attuneFilter = document.getElementById("attuneFilter").value;
         const PerDisFilter = document.getElementById("PerDisFilter").value;
         const typeFilter = document.getElementById("typeFilter").value;
-        const searchFilter = document.getElementById("searchFilter").value.toLowerCase();
+        const searchFilter = document
+          .getElementById("searchFilter")
+          .value.toLowerCase();
 
         const filteredItems = currentItems.filter((item) => {
           return (
@@ -1629,7 +2672,7 @@
           alert("กรุณาเข้าสู่ระบบแอดมินก่อน");
           return;
         }
-        const item = currentItems.find(it => it.id === id);
+        const item = currentItems.find((it) => it.id === id);
         if (!item) return;
 
         document.getElementById("itemId").value = item.id;
@@ -1642,7 +2685,8 @@
         document.getElementById("itemTier").value = item.tier || "Tier 0";
         document.getElementById("itemRarity").value = item.rarity || "Common";
         document.getElementById("itemBook").value = item.book || "";
-        document.getElementById("itemDescription").value = item.description || "";
+        document.getElementById("itemDescription").value =
+          item.description || "";
 
         document.getElementById("itemEditHint").classList.remove("hidden");
         adminPanel.classList.add("active");
@@ -1660,7 +2704,7 @@
           alert("กรุณาเข้าสู่ระบบแอดมินก่อน");
           return;
         }
-        const up = currentUpdates.find(u => u.id === id);
+        const up = currentUpdates.find((u) => u.id === id);
         if (!up) return;
 
         document.getElementById("updateId").value = up.id;
@@ -1668,7 +2712,9 @@
         // ป้องกันรูปแบบวันที่แปลก ให้ตัดเป็น YYYY-MM-DD ถ้าเป็น ISO
         const d = new Date(up.date);
         if (!isNaN(d.getTime())) {
-          document.getElementById("updateDate").value = d.toISOString().slice(0, 10);
+          document.getElementById("updateDate").value = d
+            .toISOString()
+            .slice(0, 10);
         } else {
           document.getElementById("updateDate").value = up.date || "";
         }
@@ -1684,7 +2730,9 @@
         document.getElementById("updateId").value = "";
         document.getElementById("updateEditHint").classList.add("hidden");
         // ตั้งค่าวันวันนี้กลับให้ช่องวันที่ (คุณใช้บ่อย)
-        document.getElementById("updateDate").value = new Date().toISOString().slice(0,10);
+        document.getElementById("updateDate").value = new Date()
+          .toISOString()
+          .slice(0, 10);
       }
 
       // --- Submit handlers (แนบ token และจัดการโทเค็นหมดอายุ) ---
@@ -1697,11 +2745,17 @@
         }
 
         const formData = new FormData();
-        formData.append("action", document.getElementById("itemId").value ? "updateItem" : "addItem");
+        formData.append(
+          "action",
+          document.getElementById("itemId").value ? "updateItem" : "addItem"
+        );
         formData.append("token", adminToken); // แนบโทเค็นทุกครั้ง
         formData.append("id", document.getElementById("itemId").value);
         formData.append("name", document.getElementById("itemName").value);
-        formData.append("nameLink", document.getElementById("itemNameLink").value);
+        formData.append(
+          "nameLink",
+          document.getElementById("itemNameLink").value
+        );
         formData.append("attune", document.getElementById("itemAttune").value);
         formData.append("perdis", document.getElementById("itemPerDis").value);
         formData.append("type", document.getElementById("itemType").value);
@@ -1709,10 +2763,16 @@
         formData.append("tier", document.getElementById("itemTier").value);
         formData.append("rarity", document.getElementById("itemRarity").value);
         formData.append("book", document.getElementById("itemBook").value);
-        formData.append("description", document.getElementById("itemDescription").value);
+        formData.append(
+          "description",
+          document.getElementById("itemDescription").value
+        );
 
         try {
-          const response = await fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: formData });
+          const response = await fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            body: formData,
+          });
           const result = await response.json();
           if (result.success) {
             alert("บันทึกสำเร็จ!");
@@ -1736,15 +2796,26 @@
         }
 
         const formData = new FormData();
-        formData.append("action", document.getElementById("updateId").value ? "updateUpdate" : "addUpdate");
+        formData.append(
+          "action",
+          document.getElementById("updateId").value
+            ? "updateUpdate"
+            : "addUpdate"
+        );
         formData.append("token", adminToken); // แนบโทเค็นทุกครั้ง
         formData.append("id", document.getElementById("updateId").value);
         formData.append("title", document.getElementById("updateTitle").value);
         formData.append("date", document.getElementById("updateDate").value);
-        formData.append("content", document.getElementById("updateContent").value);
+        formData.append(
+          "content",
+          document.getElementById("updateContent").value
+        );
 
         try {
-          const response = await fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: formData });
+          const response = await fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            body: formData,
+          });
           const result = await response.json();
           if (result.success) {
             alert("บันทึกสำเร็จ!");
@@ -1774,7 +2845,10 @@
         fd.append("id", id);
 
         try {
-          const res = await fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: fd });
+          const res = await fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            body: fd,
+          });
           const data = await res.json();
           if (data.success) {
             alert("ลบไอเทมสำเร็จ");
@@ -1802,7 +2876,10 @@
         fd.append("id", id);
 
         try {
-          const res = await fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: fd });
+          const res = await fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            body: fd,
+          });
           const data = await res.json();
           if (data.success) {
             alert("ลบอัพเดทสำเร็จ");
@@ -1817,8 +2894,12 @@
       }
 
       function handleAuthErrors(result) {
-        const msg = (result && result.error) ? String(result.error) : "ไม่ทราบสาเหตุ";
-        if (msg.includes("TOKEN_INVALID_OR_EXPIRED") || msg.includes("NO_AUTH_TOKEN")) {
+        const msg =
+          result && result.error ? String(result.error) : "ไม่ทราบสาเหตุ";
+        if (
+          msg.includes("TOKEN_INVALID_OR_EXPIRED") ||
+          msg.includes("NO_AUTH_TOKEN")
+        ) {
           alert("เซสชันหมดอายุหรือไม่ได้เข้าสู่ระบบ โปรดล็อกอินใหม่");
           // ออกจากโหมดแอดมิน และขอให้ล็อกอินใหม่
           isAdminMode = false;
@@ -1837,7 +2918,11 @@
 
       function formatDate(dateString) {
         const date = new Date(dateString);
-        return date.toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric" });
+        return date.toLocaleDateString("th-TH", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
       }
     </script>
 
@@ -1846,26 +2931,44 @@
       // Favor (Crafing Cost):
       // Tier 0-1: ใช้แล้วทิ้ง=6, ถาวร=12 | T2: 10/20 | T3: 20/40 | T4: 30/60 | T5: 40/80
       const FAVOR_MAP = {
-        disposable: { // ใช้แล้วทิ้ง
-          "Tier 0": 6, "Tier 1": 6, "Tier 2": 10, "Tier 3": 20, "Tier 4": 30, "Tier 5": 40
+        disposable: {
+          // ใช้แล้วทิ้ง
+          "Tier 0": 6,
+          "Tier 1": 6,
+          "Tier 2": 10,
+          "Tier 3": 20,
+          "Tier 4": 30,
+          "Tier 5": 40,
         },
-        permanent: { // ถาวร
-          "Tier 0": 12, "Tier 1": 12, "Tier 2": 20, "Tier 3": 40, "Tier 4": 60, "Tier 5": 80
-        }
+        permanent: {
+          // ถาวร
+          "Tier 0": 12,
+          "Tier 1": 12,
+          "Tier 2": 20,
+          "Tier 3": 40,
+          "Tier 4": 60,
+          "Tier 5": 80,
+        },
       };
 
       // DC & Checks (Crafting DC Table):
       const DC_MAP = {
         disposable: {
-          "Tier 0": { dc: 12, checks: 1 }, "Tier 1": { dc: 12, checks: 1 },
-          "Tier 2": { dc: 14, checks: 4 }, "Tier 3": { dc: 20, checks: 10 },
-          "Tier 4": { dc: 22, checks: 20 }, "Tier 5": { dc: 25, checks: 30 }
+          "Tier 0": { dc: 12, checks: 1 },
+          "Tier 1": { dc: 12, checks: 1 },
+          "Tier 2": { dc: 14, checks: 4 },
+          "Tier 3": { dc: 20, checks: 10 },
+          "Tier 4": { dc: 22, checks: 20 },
+          "Tier 5": { dc: 25, checks: 30 },
         },
         permanent: {
-          "Tier 0": { dc: 14, checks: 4 }, "Tier 1": { dc: 14, checks: 4 },
-          "Tier 2": { dc: 16, checks: 8 }, "Tier 3": { dc: 22, checks: 20 },
-          "Tier 4": { dc: 26, checks: 40 }, "Tier 5": { dc: 28, checks: 50 }
-        }
+          "Tier 0": { dc: 14, checks: 4 },
+          "Tier 1": { dc: 14, checks: 4 },
+          "Tier 2": { dc: 16, checks: 8 },
+          "Tier 3": { dc: 22, checks: 20 },
+          "Tier 4": { dc: 26, checks: 40 },
+          "Tier 5": { dc: 28, checks: 50 },
+        },
       };
 
       function fmt(n) {
@@ -1874,101 +2977,132 @@
       }
 
       function calcCrafting() {
-        const tier = document.getElementById('craftTier')?.value || "";
-        const type = document.getElementById('craftType')?.value || ""; // "ใช้แล้วทิ้ง" | "ถาวร"
-        const price = parseFloat(document.getElementById('craftPrice')?.value || ""); // ราคาตั้งต้น
+        const tier = document.getElementById("craftTier")?.value || "";
+        const type = document.getElementById("craftType")?.value || ""; // "ใช้แล้วทิ้ง" | "ถาวร"
+        const price = parseFloat(
+          document.getElementById("craftPrice")?.value || ""
+        ); // ราคาตั้งต้น
 
         // แปลงประเภทเป็นคีย์
-        const key = (type === "ใช้แล้วทิ้ง") ? "disposable" : (type === "ถาวร" ? "permanent" : null);
+        const key =
+          type === "ใช้แล้วทิ้ง"
+            ? "disposable"
+            : type === "ถาวร"
+            ? "permanent"
+            : null;
 
-        const outFavor  = document.getElementById('outFavor');
-        const outDC     = document.getElementById('outDC');
-        const outChecks = document.getElementById('outChecks');
-        const outGold   = document.getElementById('outGold');
+        const outFavor = document.getElementById("outFavor");
+        const outDC = document.getElementById("outDC");
+        const outChecks = document.getElementById("outChecks");
+        const outGold = document.getElementById("outGold");
 
         if (!tier || !key) {
           outFavor.textContent = "—";
           outDC.textContent = "—";
           outChecks.textContent = "—";
-          outGold.textContent = price > 0 ? fmt(price/2) + " gp" : "—";
+          outGold.textContent = price > 0 ? fmt(price / 2) + " gp" : "—";
           return;
         }
 
         const favor = FAVOR_MAP[key][tier] ?? null;
         const dcObj = DC_MAP[key][tier] ?? { dc: null, checks: null };
 
-        outFavor.textContent  = fmt(favor);
-        outDC.textContent     = fmt(dcObj.dc);
+        outFavor.textContent = fmt(favor);
+        outDC.textContent = fmt(dcObj.dc);
         outChecks.textContent = fmt(dcObj.checks);
-        outGold.textContent   = price > 0 ? fmt(price/2) + " gp" : "—";
+        outGold.textContent = price > 0 ? fmt(price / 2) + " gp" : "—";
       }
 
       // Hook เข้ากับระบบอีเวนต์เดิม
-      const _origSetup = (typeof setupEventListeners === "function") ? setupEventListeners : null;
-      window.setupEventListeners = function() {
+      const _origSetup =
+        typeof setupEventListeners === "function" ? setupEventListeners : null;
+      window.setupEventListeners = function () {
         if (_origSetup) _origSetup();
 
-        const elTier   = document.getElementById('craftTier');
-        const elType   = document.getElementById('craftType');
-        const elPrice  = document.getElementById('craftPrice');
-        const elReset  = document.getElementById('craftReset');
+        const elTier = document.getElementById("craftTier");
+        const elType = document.getElementById("craftType");
+        const elPrice = document.getElementById("craftPrice");
+        const elReset = document.getElementById("craftReset");
 
-        if (elTier)  elTier.addEventListener('change',  calcCrafting);
-        if (elType)  elType.addEventListener('change',  calcCrafting);
-        if (elPrice) elPrice.addEventListener('input',  calcCrafting);
-        if (elReset) elReset.addEventListener('click', ()=>{
-          if (elTier)  elTier.value = "";
-          if (elType)  elType.value = "";
-          if (elPrice) elPrice.value = "";
-          calcCrafting();
-        });
+        if (elTier) elTier.addEventListener("change", calcCrafting);
+        if (elType) elType.addEventListener("change", calcCrafting);
+        if (elPrice) elPrice.addEventListener("input", calcCrafting);
+        if (elReset)
+          elReset.addEventListener("click", () => {
+            if (elTier) elTier.value = "";
+            if (elType) elType.value = "";
+            if (elPrice) elPrice.value = "";
+            calcCrafting();
+          });
 
         // คำนวณครั้งแรกถ้าองค์ประกอบมีอยู่แล้ว
         calcCrafting();
       };
 
-      function closeGVModal(){ document.getElementById('gvModal')?.classList.add('hidden'); }
+      function closeGVModal() {
+        document.getElementById("gvModal")?.classList.add("hidden");
+      }
 
-      function openGVModal(itemId){
-        const item = (currentItems || []).find(x => String(x.id) === String(itemId));
+      function openGVModal(itemId) {
+        const item = (currentItems || []).find(
+          (x) => String(x.id) === String(itemId)
+        );
         if (!item) return;
 
-        const modal   = document.getElementById('gvModal');
-        const titleEl = document.getElementById('gvTitle');
-        const listEl  = document.getElementById('gvList');
-        const search  = document.getElementById('gvSearch');
+        const modal = document.getElementById("gvModal");
+        const titleEl = document.getElementById("gvTitle");
+        const listEl = document.getElementById("gvList");
+        const search = document.getElementById("gvSearch");
 
         const kind = guessGVKind(item);
-        titleEl.textContent = (kind === 'armor') ? 'เลือกเกราะ/โล่ (Base Item)' : 'เลือกอาวุธ (Base Item)';
+        titleEl.textContent =
+          kind === "armor"
+            ? "เลือกเกราะ/โล่ (Base Item)"
+            : "เลือกอาวุธ (Base Item)";
 
         const baseList = getBaseCandidatesForVariant(item);
 
-        function render(q=''){
+        function render(q = "") {
           const term = q.trim().toLowerCase();
           listEl.innerHTML = baseList
-            .filter(x => !term || String(x.name).toLowerCase().includes(term))
-            .map(x => `
+            .filter((x) => !term || String(x.name).toLowerCase().includes(term))
+            .map(
+              (x) => `
               <div class="flex items-center gap-3 px-4 py-2 border-b border-gray-700/40">
                 <div class="flex-1">
                   <div>${escapeHtml(x.name)}</div>
-                  <div class="text-xs text-gray-400">→ ${escapeHtml(x.resultName)}</div>
+                  <div class="text-xs text-gray-400">→ ${escapeHtml(
+                    x.resultName
+                  )}</div>
                 </div>
-                <div class="w-24 text-right tabular-nums">${fmt(x.price)} gp</div>
+                <div class="w-24 text-right tabular-nums">${fmt(
+                  x.price
+                )} gp</div>
                 <button class="px-2 py-1 rounded bg-fantasy-purple hover:bg-purple-700 text-white"
                         data-pick="${item.id}" data-bid="${x.id}"
-                        data-name="${escapeHtml(x.name)}" data-rname="${escapeHtml(x.resultName)}"
+                        data-name="${escapeHtml(
+                          x.name
+                        )}" data-rname="${escapeHtml(x.resultName)}"
                         data-price="${x.price}">
                   เลือก
                 </button>
               </div>
-            `).join('');
+            `
+            )
+            .join("");
 
-          listEl.querySelectorAll('[data-pick]').forEach(btn=>{
-            btn.addEventListener('click', e=>{
-              const name   = e.currentTarget.dataset.name;
-              const rname  = e.currentTarget.dataset.rname; // ชื่อผลลัพธ์
-              const price  = Number(e.currentTarget.dataset.price)||0;
-              gvMap.set(item.id, { kind, id: e.currentTarget.dataset.bid, name, resultName: rname, price });
+          listEl.querySelectorAll("[data-pick]").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+              const name = e.currentTarget.dataset.name;
+              const rname = e.currentTarget.dataset.rname; // ชื่อผลลัพธ์
+              const price = Number(e.currentTarget.dataset.price) || 0;
+              gvMap.set(item.id, {
+                kind,
+                id: e.currentTarget.dataset.bid,
+                name,
+                resultName: rname,
+                price,
+              });
               const chip = document.getElementById(`gvChip-${item.id}`);
               if (chip) chip.textContent = `${rname} (+${fmt(price)} gp)`;
               closeGVModal();
@@ -1977,71 +3111,93 @@
         }
 
         render();
-        search.value = '';
+        search.value = "";
         search.oninput = () => render(search.value);
-        modal.classList.remove('hidden');
-        document.getElementById('gvClose').onclick = closeGVModal;
-        modal.onclick = (e)=>{ if (e.target === modal) closeGVModal(); };
+        modal.classList.remove("hidden");
+        document.getElementById("gvClose").onclick = closeGVModal;
+        modal.onclick = (e) => {
+          if (e.target === modal) closeGVModal();
+        };
       }
     </script>
 
     <script>
-    // ===== Gemstone Variant state =====
-    const gemMap = new Map(); // itemId -> { name, base, factor, final }
+      // ===== Gemstone Variant state =====
+      const gemMap = new Map(); // itemId -> { name, base, factor, final }
 
-    function isGemstone(it){
-      const t = String(it.type || "").trim().toLowerCase();
-      return t === "gemstone";
-    }
-
-    // ดึง "กลุ่มราคา" 10/50/100/500/1000/5000 จาก item (ดู price ก่อน, ไม่งั้นลองเดาจากชื่อ)
-    function getGemBaseFromItem(item){
-      const priceNum = parsePrice(item?.price);
-      if (priceNum && window.GEM_GROUPS?.[priceNum]) return priceNum;
-
-      const m = String(item?.name || "").match(/(\d[\d,]*)\s*gp/i);
-      if (m){
-        const v = Number(m[1].replace(/,/g,""));
-        if (window.GEM_GROUPS?.[v]) return v;
+      function isGemstone(it) {
+        const t = String(it.type || "")
+          .trim()
+          .toLowerCase();
+        return t === "gemstone";
       }
-      // ถ้าระบุไม่ได้ ให้คืน null (เดี๋ยวตอนเปิด modal จะรวมทุกกลุ่ม)
-      return null;
-    }
 
-    function closeGemModal(){ document.getElementById('gemModal')?.classList.add('hidden'); }
+      // ดึง "กลุ่มราคา" 10/50/100/500/1000/5000 จาก item (ดู price ก่อน, ไม่งั้นลองเดาจากชื่อ)
+      function getGemBaseFromItem(item) {
+        const priceNum = parsePrice(item?.price);
+        if (priceNum && window.GEM_GROUPS?.[priceNum]) return priceNum;
 
-    function openGemModal(itemId){
-      const item = (currentItems || []).find(x => String(x.id) === String(itemId));
-      if (!item) return;
+        const m = String(item?.name || "").match(/(\d[\d,]*)\s*gp/i);
+        if (m) {
+          const v = Number(m[1].replace(/,/g, ""));
+          if (window.GEM_GROUPS?.[v]) return v;
+        }
+        // ถ้าระบุไม่ได้ ให้คืน null (เดี๋ยวตอนเปิด modal จะรวมทุกกลุ่ม)
+        return null;
+      }
 
-      const modal   = document.getElementById('gemModal');
-      const listEl  = document.getElementById('gemList');
-      const search  = document.getElementById('gemSearch');
+      function closeGemModal() {
+        document.getElementById("gemModal")?.classList.add("hidden");
+      }
 
-      const base = getGemBaseFromItem(item);                 // 10, 50, ... หรือ null
-      const groups = window.GEM_GROUPS || {};
-      const rules  = window.GEM_RULES  || {};
+      function openGemModal(itemId) {
+        const item = (currentItems || []).find(
+          (x) => String(x.id) === String(itemId)
+        );
+        if (!item) return;
 
-      // สร้างลิสต์อัญมณี (ถ้ารู้กลุ่ม ก็เอาเฉพาะกลุ่มนั้น; ถ้าไม่รู้รวมทุกกลุ่ม)
-      const rows = [];
-      const keys = base ? [base] : Object.keys(groups).map(Number).sort((a,b)=>a-b);
+        const modal = document.getElementById("gemModal");
+        const listEl = document.getElementById("gemList");
+        const search = document.getElementById("gemSearch");
 
-      keys.forEach(k=>{
-        const factor = rules[k] || 1;
-        const names  = groups[k] || [];
-        names.forEach(name=>{
-          rows.push({ name, base:k, factor, final: Math.round(k*factor) });
+        const base = getGemBaseFromItem(item); // 10, 50, ... หรือ null
+        const groups = window.GEM_GROUPS || {};
+        const rules = window.GEM_RULES || {};
+
+        // สร้างลิสต์อัญมณี (ถ้ารู้กลุ่ม ก็เอาเฉพาะกลุ่มนั้น; ถ้าไม่รู้รวมทุกกลุ่ม)
+        const rows = [];
+        const keys = base
+          ? [base]
+          : Object.keys(groups)
+              .map(Number)
+              .sort((a, b) => a - b);
+
+        keys.forEach((k) => {
+          const factor = rules[k] || 1;
+          const names = groups[k] || [];
+          names.forEach((name) => {
+            rows.push({ name, base: k, factor, final: Math.round(k * factor) });
+          });
         });
-      });
 
-      function render(q=''){
-        const term = q.trim().toLowerCase();
-        const data = rows.filter(x => !term || x.name.toLowerCase().includes(term));
-        listEl.innerHTML = data.map(x => `
+        function render(q = "") {
+          const term = q.trim().toLowerCase();
+          const data = rows.filter(
+            (x) => !term || x.name.toLowerCase().includes(term)
+          );
+          listEl.innerHTML = data
+            .map(
+              (x) => `
           <div class="flex items-center gap-3 px-4 py-2 border-b border-gray-700/40">
             <div class="flex-1">
               <div>${escapeHtml(x.name)}</div>
-              <div class="text-xs text-gray-400">→ ${x.base} gp × ${x.factor.toFixed(2)} = <span class="text-fantasy-gold">${fmt(x.final)} gp</span></div>
+              <div class="text-xs text-gray-400">→ ${
+                x.base
+              } gp × ${x.factor.toFixed(
+                2
+              )} = <span class="text-fantasy-gold">${fmt(
+                x.final
+              )} gp</span></div>
             </div>
             <button class="px-2 py-1 rounded bg-fantasy-purple hover:bg-purple-700 text-white"
                     data-pick="${item.id}"
@@ -2052,48 +3208,55 @@
               เลือก
             </button>
           </div>
-        `).join('');
+        `
+            )
+            .join("");
 
-        listEl.querySelectorAll('[data-pick]').forEach(btn=>{
-          btn.addEventListener('click', e=>{
-            const el = e.currentTarget;
-            const sel = {
-              name:  el.dataset.name,
-              base:  Number(el.dataset.base)||0,
-              factor:Number(el.dataset.factor)||1,
-              final: Number(el.dataset.final)||0,
-            };
-            gemMap.set(item.id, sel);
-            const chip = document.getElementById(`gemChip-${item.id}`);
-            if (chip) chip.textContent = `${sel.name} × ${sel.factor.toFixed(2)} = ${fmt(sel.final)} gp`;
-            closeGemModal();
+          listEl.querySelectorAll("[data-pick]").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+              const el = e.currentTarget;
+              const sel = {
+                name: el.dataset.name,
+                base: Number(el.dataset.base) || 0,
+                factor: Number(el.dataset.factor) || 1,
+                final: Number(el.dataset.final) || 0,
+              };
+              gemMap.set(item.id, sel);
+              const chip = document.getElementById(`gemChip-${item.id}`);
+              if (chip)
+                chip.textContent = `${sel.name} × ${sel.factor.toFixed(
+                  2
+                )} = ${fmt(sel.final)} gp`;
+              closeGemModal();
+            });
           });
-        });
+        }
+
+        render();
+        search.value = "";
+        search.oninput = () => render(search.value);
+
+        modal.classList.remove("hidden");
+        document.getElementById("gemClose").onclick = closeGemModal;
+        modal.onclick = (e) => {
+          if (e.target === modal) closeGemModal();
+        };
       }
 
-      render();
-      search.value = '';
-      search.oninput = () => render(search.value);
-
-      modal.classList.remove('hidden');
-      document.getElementById('gemClose').onclick = closeGemModal;
-      modal.onclick = (e)=>{ if (e.target === modal) closeGemModal(); };
-    }
-
-    // helper สำหรับรวมราคาไป Discord
-    function getGemAddon(it){
-      const sel = gemMap.get(it.id);
-      if (!sel) return null;
-      return { name: sel.name, factor: sel.factor, final: sel.final };
-    }
+      // helper สำหรับรวมราคาไป Discord
+      function getGemAddon(it) {
+        const sel = gemMap.get(it.id);
+        if (!sel) return null;
+        return { name: sel.name, factor: sel.factor, final: sel.final };
+      }
     </script>
 
     <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js');
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./sw.js");
       }
-      document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible') loadData();
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") loadData();
       });
     </script>
 
@@ -2120,12 +3283,14 @@
           a.style.visibility = "hidden";
           document.body.appendChild(a);
           if ("loading" !== document.readyState) c();
-          else if (window.addEventListener) document.addEventListener("DOMContentLoaded", c);
+          else if (window.addEventListener)
+            document.addEventListener("DOMContentLoaded", c);
           else {
             var e = document.onreadystatechange || function () {};
             document.onreadystatechange = function (b) {
               e(b);
-              "loading" !== document.readyState && ((document.onreadystatechange = e), c());
+              "loading" !== document.readyState &&
+                ((document.onreadystatechange = e), c());
             };
           }
         }
