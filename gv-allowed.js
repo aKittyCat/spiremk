@@ -17,6 +17,11 @@
     "Twinshot Hand Crossbow","War Pick","Warhammer","Whip","Yklwa"
   ];
 
+  const ARMBLADE_BASES = [
+    "Battleaxe","Cleaver","Club","Dagger","Flail","Handaxe","Hooked Shortspear","Javelin","Lance","Light Hammer",
+    "Mace","Morningstar","Quarterstaff","Rapier","Scimitar","Shears","Shortsword","Sickle","Spear","Trident","War Pick","Warhammer","Whip","Yklwa"
+  ];
+
   const BLOODEDSHED_BLADE_BASES = [
     "Double-Bladed Scimitar","Greatsword","Longsword","Rapier","Scimitar","Shortsword"
   ];
@@ -35,6 +40,22 @@
 
   const GLIMMERLING_MOONBOW_BASES = [
     "Longbow","Shortbow"
+  ];
+
+  const JO_CATIAN_DENIER_BASES = [
+    "Longsword","Scimitar","Shortsword"
+  ];
+
+  const ORB_OF_SHIELDING_BASES = [
+    "Crystal","Orb"
+  ];
+
+  const SABER_OF_UNITY_BASES = [
+    "Rapier","Scimitar"
+  ];
+
+  const STARCROSSED_BOW_BASES = [
+    "Hand Crossbow","Heavy Crossbow","Light Crossbow","Light Repeating Crossbow","Longbow","Shortbow"
   ];
 
   const STARSHOT_CROSSBOW_BASES = [
@@ -94,35 +115,55 @@
     "shield+3":           { kind: "shield",   list: makeSet(SHIELD_BASES),            makeName: (base)=> `${base} +3` },
     "adamantine-weapon":  { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Adamantine ${base}` },
     "adamantine-armor":   { kind: "armor",   list: makeSet(ARMOR_BASES),           makeName: (base)=> `Adamantine ${base}` },
+    "acheron-blade":  { kind: "weapon",  list: makeSet(BLOODEDSHED_BLADE_BASES), makeName: (base)=> `Acheron Blade ${base}` },
+    "armblade":        { kind: "weapon",  list: makeSet(ARMBLADE_BASES),          makeName: (base)=> `${base} Armblade` },
     "armor-of-fungal-spores": { kind: "armor",   list: makeSet(ARMOR_OF_FUNGAL_SPORES_BASES), makeName: (base)=> `${base} of Fungal Spores` },
     "armor-of-the-fallen": { kind: "armor",   list: makeSet(ARMOR_OF_THE_FALLEN_BASES), makeName: (base)=> `${base} of the Fallen` },
     "armor-of-resistance": { kind: "armor",   list: makeSet(ARMOR_BASES),           makeName: (base)=> `${base} of Resistance(อย่าลืมระบุกันธาตุ)` },
     "armor-of-safeguarding": { kind: "armor",   list: makeSet(ARMOR_OF_SAFEGUARDING_BASES), makeName: (base)=> `${base} of Safeguarding` },
     "armor-of-weightlessness": { kind: "armor",   list: makeSet(ARMOR_BASES),           makeName: (base)=> `${base} of Weightlessness` },
     "armor-of-vulnerability": { kind: "armor",   list: makeSet(ARMOR_OF_VULNARABILITY_BASES), makeName: (base)=> `${base} of Vulnerability(อย่าลืมระบุประเภท)` },
+    "blade-of-the-medusa": { kind: "weapon",  list: makeSet(BLOODEDSHED_BLADE_BASES), makeName: (base)=> `${base} of the Medusa` },
+    "blade-of-the-wood": { kind: "weapon",  list: makeSet(BLOODEDSHED_BLADE_BASES), makeName: (base)=> `${base} of the Wood` },
     "bloodshed-blade":   { kind: "weapon",  list: makeSet(BLOODEDSHED_BLADE_BASES), makeName: (base)=> `Bloodshed ${base}` },
     "bow-of-conflagration": { kind: "weapon",  list: makeSet(GLIMMERLING_MOONBOW_BASES), makeName: (base)=> `${base} of Conflagration` },
     "bow-of-melodies": { kind: "weapon",  list: makeSet(GLIMMERLING_MOONBOW_BASES), makeName: (base)=> `${base} of Melodies` },
     "clockwork-armor": { kind: "armor",   list: makeSet(ARMOR_OF_SAFEGUARDING_BASES),  makeName: (base)=> `Clockwork ${base}` },
+    "corpse-slayer":      { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Corpse Slayer ${base}` },
+    "crystal-blade":     { kind: "weapon",  list: makeSet(BLOODEDSHED_BLADE_BASES),          makeName: (base)=> `Crystal ${base}` },
     "dancing-sword":     { kind: "weapon",  list: makeSet(BLOODEDSHED_BLADE_BASES),          makeName: (base)=> `Dancing ${base}` },
     "demonbone-polearm": { kind: "weapon",  list: makeSet(DEMONBONE_POLEARM_BASES), makeName: (base)=> `Demonbone ${base}` },
     "demon-skin":       { kind: "armor",   list: makeSet(ARMOR_OF_SAFEGUARDING_BASES),           makeName: (base)=> `Demon Skin ${base}` },
     "delerium-forged-blade": { kind: "weapon",  list: makeSet(BLOODEDSHED_BLADE_BASES), makeName: (base)=> `Delerium-Forged Blade ${base}` },
     "dragon-slayer":     { kind: "weapon",  list: makeSet(BLOODEDSHED_BLADE_BASES),          makeName: (base)=> `Dragon Slayer ${base}` },
+    "dragon-wing-bow": { kind: "weapon",  list: makeSet(GLIMMERLING_MOONBOW_BASES), makeName: (base)=> `Dragon Wing ${base}` },
+    "sagittarian-vestments": { kind: "armor",   list: makeSet(ARMOR_BASES),           makeName: (base)=> `Sagittarian ${base}` },
+    "slumbering-dragons-wrath-weapon": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Slumbering Dragon Wrath ${base}` },
+    "stirring-dragons-wrath-weapon": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Stirring Dragon Wrath ${base}` },
     "flame-tongue":     { kind: "weapon",  list: makeSet(BLOODEDSHED_BLADE_BASES),          makeName: (base)=> `Flame Tongue ${base}` },
-    "fool's-blade":     { kind: "weapon",  list: makeSet(BLOODEDSHED_BLADE_BASES),          makeName: (base)=> `Fool's ${base}` },
+    "fools-blade":     { kind: "weapon",  list: makeSet(BLOODEDSHED_BLADE_BASES),          makeName: (base)=> `Fool's ${base}` },
     "forcebreaker-weapon": { kind: "weapon",  list: makeSet(FORCEBREAKER_WEAPON_BASES), makeName: (base)=> `Forcebreaker ${base}` },
     "frost-brand":      { kind: "weapon",  list: makeSet(BLOODEDSHED_BLADE_BASES),          makeName: (base)=> `Frost Brand ${base}` },
     "giant-slayer":    { kind: "weapon",  list: makeSet(GIANT_SLAYER_BASES),          makeName: (base)=> `Giant Slayer ${base}` },
     "glimmerling-moonbow": { kind: "weapon",  list: makeSet(GLIMMERLING_MOONBOW_BASES), makeName: (base)=> `Glimmerling Moon ${base}` },
     "hellfire-weapon":  { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Hellfire ${base}` },
-    "mariner's-armor":  { kind: "armor",   list: makeSet(ARMOR_BASES),           makeName: (base)=> `Mariner's ${base}` },
+    "jocatian-denier":  { kind: "weapon",  list: makeSet(JO_CATIAN_DENIER_BASES), makeName: (base)=> `Jo'Catian Denier ${base}` },
+    "last-stand-armor": { kind: "armor",   list: makeSet(ARMOR_BASES),           makeName: (base)=> `Last Stand ${base}` },
+    "living-armor":   { kind: "armor",   list: makeSet(ARMOR_BASES),           makeName: (base)=> `Living ${base}` },
+    "lycan-weapon":      { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Lycan ${base}` },
+    "mariners-armor":  { kind: "armor",   list: makeSet(ARMOR_BASES),           makeName: (base)=> `Mariner's ${base}` },
     "mithral-armor":    { kind: "armor",   list: makeSet(MITHRAL_ARMOR_BASES),    makeName: (base)=> `Mithral ${base}` },
+    "mizzium-armor":    { kind: "armor",   list: makeSet(MITHRAL_ARMOR_BASES),           makeName: (base)=> `Mizzium ${base}` },
+    "molten-bronze-skin": { kind: "armor",   list: makeSet(ARMOR_BASES),           makeName: (base)=> `Molten Bronze Skin (${base})` },
     "nine-lives-stealer": { kind: "weapon",  list: makeSet(BLOODEDSHED_BLADE_BASES), makeName: (base)=> `Nine Lives Stealer ${base}` },
     "oceanic-weapon":   { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Oceanic ${base}` },
+    "orb-of-shielding": { kind: "spellcasting-focus",  list: makeSet(ORB_OF_SHIELDING_BASES), makeName: (base)=> `Orb of Shielding: Base items:${base}(อย่าลืมระบุประเภท)` },
+    "red-feather-bow": { kind: "weapon",  list: makeSet(GLIMMERLING_MOONBOW_BASES), makeName: (base)=> `Red-Feather ${base}` },
     "ruidium-armor":    { kind: "armor",   list: makeSet(MITHRAL_ARMOR_BASES),           makeName: (base)=> `Ruidium ${base}` },
     "ruidium-weapon":   { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Ruidium ${base}` },
+    "saber-of-unity":  { kind: "weapon",  list: makeSet(SABER_OF_UNITY_BASES),  makeName: (base)=> `Saber of Unity ${base}` },
     "smoldering-armor": { kind: "armor",   list: makeSet(ARMOR_BASES),           makeName: (base)=> `Smoldering ${base}` },
+    "starcrossed-bow":  { kind: "weapon",  list: makeSet(STARCROSSED_BOW_BASES),  makeName: (base)=> `Starcrossed ${base}` },
     "starshot-crossbow": { kind: "weapon",  list: makeSet(STARSHOT_CROSSBOW_BASES), makeName: (base)=> `Starshot ${base}` },
     "silvered-weapon":   { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Silvered ${base}` },
     "sword-of-life-stealing": { kind: "weapon",  list: makeSet(BLOODEDSHED_BLADE_BASES), makeName: (base)=> `${base} of Life Stealing` },
@@ -132,7 +173,7 @@
     "vicious-weapon":    { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Vicious ${base}` },
     "vicious-weapon+1": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Vicious ${base} +1` },
     "weapon-of-certain-death": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `${base} of Certain Death` },
-    "weapon-of-throne's-command": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `${base} of Throne's Command` },
+    "weapon-of-thrones-command": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `${base} of Throne's Command` },
     "weapon-of-warning": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `${base} of Warning` },
     "zephyr-armor":     { kind: "armor",   list: makeSet(ZEPHYR_ARMOR_BASES),     makeName: (base)=> `Zephyr ${base}` },
     // เพิ่มคีย์ใหม่ ๆ ได้ตามต้องการ เช่น:
