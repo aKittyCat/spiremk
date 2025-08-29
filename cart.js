@@ -103,7 +103,7 @@
       lines.push(`- ${e.name}${opt} | ${unit} × ${e.qty} — รวม: ${sum}`);
     });
 
-    const header = `# The Spire Market — ใบสั่งซื้อ (${countItems()} ชิ้น)`;
+    const header = `ตัวละคร:\n# The Spire Market\nสั่งซื้อ (${countItems()} ชิ้น)`;
     const total  = `รวมทั้งสิ้น: ${fmt(totalGp())} gp`;
     return "```md\n" + header + "\n" + lines.join("\n") + "\n— " + total + "\n```";
   }
