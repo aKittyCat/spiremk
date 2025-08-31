@@ -2145,6 +2145,8 @@
             nameLink: unwrapGoogleRedirect(it.nameLink),
           }));
           displayItems(currentItems);
+          restoreFilters();
+          filterItems();
         }
 
         const controller = new AbortController();
@@ -2163,6 +2165,8 @@
             }));
             // ป้องกัน re-render
             displayItems(currentItems);
+            restoreFilters();
+            filterItems();
           }
         } catch (e) {
           if (!cached) {
@@ -2675,6 +2679,7 @@
         });
 
         displayItems(filteredItems);
+        saveFilters();
       }
 
       // ===== Edit flows =====
@@ -2934,6 +2939,50 @@
           month: "long",
           day: "numeric",
         });
+      }
+    </script>
+
+    <script>
+      // --- Remember Filters (very small) ---
+      const FILTER_KEY = 'tsm.filters.v1';
+
+      function _els() {
+        return {
+          tier:   document.getElementById('tierFilter'),
+          rarity: document.getElementById('rarityFilter'),
+          attune: document.getElementById('attuneFilter'),
+          perdis: document.getElementById('PerDisFilter'),
+          type:   document.getElementById('typeFilter'),
+          q:      document.getElementById('searchFilter'),
+        };
+      }
+
+      function saveFilters() {
+        const e = _els();
+        const state = {
+          tier:   e.tier?.value || '',
+          rarity: e.rarity?.value || '',
+          attune: e.attune?.value || '',
+          perdis: e.perdis?.value || '',
+          type:   e.type?.value || '',
+          q:      e.q?.value || '',
+        };
+        localStorage.setItem(FILTER_KEY, JSON.stringify(state));
+      }
+
+      function restoreFilters() {
+        try {
+          const raw = localStorage.getItem(FILTER_KEY);
+          if (!raw) return;
+          const s = JSON.parse(raw);
+          const e = _els();
+          if (e.tier)   e.tier.value   = s.tier   ?? '';
+          if (e.rarity) e.rarity.value = s.rarity ?? '';
+          if (e.attune) e.attune.value = s.attune ?? '';
+          if (e.perdis) e.perdis.value = s.perdis ?? '';
+          if (e.type)   e.type.value   = s.type   ?? '';
+          if (e.q)      e.q.value      = s.q      ?? '';
+        } catch {}
       }
     </script>
 
@@ -3266,12 +3315,16 @@
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("./sw.js");
       }
-      document.addEventListener("visibilitychange", () => {
-        if (document.visibilityState === "visible") loadData();
+      document.addEventListener('visibilitychange', async () => {
+        if (document.visibilityState !== 'visible') return;
+        saveFilters();
+        await loadData();       // โหลด items+updates ปัจจุบันใช้ฟังก์ชันนี้อยู่แล้ว :contentReference[oaicite:4]{index=4}
+        restoreFilters();
+        filterItems();
       });
     </script>
 
-    <!-- Cloudflare (คงไว้ตามไฟล์เดิม) -->
+    <!-- Cloudflare -->
     <script>
       (function () {
         function c() {
