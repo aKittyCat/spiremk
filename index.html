@@ -1627,14 +1627,18 @@
               ปิด
             </button>
           </div>
-          <div class="px-5 py-2 text-sm text-gray-300">
-            ราคา = <span class="text-fantasy-gold">มูลค่าอัญมณี × ตัวคูณ</span>
+          <div class="px-5 py-2 text-sm text-gray-300 flex items-center gap-2">
+            มูลค่า (worth):
+            <input id="gemWorth" type="text"
+                  value="100"
+                  class="w-28 text-right bg-gray-700 text-white rounded px-2 py-1" />
+            gp × ตัวคูณของหมวด
           </div>
           <div class="max-h-[60vh] overflow-y-auto" id="gemList"></div>
           <div
-            class="px-5 py-3 border-t border-gray-700 text-right text-gray-400 text-sm"
+            class="px-5 py-3 border-t border-gray-700 text-right text-red-400 text-sm"
           >
-            * ตัวคูณกำหนดโดยกลุ่มราคา (10/50/100/500/1,000/5,000 gp)
+            *ใส่แค่ตัวเลข
           </div>
         </div>
       </div>
@@ -1864,7 +1868,7 @@
           const gv = getGVAddon ? getGVAddon(it) : null; // โค้ดเดิมของคุณ
           const tagGV = gv ? ` [Base: ${gv.name}]` : "";
           const tagGem = gem
-            ? ` [Gem: ${gem.name} × ${gem.factor.toFixed(2)}]`
+            ? ` [${gem.name} ${fmt(gem.worth)} gp worth × ${gem.factor.toFixed(2)}] = ${fmt(gem.final)} gp`
             : "";
 
           const priceTxt =
@@ -3211,85 +3215,83 @@
       }
 
       function openGemModal(itemId) {
-        const item = (currentItems || []).find(
-          (x) => String(x.id) === String(itemId)
-        );
+        const item = (currentItems || []).find(x => String(x.id) === String(itemId));
         if (!item) return;
 
-        const modal = document.getElementById("gemModal");
+        const modal  = document.getElementById("gemModal");
         const listEl = document.getElementById("gemList");
         const search = document.getElementById("gemSearch");
 
-        const base = getGemBaseFromItem(item); // 10, 50, ... หรือ null
+        const base   = getGemBaseFromItem(item);            // 10/50/100/500/1000/5000 หรือ null
         const groups = window.GEM_GROUPS || {};
-        const rules = window.GEM_RULES || {};
+        const rules  = window.GEM_RULES  || {};
 
-        // สร้างลิสต์อัญมณี (ถ้ารู้กลุ่ม ก็เอาเฉพาะกลุ่มนั้น; ถ้าไม่รู้รวมทุกกลุ่ม)
+        // เตรียมรายการอัญมณี (ใช้ตัวคูณจากกลุ่ม)
         const rows = [];
-        const keys = base
-          ? [base]
-          : Object.keys(groups)
-              .map(Number)
-              .sort((a, b) => a - b);
-
-        keys.forEach((k) => {
+        const keys = base ? [base] : Object.keys(groups).map(Number).sort((a,b)=>a-b);
+        keys.forEach(k => {
           const factor = rules[k] || 1;
-          const names = groups[k] || [];
-          names.forEach((name) => {
-            rows.push({ name, base: k, factor, final: Math.round(k * factor) });
+          (groups[k] || []).forEach(name => {
+            rows.push({ name, base: k, factor }); // ไม่คำนวณ final ที่นี่แล้ว
           });
         });
 
-        function render(q = "") {
-          const term = q.trim().toLowerCase();
-          const data = rows.filter(
-            (x) => !term || x.name.toLowerCase().includes(term)
-          );
-          listEl.innerHTML = data
-            .map(
-              (x) => `
-          <div class="flex items-center gap-3 px-4 py-2 border-b border-gray-700/40">
-            <div class="flex-1">
-              <div>${escapeHtml(x.name)}</div>
-              <div class="text-xs text-gray-400">→ ${
-                x.base
-              } gp × ${x.factor.toFixed(
-                2
-              )} = <span class="text-fantasy-gold">${fmt(
-                x.final
-              )} gp</span></div>
-            </div>
-            <button class="px-2 py-1 rounded bg-fantasy-purple hover:bg-purple-700 text-white"
-                    data-pick="${item.id}"
-                    data-name="${escapeHtml(x.name)}"
-                    data-base="${x.base}"
-                    data-factor="${x.factor}"
-                    data-final="${x.final}">
-              เลือก
-            </button>
-          </div>
-        `
-            )
-            .join("");
+        function currentWorth() {
+          const inp = document.getElementById("gemWorth");
+          return Math.max(0, Number(inp?.value) || 0);
+        }
 
-          listEl.querySelectorAll("[data-pick]").forEach((btn) => {
+        function render(q = "") {
+          const worth = currentWorth();
+          const term  = q.trim().toLowerCase();
+          const data  = rows.filter(x => !term || x.name.toLowerCase().includes(term));
+
+          listEl.innerHTML = data.map(x => `
+            <div class="flex items-center gap-3 px-4 py-2 border-b border-gray-700/40">
+              <div class="flex-1">
+                <div>${escapeHtml(x.name)}</div>
+                <div class="text-xs text-gray-400">
+                  → ${fmt(worth)} gp × ${x.factor.toFixed(2)}
+                  = <span class="text-fantasy-gold">${fmt(Math.round(worth * x.factor))} gp</span>
+                </div>
+              </div>
+              <button class="px-2 py-1 rounded bg-fantasy-purple hover:bg-purple-700 text-white"
+                      data-pick="${item.id}"
+                      data-name="${escapeHtml(x.name)}"
+                      data-base="${x.base}"
+                      data-factor="${x.factor}"
+                      data-worth="${worth}"
+                      data-final="${Math.round(worth * x.factor)}">
+                เลือก
+              </button>
+            </div>
+          `).join("");
+
+          // เมื่อกด "เลือก" ให้จด choice ไว้ใน gemMap แล้วอัปเดตชิปบนแถวไอเทม
+          listEl.querySelectorAll("[data-pick]").forEach(btn => {
             btn.addEventListener("click", (e) => {
               const el = e.currentTarget;
               const sel = {
-                name: el.dataset.name,
-                base: Number(el.dataset.base) || 0,
+                name:   el.dataset.name,
+                base:   Number(el.dataset.base)   || 0,
                 factor: Number(el.dataset.factor) || 1,
-                final: Number(el.dataset.final) || 0,
+                worth:  Number(el.dataset.worth)  || 0,
+                final:  Number(el.dataset.final)  || 0
               };
               gemMap.set(item.id, sel);
               const chip = document.getElementById(`gemChip-${item.id}`);
-              if (chip)
-                chip.textContent = `${sel.name} × ${sel.factor.toFixed(
-                  2
-                )} = ${fmt(sel.final)} gp`;
+              if (chip) chip.textContent =
+                `${sel.name}:${fmt(sel.worth)} × ${sel.factor.toFixed(2)} = ${fmt(sel.final)} gp`;
               closeGemModal();
             });
           });
+        }
+
+        // bind worth + search
+        const worthInput = document.getElementById("gemWorth");
+        if (worthInput) {
+          if (!worthInput.value) worthInput.value = "100";
+          worthInput.oninput = () => render(search.value);
         }
 
         render();
@@ -3298,16 +3300,14 @@
 
         modal.classList.remove("hidden");
         document.getElementById("gemClose").onclick = closeGemModal;
-        modal.onclick = (e) => {
-          if (e.target === modal) closeGemModal();
-        };
+        modal.onclick = (e) => { if (e.target === modal) closeGemModal(); };
       }
 
       // helper สำหรับรวมราคาไป Discord
       function getGemAddon(it) {
         const sel = gemMap.get(it.id);
         if (!sel) return null;
-        return { name: sel.name, factor: sel.factor, final: sel.final };
+        return { name: sel.name, factor: sel.factor, worth: sel.worth, final: sel.final };
       }
     </script>
 

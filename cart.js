@@ -30,7 +30,7 @@
     if (isGemstone(item)) {
       if (gemSel && isFinite(Number(gemSel.final))) {
         baseGp = Number(gemSel.final);
-        opts.push(`Gem: ${gemSel.name} × ${Number(gemSel.factor||1).toFixed(2)}`);
+        opts.push(`${gemSel.name} ${fmt(gemSel.worth)} gp worth × ${Number(gemSel.factor||1).toFixed(2)} = ${fmt(gemSel.final)} gp`);
       } else {
         const m = String(item.name||"").match(/([\d,.]+)\s*gp/i);
         baseGp = m ? Number(m[1].replace(/,/g,"")) : 0;
@@ -48,7 +48,7 @@
     const key = [
       item.id,
       gvSel?.resultName || gvSel?.name || "",
-      gemSel?.name || ""
+      gemSel ? `${gemSel.name}|${gemSel.worth}|${gemSel.final}` : ""
     ].join("|");
 
     return {

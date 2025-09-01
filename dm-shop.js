@@ -54,7 +54,7 @@
     }
     return { base,
       tags: [
-        gemSel ? `Gem: ${gemSel.name} × ${Number(gemSel.factor||1).toFixed(2)}` : null,
+        gemSel ? `${gemSel.name} ${fmt(gemSel.worth)} gp worth × ${Number(gemSel.factor||1).toFixed(2)} = ${fmt(gemSel.final)} gp` : null,
         gvSel  ? `Base: ${gvSel.resultName || gvSel.name}` : null
       ].filter(Boolean)
     };
