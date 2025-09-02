@@ -105,7 +105,8 @@
 
     const header = `สั่งซื้อ (${countItems()} ชิ้น)`;
     const total  = `รวมทั้งสิ้น: ${fmt(totalGp())} gp`;
-    return "```md\n" + header + "\n" + lines.join("\n") + "\n— " + total + "\n```";
+    return "" + header + "\n" + lines.join("\n") + "\n— " + total + ""; // <--- No Markdown
+    // return "```md\n" + header + "\n" + lines.join("\n") + "\n— " + total + "\n```"; // <--- แบบ Markdown
   }
 
   // ===== view =====
