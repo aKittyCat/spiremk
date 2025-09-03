@@ -70,7 +70,7 @@
     wrap.innerHTML = `
       <div class="absolute inset-0 bg-black/70"></div>
       <div class="absolute inset-0 flex items-center justify-center p-4">
-        <div class="w-full max-w-3xl bg-gray-900 rounded-xl border border-fantasy-gold shadow-xl">
+        <div class="w-full max-w-3xl bg-gray-900 rounded-xl border border-fantasy-gold shadow-xl max-h-[90vh] overflow-y-auto">
           <div class="px-5 py-4 border-b border-gray-700 flex items-center justify-between">
             <h3 class="font-bold text-fantasy-gold text-lg">🏪 DM Shop Session(อยู่ระหว่างการทดสอบ)</h3>
             <button id="dmShopClose" class="text-gray-300 hover:text-white">✕</button>
@@ -84,7 +84,7 @@
                      placeholder="หมายเหตุ (ไม่บังคับ)">
             </div>
 
-            <div class="rounded-lg overflow-hidden border border-gray-800">
+            <div class="rounded-lg border border-gray-800 overflow-x-auto">
               <table class="w-full text-sm">
                 <thead class="bg-gray-800/70">
                   <tr>
@@ -99,7 +99,7 @@
             </div>
           </div>
 
-          <div class="px-5 py-4 border-t border-gray-700 flex items-center justify-between">
+          <div class="px-5 py-4 border-t border-gray-700 flex flex-col md:flex-row items-center md:justify-between gap-3">
             <div class="text-gray-400 text-sm">
               * ปรับราคา/จำนวนได้ตามต้องการ (ค่าเริ่มต้นดึงจากข้อมูลปัจจุบันบนหน้า)
             </div>
