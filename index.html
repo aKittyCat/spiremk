@@ -10,10 +10,21 @@
         theme: {
           extend: {
             colors: {
-              "fantasy-gold": "#D4AF37",
-              "fantasy-purple": "#6B46C1",
-              "fantasy-dark": "#1F2937",
-              "fantasy-red": "#DC2626",
+              "fantasy-gold":
+                "#E3B341" /* ทองโบราณอุ่นขึ้น อ่านง่ายขึ้นบนพื้นมืด */,
+              "fantasy-purple": "#8A5CFF" /* ม่วงอาร์เคนสด ใกล้โทนเนออนนิด ๆ */,
+              "fantasy-dark":
+                "#0B0E14" /* หมึก-น้ำเงินดำ (ใช้เป็นสีพื้น/กรอบ) */,
+              "fantasy-red": "#F43F5E" /* แดงกุหลาบทันสมัยแทนแดงสดเก่า */,
+
+              "fantasy-aether": "#22D3EE" /* อีเทอร์/ไซยาน เรืองนิด ๆ */,
+              "fantasy-emerald": "#2DD4BF" /* เอเมอรัลด์เทอร์ควอยส์ */,
+              "fantasy-silver":
+                "#C8D3F5" /* เงินอมฟ้า ใช้ตัวหนังสือ/เส้นแบ่ง */,
+              "fantasy-bone":
+                "#EDE8D6" /* กระดูก-พาร์ชเมนต์ ใช้พื้นบล็อกเนื้อหา */,
+              "fantasy-void":
+                "#0F1021" /* อินดิโก้ดำ ใช้ทำกราเดียนต์พื้นหลัง */,
             },
           },
         },
@@ -42,33 +53,34 @@
       }
 
       .rarity-common {
-        background-color: #6b7280;
+        background-color: #4b5563;
         color: white;
-      }
+      } /* เทาเข้ม */
       .rarity-uncommon {
-        background-color: #10b981;
-        color: white;
-      }
+        background-color: #2dd4bf;
+        color: black;
+      } /* emerald */
       .rarity-rare {
-        background-color: #3b82f6;
+        background-color: #8a5cff;
         color: white;
-      }
+      } /* arcane violet */
       .rarity-very-rare {
-        background-color: #8b5cf6;
-        color: white;
-      }
+        background-color: #22d3ee;
+        color: black;
+      } /* aether cyan */
       .rarity-legendary {
-        background-color: #f59e0b;
-        color: white;
-      }
+        background-color: #e3b341;
+        color: black;
+      } /* ancient gold */
       .rarity-artifact {
-        background-color: #ef4444;
+        background-color: #f43f5e;
         color: white;
-      }
+      } /* rose red */
       .rarity-mundane {
-        background-color: #2d0097;
-        color: white;
-      }
+        background-color: #0b0e14;
+        color: #c8d3f5;
+      } /* ink with silver text */
+      
       .hint-badge {
         font-size: 0.75rem;
         padding: 0.15rem 0.5rem;
@@ -105,7 +117,7 @@
   </head>
 
   <body
-    class="bg-gradient-to-br from-gray-900 via-purple-900 to-gray-800 min-h-screen text-white"
+    class="bg-gradient-to-br from-[#0B0E14] via-[#15192E] to-[#0F1021] min-h-screen text-white"
   >
     <!-- Header -->
     <header
@@ -1473,8 +1485,10 @@
                 >(0 รายการ)</span
               >
 
-              <button id="dmShopBtn"
-                class="bg-fantasy-purple ml-auto text-white px-3 py-2 rounded font-bold hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed">
+              <button
+                id="dmShopBtn"
+                class="bg-fantasy-purple ml-auto text-white px-3 py-2 rounded font-bold hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
                 🏪 DM Shop Session
               </button>
             </div>
@@ -1629,9 +1643,12 @@
           </div>
           <div class="px-5 py-2 text-sm text-gray-300 flex items-center gap-2">
             มูลค่า (worth):
-            <input id="gemWorth" type="text"
-                  value="100"
-                  class="w-28 text-right bg-gray-700 text-white rounded px-2 py-1" />
+            <input
+              id="gemWorth"
+              type="text"
+              value="100"
+              class="w-28 text-right bg-gray-700 text-white rounded px-2 py-1"
+            />
             gp × ตัวคูณของหมวด
           </div>
           <div class="max-h-[60vh] overflow-y-auto" id="gemList"></div>
@@ -1868,7 +1885,9 @@
           const gv = getGVAddon ? getGVAddon(it) : null; // โค้ดเดิมของคุณ
           const tagGV = gv ? ` [Base: ${gv.name}]` : "";
           const tagGem = gem
-            ? ` [${gem.name} ${fmt(gem.worth)} gp worth × ${gem.factor.toFixed(2)}] = ${fmt(gem.final)} gp`
+            ? ` [${gem.name} ${fmt(gem.worth)} gp worth × ${gem.factor.toFixed(
+                2
+              )}] = ${fmt(gem.final)} gp`
             : "";
 
           const priceTxt =
@@ -2475,10 +2494,10 @@
           cb.dataset.id = item.id;
           cb.checked = selectedIds.has(item.id);
 
-          row.dataset.id    = item.id;
-          row.dataset.name  = item.name || '';
-          row.dataset.type  = item.type || '';
-          row.dataset.price = item.price || '0 gp';
+          row.dataset.id = item.id;
+          row.dataset.name = item.name || "";
+          row.dataset.type = item.type || "";
+          row.dataset.price = item.price || "0 gp";
 
           // ตรวจว่าปิดการเลือกหรือไม่
           const lockReason =
@@ -2949,28 +2968,28 @@
 
     <script>
       // --- Remember Filters (very small) ---
-      const FILTER_KEY = 'tsm.filters.v1';
+      const FILTER_KEY = "tsm.filters.v1";
 
       function _els() {
         return {
-          tier:   document.getElementById('tierFilter'),
-          rarity: document.getElementById('rarityFilter'),
-          attune: document.getElementById('attuneFilter'),
-          perdis: document.getElementById('PerDisFilter'),
-          type:   document.getElementById('typeFilter'),
-          q:      document.getElementById('searchFilter'),
+          tier: document.getElementById("tierFilter"),
+          rarity: document.getElementById("rarityFilter"),
+          attune: document.getElementById("attuneFilter"),
+          perdis: document.getElementById("PerDisFilter"),
+          type: document.getElementById("typeFilter"),
+          q: document.getElementById("searchFilter"),
         };
       }
 
       function saveFilters() {
         const e = _els();
         const state = {
-          tier:   e.tier?.value || '',
-          rarity: e.rarity?.value || '',
-          attune: e.attune?.value || '',
-          perdis: e.perdis?.value || '',
-          type:   e.type?.value || '',
-          q:      e.q?.value || '',
+          tier: e.tier?.value || "",
+          rarity: e.rarity?.value || "",
+          attune: e.attune?.value || "",
+          perdis: e.perdis?.value || "",
+          type: e.type?.value || "",
+          q: e.q?.value || "",
         };
         localStorage.setItem(FILTER_KEY, JSON.stringify(state));
       }
@@ -2981,12 +3000,12 @@
           if (!raw) return;
           const s = JSON.parse(raw);
           const e = _els();
-          if (e.tier)   e.tier.value   = s.tier   ?? '';
-          if (e.rarity) e.rarity.value = s.rarity ?? '';
-          if (e.attune) e.attune.value = s.attune ?? '';
-          if (e.perdis) e.perdis.value = s.perdis ?? '';
-          if (e.type)   e.type.value   = s.type   ?? '';
-          if (e.q)      e.q.value      = s.q      ?? '';
+          if (e.tier) e.tier.value = s.tier ?? "";
+          if (e.rarity) e.rarity.value = s.rarity ?? "";
+          if (e.attune) e.attune.value = s.attune ?? "";
+          if (e.perdis) e.perdis.value = s.perdis ?? "";
+          if (e.type) e.type.value = s.type ?? "";
+          if (e.q) e.q.value = s.q ?? "";
         } catch {}
       }
     </script>
@@ -3216,23 +3235,29 @@
       }
 
       function openGemModal(itemId) {
-        const item = (currentItems || []).find(x => String(x.id) === String(itemId));
+        const item = (currentItems || []).find(
+          (x) => String(x.id) === String(itemId)
+        );
         if (!item) return;
 
-        const modal  = document.getElementById("gemModal");
+        const modal = document.getElementById("gemModal");
         const listEl = document.getElementById("gemList");
         const search = document.getElementById("gemSearch");
 
-        const base   = getGemBaseFromItem(item);            // 10/50/100/500/1000/5000 หรือ null
+        const base = getGemBaseFromItem(item); // 10/50/100/500/1000/5000 หรือ null
         const groups = window.GEM_GROUPS || {};
-        const rules  = window.GEM_RULES  || {};
+        const rules = window.GEM_RULES || {};
 
         // เตรียมรายการอัญมณี (ใช้ตัวคูณจากกลุ่ม)
         const rows = [];
-        const keys = base ? [base] : Object.keys(groups).map(Number).sort((a,b)=>a-b);
-        keys.forEach(k => {
+        const keys = base
+          ? [base]
+          : Object.keys(groups)
+              .map(Number)
+              .sort((a, b) => a - b);
+        keys.forEach((k) => {
           const factor = rules[k] || 1;
-          (groups[k] || []).forEach(name => {
+          (groups[k] || []).forEach((name) => {
             rows.push({ name, base: k, factor }); // ไม่คำนวณ final ที่นี่แล้ว
           });
         });
@@ -3244,16 +3269,22 @@
 
         function render(q = "") {
           const worth = currentWorth();
-          const term  = q.trim().toLowerCase();
-          const data  = rows.filter(x => !term || x.name.toLowerCase().includes(term));
+          const term = q.trim().toLowerCase();
+          const data = rows.filter(
+            (x) => !term || x.name.toLowerCase().includes(term)
+          );
 
-          listEl.innerHTML = data.map(x => `
+          listEl.innerHTML = data
+            .map(
+              (x) => `
             <div class="flex items-center gap-3 px-4 py-2 border-b border-gray-700/40">
               <div class="flex-1">
                 <div>${escapeHtml(x.name)}</div>
                 <div class="text-xs text-gray-400">
                   → ${fmt(worth)} gp × ${x.factor.toFixed(2)}
-                  = <span class="text-fantasy-gold">${fmt(Math.round(worth * x.factor))} gp</span>
+                  = <span class="text-fantasy-gold">${fmt(
+                    Math.round(worth * x.factor)
+                  )} gp</span>
                 </div>
               </div>
               <button class="px-2 py-1 rounded bg-fantasy-purple hover:bg-purple-700 text-white"
@@ -3266,23 +3297,27 @@
                 เลือก
               </button>
             </div>
-          `).join("");
+          `
+            )
+            .join("");
 
           // เมื่อกด "เลือก" ให้จด choice ไว้ใน gemMap แล้วอัปเดตชิปบนแถวไอเทม
-          listEl.querySelectorAll("[data-pick]").forEach(btn => {
+          listEl.querySelectorAll("[data-pick]").forEach((btn) => {
             btn.addEventListener("click", (e) => {
               const el = e.currentTarget;
               const sel = {
-                name:   el.dataset.name,
-                base:   Number(el.dataset.base)   || 0,
+                name: el.dataset.name,
+                base: Number(el.dataset.base) || 0,
                 factor: Number(el.dataset.factor) || 1,
-                worth:  Number(el.dataset.worth)  || 0,
-                final:  Number(el.dataset.final)  || 0
+                worth: Number(el.dataset.worth) || 0,
+                final: Number(el.dataset.final) || 0,
               };
               gemMap.set(item.id, sel);
               const chip = document.getElementById(`gemChip-${item.id}`);
-              if (chip) chip.textContent =
-                `${sel.name}:${fmt(sel.worth)} × ${sel.factor.toFixed(2)} = ${fmt(sel.final)} gp`;
+              if (chip)
+                chip.textContent = `${sel.name}:${fmt(
+                  sel.worth
+                )} × ${sel.factor.toFixed(2)} = ${fmt(sel.final)} gp`;
               closeGemModal();
             });
           });
@@ -3301,14 +3336,21 @@
 
         modal.classList.remove("hidden");
         document.getElementById("gemClose").onclick = closeGemModal;
-        modal.onclick = (e) => { if (e.target === modal) closeGemModal(); };
+        modal.onclick = (e) => {
+          if (e.target === modal) closeGemModal();
+        };
       }
 
       // helper สำหรับรวมราคาไป Discord
       function getGemAddon(it) {
         const sel = gemMap.get(it.id);
         if (!sel) return null;
-        return { name: sel.name, factor: sel.factor, worth: sel.worth, final: sel.final };
+        return {
+          name: sel.name,
+          factor: sel.factor,
+          worth: sel.worth,
+          final: sel.final,
+        };
       }
     </script>
 
@@ -3316,10 +3358,10 @@
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("./sw.js");
       }
-      document.addEventListener('visibilitychange', async () => {
-        if (document.visibilityState !== 'visible') return;
+      document.addEventListener("visibilitychange", async () => {
+        if (document.visibilityState !== "visible") return;
         saveFilters();
-        await loadData();       // โหลด items+updates ปัจจุบันใช้ฟังก์ชันนี้อยู่แล้ว :contentReference[oaicite:4]{index=4}
+        await loadData(); // โหลด items+updates ปัจจุบันใช้ฟังก์ชันนี้อยู่แล้ว :contentReference[oaicite:4]{index=4}
         restoreFilters();
         filterItems();
       });
