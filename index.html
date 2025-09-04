@@ -80,7 +80,7 @@
         background-color: #0b0e14;
         color: #c8d3f5;
       } /* ink with silver text */
-      
+
       .hint-badge {
         font-size: 0.75rem;
         padding: 0.15rem 0.5rem;
@@ -133,7 +133,7 @@
           </h1>
           <button
             id="adminToggle"
-            class="bg-fantasy-purple hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors"
+            class="bg-fantasy-purple hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors hidden md:table-cell"
           >
             Admin Panel
           </button>
@@ -1436,7 +1436,7 @@
             <!-- Bulk actions -->
             <div id="bulkActions" class="flex items-center gap-3 mt-3">
               <label
-                class="inline-flex items-center gap-2 text-sm text-gray-300"
+                class="inline-flex items-center gap-2 text-sm text-gray-300 hidden md:table-cell"
               >
                 <input
                   id="selectAllTop"
@@ -1448,7 +1448,7 @@
 
               <button
                 id="copySelectedBtn"
-                class="bg-fantasy-gold text-black px-3 py-2 rounded font-bold hover:bg-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                class="bg-fantasy-gold text-black px-3 py-2 rounded font-bold hover:bg-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed hidden md:table-cell"
                 disabled
               >
                 คัดลอกที่เลือกไป Discord
@@ -1456,14 +1456,14 @@
 
               <button
                 id="clearSelectionBtn"
-                class="bg-gray-700 hover:bg-gray-600 px-3 py-2 rounded font-semibold"
+                class="bg-gray-700 hover:bg-gray-600 px-3 py-2 rounded font-semibold hidden md:table-cell"
               >
                 ยกเลิกการเลือกทั้งหมด
               </button>
 
               <button
                 id="addToCartBtn"
-                class="bg-emerald-500 text-black px-3 py-2 rounded font-bold hover:bg-emerald-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                class="bg-emerald-500 text-black px-3 py-2 rounded font-bold hover:bg-emerald-400 disabled:opacity-50 disabled:cursor-not-allowed hidden md:table-cell"
                 disabled
               >
                 เพิ่มลงตะกร้า
@@ -1487,7 +1487,7 @@
 
               <button
                 id="dmShopBtn"
-                class="bg-fantasy-purple ml-auto text-white px-3 py-2 rounded font-bold hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                class="bg-fantasy-purple ml-auto text-white px-3 py-2 rounded font-bold hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed hidden md:table-cell"
               >
                 🏪 DM Shop Session
               </button>
@@ -2259,7 +2259,7 @@
 
         const itemsHTML = `
           <div class="overflow-x-auto">
-            <table class="w-full bg-gray-800 rounded-lg overflow-hidden">
+            <table class="min-w-[860px] w-full bg-gray-800 rounded-lg overflow-hidden">
               <thead class="bg-gray-900">
                 <tr>
                   <th class="px-4 py-3 text-left text-fantasy-gold font-bold">ชื่อไอเทม</th>
@@ -2358,9 +2358,7 @@
                         : ``
                     }
                   </tr>
-                  ${
-                    item.description || isGenericVariant(item)
-                      ? `
+
                     <tr id="desc-${index}" class="hidden border-t border-gray-600">
                       <td colspan="${
                         isAdminMode ? 10 : 9
@@ -2434,13 +2432,10 @@
                             ${escapeHtml(item.description)}
                           </div>
                         `
-                            : ""
+                            : `<div class="mt-2 text-gray-300 text-sm">ไม่มีรายละเอียดเพิ่มเติม</div>`
                         }
                       </td>
                     </tr>
-                  `
-                      : ""
-                  }
                 `
                   )
                   .join("")}
@@ -2470,7 +2465,7 @@
           const th = document.createElement("th");
           th.className = "pl-2 pr-1 py-3 text-left text-fantasy-gold font-bold";
           th.innerHTML =
-            '<input type="checkbox" id="selectAll" class="w-4 h-4 rounded bg-gray-700 border-gray-600">';
+            '<input type="checkbox" id="selectAll" class="w-4 h-4 rounded bg-gray-700 border-gray-600 hidden md:table-cell">';
           headerRow.prepend(th);
         }
 
@@ -2486,7 +2481,7 @@
             const td = document.createElement("td");
             td.className = "pl-2 pr-1 py-3 text-left";
             td.innerHTML =
-              '<input type="checkbox" class="row-select w-4 h-4 rounded bg-gray-700 border-gray-600">';
+              '<input type="checkbox" class="row-select w-4 h-4 rounded bg-gray-700 border-gray-600 hidden md:table-cell">';
             row.prepend(td);
           }
 
