@@ -57,7 +57,9 @@
     const gvSel = getGVAddon()?.(item); // {name,resultName?,price}
     if (gvSel && isFinite(Number(gvSel.price))) {
       baseGp += Number(gvSel.price);
-      opts.push(`Base: ${gvSel.resultName || gvSel.name}`);
+      opts.push(
+        `Base: ${gvSel.resultName || gvSel.name} (+${fmt(gvSel.price)})`
+      );
     }
 
     // 4) คีย์แยกตามตัวเลือก เพื่อรวมจำนวนของ “รายการเดียวกัน+ตัวเลือกเดียวกัน”
@@ -128,7 +130,7 @@
       const opt = e.options.length ? ` [${e.options.join(" • ")}]` : "";
       const unit = `${fmt(e.unitGp)} gp`;
       const sum = `${fmt(e.unitGp * e.qty)} gp`;
-      lines.push(`- ${e.name}${opt} | ${unit} × ${e.qty} — ${sum}`);
+      lines.push(`- ${e.name}${opt} | ${unit} × ${e.qty} — รวม: ${sum}`);
     });
 
     const header = `ซื้อ (${countItems()} ชิ้น)`;

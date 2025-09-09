@@ -1883,16 +1883,15 @@
 
           // ถ้ามี Generic Variant base item ก็ + เพิ่มเข้าไปเหมือนเดิม
           const gv = getGVAddon ? getGVAddon(it) : null; // โค้ดเดิมของคุณ
-          const tagGV = gv ? ` [Base: ${gv.name}]` : "";
+          const tagGV = gv ? ` [Base: ${gv.name} (+${fmt(gv.price)})]` : "";
           const tagGem = gem
             ? ` [${gem.name} ${fmt(gem.worth)} gp worth × ${gem.factor.toFixed(
                 2
-              )}] = ${fmt(gem.final)} gp`
+              )} = ${fmt(gem.final)} gp]`
             : "";
 
-          const priceTxt =
-            `${fmt(basePrice)} gp` +
-            (gv && gv.price ? ` (+${fmt(gv.price)})` : "");
+          const totalPrice = basePrice + (gv?.price || 0);
+          const priceTxt = `${fmt(totalPrice)} gp`;
 
           return `- ${it.name}${tagGem}${tagGV} — ${priceTxt}`;
         });
