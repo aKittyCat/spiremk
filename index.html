@@ -1894,7 +1894,7 @@
             `${fmt(basePrice)} gp` +
             (gv && gv.price ? ` (+${fmt(gv.price)})` : "");
 
-          return `- ${it.name}${tagGem}${tagGV} | ${priceTxt}`;
+          return `- ${it.name}${tagGem}${tagGV} — ${priceTxt}`;
         });
 
         const total = items.reduce((sum, it) => {

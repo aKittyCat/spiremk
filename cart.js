@@ -128,7 +128,7 @@
       const opt = e.options.length ? ` [${e.options.join(" • ")}]` : "";
       const unit = `${fmt(e.unitGp)} gp`;
       const sum = `${fmt(e.unitGp * e.qty)} gp`;
-      lines.push(`- ${e.name}${opt} | ${unit} × ${e.qty} — รวม: ${sum}`);
+      lines.push(`- ${e.name}${opt} | ${unit} × ${e.qty} — ${sum}`);
     });
 
     const header = `ซื้อ (${countItems()} ชิ้น)`;
