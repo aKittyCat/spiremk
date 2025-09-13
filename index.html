@@ -1354,7 +1354,7 @@
               <a class="text-fantasy-gold">Staff</a>
             </p>
             <!-- Filters -->
-            <div class="mb-6 grid md:grid-cols-4 gap-4">
+            <div class="mb-6 grid md:grid-cols-5 gap-4">
               <select
                 id="tierFilter"
                 class="p-2 rounded bg-gray-700 text-white"
@@ -1396,6 +1396,11 @@
                 <option value="">ทุกการใช้งาน</option>
                 <option value="ถาวร">ไอเทมถาวร</option>
                 <option value="ใช้แล้วทิ้ง">ไอเทมใช้แล้วทิ้ง</option>
+              </select>
+              <select id="sortPrice" class="p-2 rounded bg-gray-700 text-white">
+                <option value="">เรียงราคา</option>
+                <option value="asc">ราคาต่ำสุด → สูงสุด</option>
+                <option value="desc">ราคาสูงสุด → ต่ำสุด</option>
               </select>
               <select
                 id="typeFilter"
@@ -2041,6 +2046,9 @@
         document
           .getElementById("searchFilter")
           .addEventListener("input", filterItems);
+        document
+          .getElementById("sortPrice")
+          .addEventListener("change", filterItems);
 
         // Close modal on outside click
         adminModal.addEventListener("click", (e) => {
@@ -2673,6 +2681,7 @@
         const searchFilter = document
           .getElementById("searchFilter")
           .value.toLowerCase();
+        const sortPrice = document.getElementById("sortPrice").value;
 
         const filteredItems = currentItems.filter((item) => {
           return (
@@ -2684,6 +2693,16 @@
             (!searchFilter || item.name.toLowerCase().includes(searchFilter))
           );
         });
+
+        if (sortPrice === "asc") {
+          filteredItems.sort(
+            (a, b) => parsePrice(a.price) - parsePrice(b.price)
+          );
+        } else if (sortPrice === "desc") {
+          filteredItems.sort(
+            (a, b) => parsePrice(b.price) - parsePrice(a.price)
+          );
+        }
 
         displayItems(filteredItems);
         saveFilters();
@@ -2961,6 +2980,7 @@
           perdis: document.getElementById("PerDisFilter"),
           type: document.getElementById("typeFilter"),
           q: document.getElementById("searchFilter"),
+          sortPrice: document.getElementById("sortPrice"),
         };
       }
 
@@ -2973,6 +2993,7 @@
           perdis: e.perdis?.value || "",
           type: e.type?.value || "",
           q: e.q?.value || "",
+          sortPrice: e.sortPrice?.value || "",
         };
         localStorage.setItem(FILTER_KEY, JSON.stringify(state));
       }
@@ -2989,6 +3010,7 @@
           if (e.perdis) e.perdis.value = s.perdis ?? "";
           if (e.type) e.type.value = s.type ?? "";
           if (e.q) e.q.value = s.q ?? "";
+          if (e.sortPrice) e.sortPrice.value = s.sortPrice ?? "";
         } catch {}
       }
     </script>
