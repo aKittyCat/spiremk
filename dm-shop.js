@@ -208,8 +208,8 @@
     const header = `# 🏪 DM Shop Session${title ? ` — ${title}` : ''}`;
     const noteLn = note ? `\n> ${note}` : '';
     const hint   = `\n\nหมายเหตุ: ราคานี้ตั้งโดย DM อาจปรับเปลี่ยนได้ตามดุลยพินิจ`;
-    // return "" + header + noteLn + "\n\n" + lines.join("\n") + hint + ""; // <--- No Markdown
-    return "```md\n" + header + noteLn + "\n\n" + lines.join("\n") + hint + "\n```"; // <--- แบบ Markdown
+    return "" + header + noteLn + "\n\n" + lines.join("\n") + hint + ""; // <--- No Markdown
+    // return "```md\n" + header + noteLn + "\n\n" + lines.join("\n") + hint + "\n```"; // <--- แบบ Markdown
   }
 
   // ====== bind ปุ่มหลักบนหน้า “รายการสินค้า” ======
