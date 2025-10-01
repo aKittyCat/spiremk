@@ -165,9 +165,9 @@
           </button>
           <button
             class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
-            data-page="items"
+            data-page="pet"
           >
-            ⚔️ รายการสินค้า
+            🐈 Pet
           </button>
           <button
             class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
@@ -180,6 +180,12 @@
             data-page="updates"
           >
             📰 อัพเดท
+          </button>
+          <button
+            class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
+            data-page="items"
+          >
+            ⚔️ รายการสินค้า
           </button>
         </div>
       </div>
@@ -604,68 +610,764 @@
           </div>
         </div>
 
-        <!-- ===== Cart Page ===== -->
-        <section id="cartPage" class="page-content hidden">
-          <div class="container mx-auto px-4 py-10">
-            <h2 class="text-2xl md:text-3xl font-bold text-fantasy-gold mb-6">
-              🛒 ตะกร้าสินค้า
+        <!-- Pet Page -->
+        <div id="petPage" class="page-content hidden">
+          <div class="bg-black bg-opacity-50 rounded-xl p-8 backdrop-blur-sm">
+            <h2
+              class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center"
+            >
+              🐈 กฏเกี่ยวกับการซื้อสัตว์เลี้ยง
             </h2>
-
-            <div id="cartEmpty" class="text-gray-400">
-              ยังไม่มีสินค้าในตะกร้า
-            </div>
-
-            <div
-              id="cartTable"
-              class="hidden bg-gray-800/60 rounded-lg overflow-x-auto"
-            >
-              <table class="w-full text-sm">
-                <thead class="bg-gray-900/60">
-                  <tr>
-                    <th class="text-left px-4 py-3 w-2/5">สินค้า</th>
-                    <th class="text-left px-4 py-3">ตัวเลือก</th>
-                    <th class="text-right px-4 py-3 whitespace-nowrap">
-                      ราคาต่อชิ้น
-                    </th>
-                    <th class="text-center px-4 py-3">จำนวน</th>
-                    <th class="text-right px-4 py-3">รวม</th>
-                    <th class="px-2 py-3 w-12"></th>
-                  </tr>
-                </thead>
-                <tbody id="cartBody"></tbody>
-              </table>
-            </div>
-
-            <div
-              id="cartFooter"
-              class="hidden mt-4 flex flex-col md:flex-row items-center md:justify-between gap-3"
-            >
-              <div class="text-lg">
-                รวมทั้งหมด:
-                <span
-                  id="cartTotal"
-                  class="font-bold text-fantasy-gold tabular-nums"
-                  >0</span
-                >
-                gp
+            <div class="content-font text-lg space-y-6">
+              <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  😼 ค่าใช้จ่ายในการซื้อสัตว์เลี้ยง
+                </h3>
+                <ul class="space-y-2 text-gray-300">
+                  <li>
+                    • ในการซื้อสัตว์เลี้ยง ผู้เล่นจะต้องทำการจ่ายทองและFavor เพื่อเป็นค่าใช้จ่ายให้กับผู้ดูแลสัตว์เลี้ยงในหอคอย โดยมีข้อจำกัดคือผู้เล่นสามารถมีสัตว์เลี้ยงได้ 1 ตัวเท่านั้น
+                  </li>
+                </ul>
+                <div class="overflow-x-auto rounded-lg shadow-lg w-fit mx-auto my-8">
+                  <table class="text-sm text-white border-collapse">
+                      <thead>
+                          <tr class="bg-neutral-700">
+                              <th class="px-6 py-3 border border-neutral-600 text-left font-bold">
+                                  CR
+                              </th>
+                              <th class="px-6 py-3 border border-neutral-600 text-center font-bold">
+                                  ทอง (Gold)
+                              </th>
+                              <th class="px-6 py-3 border border-neutral-600 text-center font-bold">
+                                  Favor
+                              </th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                              <td class="px-6 py-2 border border-neutral-700">
+                                  CR 0
+                              </td>
+                              <td class="px-6 py-2 text-center border border-neutral-700">
+                                  300
+                              </td>
+                              <td class="px-6 py-2 text-center border border-neutral-700">
+                                  25
+                              </td>
+                          </tr>
+                          <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                              <td class="px-6 py-2 border border-neutral-700">
+                                  CR 1/8
+                              </td>
+                              <td class="px-6 py-2 text-center border border-neutral-700">
+                                  450
+                              </td>
+                              <td class="px-6 py-2 text-center border border-neutral-700">
+                                  50
+                              </td>
+                          </tr>
+                          <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                              <td class="px-6 py-2 border border-neutral-700">
+                                  CR 1/4
+                              </td>
+                              <td class="px-6 py-2 text-center border border-neutral-700">
+                                  600
+                              </td>
+                              <td class="px-6 py-2 text-center border border-neutral-700">
+                                  75
+                              </td>
+                          </tr>
+                          <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                              <td class="px-6 py-2 border border-neutral-700">
+                                  CR 1/2
+                              </td>
+                              <td class="px-6 py-2 text-center border border-neutral-700">
+                                  750
+                              </td>
+                              <td class="px-6 py-2 text-center border border-neutral-700">
+                                  100
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                </div>
               </div>
-              <div class="flex gap-2">
-                <button
-                  id="copyCartEmbedBtn"
-                  class="bg-fantasy-gold text-black px-4 py-2 rounded font-bold hover:bg-yellow-400"
-                >
-                  คัดลอกใบซื้อ
-                </button>
-                <button
-                  id="clearCartBtn"
-                  class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded font-semibold"
-                >
-                  ล้างตะกร้า
-                </button>
+              <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  🙀 ค่าใช้จ่ายในการเปลี่ยนสัตว์เลี้ยง
+                </h3>
+                <ul class="space-y-2 text-gray-300">
+                  <li>
+                    • หากต้องการเปลี่ยนสัตว์เลี้ยงที่มีอยู่แล้ว ผู้เล่นสามารถจ่ายแค่ Favor เพื่อเปลี่ยนสัตว์เลี้ยงได้ แต่ Action ที่ทำการฝึกมาจะหายไปด้วย
+                  </li>
+                </ul>
+                <div class="overflow-x-auto rounded-lg shadow-lg w-fit mx-auto my-8">
+                  <table class="text-sm text-white border-collapse">
+                      <thead>
+                          <tr class="bg-neutral-700">
+                              <th class="px-6 py-3 border border-neutral-600 text-left font-bold">
+                                  CR
+                              </th>
+                              <th class="px-6 py-3 border border-neutral-600 text-center font-bold">
+                                  Favor
+                              </th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                              <td class="px-6 py-2 border border-neutral-700">
+                                  CR 0
+                              </td>
+                              <td class="px-6 py-2 text-center border border-neutral-700">
+                                  10
+                              </td>
+                          </tr>
+                          <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                              <td class="px-6 py-2 border border-neutral-700">
+                                  CR 1/8
+                              </td>
+                              <td class="px-6 py-2 text-center border border-neutral-700">
+                                  25
+                              </td>
+                          </tr>
+                          <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                              <td class="px-6 py-2 border border-neutral-700">
+                                  CR 1/4
+                              </td>
+                              <td class="px-6 py-2 text-center border border-neutral-700">
+                                  50
+                              </td>
+                          </tr>
+                          <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                              <td class="px-6 py-2 border border-neutral-700">
+                                  CR 1/2
+                              </td>
+                              <td class="px-6 py-2 text-center border border-neutral-700">
+                                  75
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  😾 Pet Training
+                </h3>
+                <ul class="space-y-2 text-gray-300">
+                  <li>
+                    • ผู้เล่นสามารถทำการฝึกสัตว์เลี้ยงของตัวเองเพื่อเพิ่ม Action ให้กับสัตว์เลี้ยงได้ โดยผู้เล่นจะต้องจ่าย 25 Favor เพื่อเพิ่ม Action 1 อย่างตามรายการด้านล่างนี้ให้กับสัตว์เลี้ยง 
+                    โดยมีข้อจำกัดคือ สัตว์เลี้ยงตัวนั้นจะต้องมี Action ติดตัวน้อยกว่า 3 อันและ Action ทั้งหมดที่สัตว์เลี้ยงมีจะต้องไม่มากกว่า 3
+                  </li>
+                </ul>
+                <div class="overflow-x-auto rounded-lg shadow-lg w-fit mx-auto my-8">
+                  <table class="text-sm text-white border-collapse">
+                      <thead>
+                          <tr class="bg-neutral-700">
+                              <th class="px-6 py-3 border border-neutral-600 text-left font-bold">
+                                  Action
+                              </th>
+                              <th class="px-6 py-3 border border-neutral-600 text-left font-bold">
+                                  รายละเอียด
+                              </th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                              <td class="px-6 py-2 border border-neutral-700 whitespace-nowrap">
+                                  Guard
+                              </td>
+                              <td class="px-6 py-2 border border-neutral-700">
+                                  ใช้ Reaction เพื่อทำให้การโจมตีเป็น Disadvantage
+                              </td>
+                          </tr>
+                          <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                              <td class="px-6 py-2 border border-neutral-700 whitespace-nowrap">
+                                  Grapple
+                              </td>
+                              <td class="px-6 py-2 border border-neutral-700">
+                                  ใช้ Action เพื่อทำการ Grapple ใส่เป้าหมาย
+                              </td>
+                          </tr>
+                          <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                              <td class="px-6 py-2 border border-neutral-700 whitespace-nowrap">
+                                  Search
+                              </td>
+                              <td class="px-6 py-2 border border-neutral-700">
+                                  ใช้ Action เพื่อทำการ Perception Check
+                              </td>
+                          </tr>
+                          <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                              <td class="px-6 py-2 border border-neutral-700 whitespace-nowrap">
+                                  Keep Watch
+                              </td>
+                              <td class="px-6 py-2 border border-neutral-700">
+                                  สามารถใช้สัตว์เลี้ยงทำการเฝ้ายามได้เป็นเวลา 4 ชั่วโมง
+                              </td>
+                          </tr>
+                          <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                              <td class="px-6 py-2 border border-neutral-700 whitespace-nowrap">
+                                  Fetch
+                              </td>
+                              <td class="px-6 py-2 border border-neutral-700">
+                                  ใช้ Action เพื่อเก็บสิ่งของขึ้นมา
+                              </td>
+                          </tr>
+                          <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                              <td class="px-6 py-2 border border-neutral-700 whitespace-nowrap">
+                                  Shove
+                              </td>
+                              <td class="px-6 py-2 border border-neutral-700">
+                                  ใช้ Action เพื่อผลักเป้าหมายออกไป
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  😽 Pet Armor
+                </h3>
+                <ul class="space-y-2 text-gray-300">
+                  <li>
+                    • ในการผจญภัย ทั้งตัวละครและสัตว์เลี้ยงต่างต้องเผชิญหน้ากับอันตรายในรูปแบบต่างๆ 
+                    ผู้เล่นสามารถทำการซื้อเกราะให้กับสัตว์เลี้ยงได้โดยจะต้องเป็น Armor, +1 Armor, +2 Armor, +3 Armor เท่านั้น 
+                    และประเภทของเกราะที่ใส่ได้จะขึ้นอยู่กับขนาดของสัตว์เลี้ยงตามรายการด้านล่าง
+                  </li>
+                </ul>
+                <div class="overflow-x-auto rounded-lg shadow-lg w-fit mx-auto my-8">
+                  <table class="text-sm text-white border-collapse">
+                      <thead>
+                          <tr class="bg-neutral-700">
+                              <th class="px-6 py-3 border border-neutral-600 text-left font-bold">
+                                  Size
+                              </th>
+                              <th class="px-6 py-3 border border-neutral-600 text-left font-bold">
+                                  Armor
+                              </th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                              <td class="px-6 py-2 border border-neutral-700 whitespace-nowrap">
+                                  Tiny
+                              </td>
+                              <td class="px-6 py-2 border border-neutral-700">
+                                  None
+                              </td>
+                          </tr>
+                          <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                              <td class="px-6 py-2 border border-neutral-700 whitespace-nowrap">
+                                  Small
+                              </td>
+                              <td class="px-6 py-2 border border-neutral-700">
+                                  Light Armor
+                              </td>
+                          </tr>
+                          <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                              <td class="px-6 py-2 border border-neutral-700 whitespace-nowrap">
+                                  Medium
+                              </td>
+                              <td class="px-6 py-2 border border-neutral-700">
+                                  Light Armor, Medium Armor
+                              </td>
+                          </tr>
+                          <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                              <td class="px-6 py-2 border border-neutral-700 whitespace-nowrap">
+                                  Large
+                              </td>
+                              <td class="px-6 py-2 border border-neutral-700">
+                                  Light Armor, Medium Armor, Heavy Armor
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  😿 เมื่อสัตว์เลี้ยงเลือดเหลือ 0
+                </h3>
+                <ul class="space-y-2 text-gray-300">
+                  <li>
+                    • เมื่อเลือดของสัตว์เลี้ยงเหลือ 0 สัตว์เลี้ยงกลับไปที่หอคอยและไม่สามารถเรียกกลับมาได้อีกจนกว่าจะจบเซสชั่น
+                  </li>
+                </ul>
+              </div>
+              <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  😻 รายการสัตว์เลี้ยง
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center">
+                  <div class="w-full max-w-lg">
+                      <h4 class="text-xl font-bold text-white mb-4 text-center border-b border-neutral-600 pb-2">CR 0 Bestiary</h4>
+                      <div class="overflow-x-auto rounded-lg shadow-lg w-full mx-auto">
+                          <table class="text-sm text-white border-collapse w-full">
+                              <thead>
+                                  <tr class="bg-neutral-700">
+                                      <th class="px-4 py-3 border border-neutral-600 text-left font-bold">ชื่อ</th>
+                                      <th class="px-4 py-3 border border-neutral-600 text-left font-bold">Size</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Almiraj</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Small</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Baboon</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Small</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Badger</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Bat</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Campestri</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Cat</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Clockwork Observer</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Crab</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Deer</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Dusktail</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Eagle</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Small</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Emberbat</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Everbug</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Fish</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Fox</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Small</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Frog</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Giant Fire Beetle</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Small</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Goat</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Hare</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Hawk</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Hyena</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Jackal</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Small</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Knucklehead Trout</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Small</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Lizard</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Octopus</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Small</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Owl</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Peacock</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Piccolo</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Small</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Pig</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Quipper</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Rat</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Raven</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Rooster</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Scorpion</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Sea Horse</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Seal</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Sheep</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Small</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Spider</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Vulture</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Weasel</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Wild Dog</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Small</td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+                  
+                  <div class="w-full max-w-lg">
+                      <h4 class="text-xl font-bold text-white mb-4 text-center border-b border-neutral-600 pb-2">CR 1/8 Bestiary</h4>
+                      <div class="overflow-x-auto rounded-lg shadow-lg w-full mx-auto">
+                          <table class="text-sm text-white border-collapse w-full">
+                              <thead>
+                                  <tr class="bg-neutral-700">
+                                      <th class="px-4 py-3 border border-neutral-600 text-left font-bold">ชื่อ</th>
+                                      <th class="px-4 py-3 border border-neutral-600 text-left font-bold">Size</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Blood Hawk</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Small</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Clockwork Mule</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Flying Rocking Horse</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Giant Crab</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Giant Rat</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Small</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Giant Weasel</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Mastiff</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Monodrone</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Mountain Goat</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Mule</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Poisonous Snake</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Pony</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Twig Blight</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Small</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Wooden Donkey</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+
+                  <div class="w-full max-w-lg">
+                      <h4 class="text-xl font-bold text-white mb-4 text-center border-b border-neutral-600 pb-2">CR 1/4 Bestiary</h4>
+                      <div class="overflow-x-auto rounded-lg shadow-lg w-full mx-auto">
+                          <table class="text-sm text-white border-collapse w-full">
+                              <thead>
+                                  <tr class="bg-neutral-700">
+                                      <th class="px-4 py-3 border border-neutral-600 text-left font-bold">ชื่อ</th>
+                                      <th class="px-4 py-3 border border-neutral-600 text-left font-bold">Size</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Axe Beak</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Boar</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Cave Badger</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Constrictor Snake</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Cow</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Deep Rothé</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Draft Horse</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Elk</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Giant Badger</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Giant Bat</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Giant Centipede</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Small</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Giant Frog</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Giant Lizard</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Giant Poisonous Snake</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Giant Riding Lizard</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Giant Wolf Spider</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Golden Stag</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Needle Blight</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Ox</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Panther</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Reindeer</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Riding Horse</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Rothé</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Sled Dog</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Walrus</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Wolf</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Yak</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Zebra</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+
+                  <div class="w-full max-w-lg">
+                      <h4 class="text-xl font-bold text-white mb-4 text-center border-b border-neutral-600 pb-2">CR 1/2 Bestiary</h4>
+                      <div class="overflow-x-auto rounded-lg shadow-lg w-full mx-auto">
+                          <table class="text-sm text-white border-collapse w-full">
+                              <thead>
+                                  <tr class="bg-neutral-700">
+                                      <th class="px-4 py-3 border border-neutral-600 text-left font-bold">ชื่อ</th>
+                                      <th class="px-4 py-3 border border-neutral-600 text-left font-bold">Size</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Anvilwrought Raptor</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Bird of Prey</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Tiny/Small</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Black Bear</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Camel</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Crocodile</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Giant Canary</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Giant Dragonfly</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Giant Goat</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Giant Sea Horse</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Giant Wasp</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Koi Prawn</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Metal Wasp</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Reef Shark</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Slicar</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Vine Blight</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Medium</td>
+                                  </tr>
+                                  <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">War Ostrich</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                                  <tr class="bg-neutral-800 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Warhorse</td>
+                                      <td class="px-4 py-2 border border-neutral-700 whitespace-nowrap">Large</td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </section>
+        </div>
 
         <!-- Crafting Page -->
         <div id="craftingPage" class="page-content hidden">
@@ -1517,6 +2219,69 @@
             </div>
           </div>
         </div>
+
+        <!-- ===== Cart Page ===== -->
+        <section id="cartPage" class="page-content hidden">
+          <div class="container mx-auto px-4 py-10">
+            <h2 class="text-2xl md:text-3xl font-bold text-fantasy-gold mb-6">
+              🛒 ตะกร้าสินค้า
+            </h2>
+
+            <div id="cartEmpty" class="text-gray-400">
+              ยังไม่มีสินค้าในตะกร้า
+            </div>
+
+            <div
+              id="cartTable"
+              class="hidden bg-gray-800/60 rounded-lg overflow-x-auto"
+            >
+              <table class="w-full text-sm">
+                <thead class="bg-gray-900/60">
+                  <tr>
+                    <th class="text-left px-4 py-3 w-2/5">สินค้า</th>
+                    <th class="text-left px-4 py-3">ตัวเลือก</th>
+                    <th class="text-right px-4 py-3 whitespace-nowrap">
+                      ราคาต่อชิ้น
+                    </th>
+                    <th class="text-center px-4 py-3">จำนวน</th>
+                    <th class="text-right px-4 py-3">รวม</th>
+                    <th class="px-2 py-3 w-12"></th>
+                  </tr>
+                </thead>
+                <tbody id="cartBody"></tbody>
+              </table>
+            </div>
+
+            <div
+              id="cartFooter"
+              class="hidden mt-4 flex flex-col md:flex-row items-center md:justify-between gap-3"
+            >
+              <div class="text-lg">
+                รวมทั้งหมด:
+                <span
+                  id="cartTotal"
+                  class="font-bold text-fantasy-gold tabular-nums"
+                  >0</span
+                >
+                gp
+              </div>
+              <div class="flex gap-2">
+                <button
+                  id="copyCartEmbedBtn"
+                  class="bg-fantasy-gold text-black px-4 py-2 rounded font-bold hover:bg-yellow-400"
+                >
+                  คัดลอกใบซื้อ
+                </button>
+                <button
+                  id="clearCartBtn"
+                  class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded font-semibold"
+                >
+                  ล้างตะกร้า
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </main>
 
