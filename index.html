@@ -910,9 +910,70 @@
                 </ul>
               </div>
               <div class="bg-gray-800 rounded-lg p-6">
-                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                <div class="flex items-center space-x-2 mb-4">
+                  <h3 class="text-xl font-bold text-fantasy-gold">
                   😻 รายการสัตว์เลี้ยง
                 </h3>
+                <button id="openModalBtn" class="nav-btn bg-neutral-900 hover:bg-neutral-800 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105">
+                  🛒
+                </button>
+                </div>
+                <!-- Pet Modal -->
+                <div id="petModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
+                  <div class="bg-gray-900 rounded-lg p-6 w-full max-w-md mx-4">
+                    <!-- หน้าหลัก: เลือกสัตว์เลี้ยง -->
+                    <div id="mainStep" class="space-y-4">
+                      <div class="flex justify-between items-center">
+                        <h4 class="text-xl font-bold text-white">จัดการสัตว์เลี้ยง</h4>
+                        <button id="closeModalBtn" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+                      </div>
+
+                      <div>
+                        <label class="block text-white mb-2">เลือก CR</label>
+                        <select id="crSelect" class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600">
+                          <option value="0">CR 0</option>
+                          <option value="1/8">CR 1/8</option>
+                          <option value="1/4">CR 1/4</option>
+                          <option value="1/2">CR 1/2</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label class="block text-white mb-2">เลือกสัตว์เลี้ยง</label>
+                        <select id="petSelect" class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600" disabled>
+                          <option value="">-- โปรดเลือก CR ก่อน --</option>
+                        </select>
+                      </div>
+
+                      <div class="grid grid-cols-1 gap-3 pt-2">
+                        <button id="buyBtn" class="bg-green-600 hover:bg-green-700 text-white py-2 rounded transition" disabled>ซื้อ</button>
+                        <button id="changeBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition" disabled>เปลี่ยนสัตว์เลี้ยง</button>
+                        <button id="trainBtn" class="bg-purple-600 hover:bg-purple-700 text-white py-2 rounded transition" disabled>ฝึกสัตว์เลี้ยง</button>
+                      </div>
+                    </div>
+
+                    <!-- หน้าเลือกทักษะ -->
+                    <div id="trainStep" class="space-y-4 hidden">
+                      <div class="flex justify-between items-center">
+                        <h4 class="text-xl font-bold text-white">ฝึกทักษะให้ <span id="trainPetName" class="text-fantasy-gold"></span></h4>
+                        <button id="backToMainBtn" class="text-gray-400 hover:text-white text-lg">&larr;</button>
+                      </div>
+
+                      <p class="text-gray-300 text-sm">เลือกทักษะได้ 1–3 อย่าง (ทักษะละ 25 Favor)</p>
+
+                      <div id="skillsContainer" class="grid grid-cols-2 gap-2 pt-2">
+                        <!-- Checkbox จะถูกสร้างด้วย JS -->
+                      </div>
+
+                      <div class="pt-2">
+                        <button id="confirmTrainBtn" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded transition">ยืนยันการฝึก</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Toast -->
+                <div id="toast" class="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 hidden opacity-0 transition-opacity duration-300">
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center">
                   <div class="w-full max-w-lg">
                       <h4 class="text-xl font-bold text-white mb-4 text-center border-b border-neutral-600 pb-2">CR 0 Bestiary</h4>
@@ -2440,6 +2501,7 @@
     <script src="./select-rules.js"></script>
     <script src="./cart.js"></script>
     <script src="./dm-shop.js"></script>
+    <script src="./pet.js"></script>
     <script>
       // === Configuration ===
       const GOOGLE_SCRIPT_URL =
