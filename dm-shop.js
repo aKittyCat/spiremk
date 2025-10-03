@@ -73,7 +73,7 @@
         <div class="w-full max-w-3xl bg-gray-900 rounded-xl border border-fantasy-gold shadow-xl max-h-[90vh] overflow-y-auto">
           <div class="px-5 py-4 border-b border-gray-700 flex items-center justify-between">
             <h3 class="font-bold text-fantasy-gold text-lg">🏪 DM Shop Session(อยู่ระหว่างการทดสอบ)</h3>
-            <button id="dmShopClose" class="text-gray-300 hover:text-white">✕</button>
+            <button id="dmShopClose" class="text-gray-500 hover:text-red-500 transition duration-150 ease-in-out font-extrabold text-3xl p-1 rounded-full">✕</button>
           </div>
 
           <div class="p-5 space-y-4">

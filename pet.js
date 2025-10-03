@@ -62,6 +62,11 @@ const backToMainBtn = document.getElementById('backToMainBtn');
 const closeModalBtn = document.getElementById('closeModalBtn');
 const openModalBtn = document.getElementById('openModalBtn');
 
+// Preview elements
+const buyPreview = document.getElementById('buyPreview');
+const changePreview = document.getElementById('changePreview');
+const trainPreview = document.getElementById('trainPreview');
+
 // ========== อัปเดตลิสต์สัตว์เลี้ยงตาม CR ==========
 function updatePetList(cr) {
   petSelect.innerHTML = '';
@@ -82,24 +87,72 @@ function updatePetList(cr) {
   }
 }
 
+// ========== อัปเดต preview ซื้อและเปลี่ยน ==========
+function updatePreviews() {
+  const pet = petSelect.value;
+  const cr = crSelect.value;
+  
+  if (!pet || !cr) {
+    buyPreview.textContent = '';
+    changePreview.textContent = '';
+    return;
+  }
+
+  // ซื้อ
+  const buy = buyCost[cr];
+  buyPreview.textContent = `ซื้อ ${pet} CR ${cr} โดยใช้ ${buy.gp}gp และ ${buy.favor} Favor`;
+
+  // เปลี่ยน
+  const changeFavor = changeCost[cr];
+  changePreview.textContent = `เปลี่ยนสัตว์เลี้ยงเป็น ${pet} CR ${cr} โดยใช้ ${changeFavor} Favor`;
+}
+
+// ========== อัปเดต preview ฝึก ==========
+function updateTrainPreview() {
+  const pet = trainPetName.textContent;
+  if (!pet) {
+    trainPreview.textContent = '';
+    return;
+  }
+
+  const selected = Array.from(document.querySelectorAll('.skill-checkbox:checked')).map(cb => cb.value);
+  if (selected.length === 0) {
+    trainPreview.textContent = 'เลือกทักษะเพื่อดูตัวอย่าง';
+    return;
+  }
+
+  // สร้างข้อความทักษะ
+  let skillText;
+  if (selected.length === 1) {
+    skillText = selected[0];
+  } else if (selected.length === 2) {
+    skillText = `${selected[0]} และ ${selected[1]}`;
+  } else {
+    skillText = `${selected.slice(0, -1).join(', ')} และ ${selected[selected.length - 1]}`;
+  }
+
+  const totalFavor = selected.length * 25;
+  trainPreview.textContent = `ทำการฝึก ${skillText} ให้ ${pet} โดยใช้ ${totalFavor} Favor`;
+}
+
 // ========== ตั้งค่าเริ่มต้นเมื่อเปิด Modal ==========
 function resetModalToDefault() {
   crSelect.value = "0";
   updatePetList("0");
   if (petsByCR["0"] && petsByCR["0"].length > 0) {
-    petSelect.value = petsByCR["0"][0]; // เช่น "Almiraj"
+    petSelect.value = petsByCR["0"][0];
   }
   const enabled = petSelect.value !== '';
   buyBtn.disabled = !enabled;
   changeBtn.disabled = !enabled;
   trainBtn.disabled = !enabled;
+  updatePreviews(); // ✅ อัปเดต preview ทันที
 }
 
 // ========== Event: เปลี่ยน CR ==========
 crSelect.addEventListener('change', () => {
   const cr = crSelect.value;
   updatePetList(cr);
-  // หลังเปลี่ยน CR ให้เลือกตัวแรกอัตโนมัติ
   if (petsByCR[cr] && petsByCR[cr].length > 0) {
     petSelect.value = petsByCR[cr][0];
   }
@@ -107,6 +160,7 @@ crSelect.addEventListener('change', () => {
   buyBtn.disabled = !enabled;
   changeBtn.disabled = !enabled;
   trainBtn.disabled = !enabled;
+  updatePreviews(); // ✅
 });
 
 // ========== Event: เปลี่ยนสัตว์เลี้ยง ==========
@@ -115,13 +169,14 @@ petSelect.addEventListener('change', () => {
   buyBtn.disabled = !enabled;
   changeBtn.disabled = !enabled;
   trainBtn.disabled = !enabled;
+  updatePreviews(); // ✅
 });
 
 // ========== เปิด/ปิด Modal ==========
 if (openModalBtn) {
   openModalBtn.addEventListener('click', () => {
     modal.classList.remove('hidden');
-    resetModalToDefault(); // ✅ ตั้งค่าเริ่มต้นทุกครั้งที่เปิด
+    resetModalToDefault();
   });
 }
 
@@ -169,7 +224,7 @@ function renderSkillCheckboxes() {
     skillsContainer.appendChild(div);
   });
 
-  // จำกัดการเลือกไม่เกิน 3
+  // จำกัดการเลือกไม่เกิน 3 + อัปเดต preview
   const checkboxes = document.querySelectorAll('.skill-checkbox');
   checkboxes.forEach(cb => {
     cb.addEventListener('change', () => {
@@ -178,6 +233,7 @@ function renderSkillCheckboxes() {
         cb.checked = false;
         showToast('⚠️ เลือกได้สูงสุด 3 ทักษะ');
       }
+      updateTrainPreview(); // ✅ อัปเดตทันทีเมื่อเลือก/ยกเลิก
     });
   });
 }
@@ -191,6 +247,7 @@ if (trainBtn) {
     renderSkillCheckboxes();
     mainStep.classList.add('hidden');
     trainStep.classList.remove('hidden');
+    updateTrainPreview(); // ✅ แสดง preview เริ่มต้น
   });
 }
 
@@ -213,7 +270,6 @@ if (confirmTrainBtn) {
       return;
     }
 
-    // สร้างข้อความทักษะ
     let skillText;
     if (selected.length === 1) {
       skillText = selected[0];

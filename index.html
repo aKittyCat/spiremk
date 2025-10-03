@@ -925,7 +925,7 @@
                     <div id="mainStep" class="space-y-4">
                       <div class="flex justify-between items-center">
                         <h4 class="text-xl font-bold text-white">จัดการสัตว์เลี้ยง</h4>
-                        <button id="closeModalBtn" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+                        <button id="closeModalBtn" class="text-gray-500 hover:text-red-500 transition duration-150 ease-in-out font-extrabold text-3xl p-1 rounded-full">&times;</button>
                       </div>
 
                       <div>
@@ -947,7 +947,9 @@
 
                       <div class="grid grid-cols-1 gap-3 pt-2">
                         <button id="buyBtn" class="bg-green-600 hover:bg-green-700 text-white py-2 rounded transition" disabled>ซื้อ</button>
+                        <div id="buyPreview" class="text-green-400 text-sm min-h-[20px] px-2"></div>
                         <button id="changeBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition" disabled>เปลี่ยนสัตว์เลี้ยง</button>
+                        <div id="changePreview" class="text-blue-400 text-sm min-h-[20px] px-2"></div>
                         <button id="trainBtn" class="bg-purple-600 hover:bg-purple-700 text-white py-2 rounded transition" disabled>ฝึกสัตว์เลี้ยง</button>
                       </div>
                     </div>
@@ -964,7 +966,7 @@
                       <div id="skillsContainer" class="grid grid-cols-2 gap-2 pt-2">
                         <!-- Checkbox จะถูกสร้างด้วย JS -->
                       </div>
-
+                      <div id="trainPreview" class="text-purple-400 text-sm min-h-[20px] py-2 px-2 bg-gray-800 rounded mb-2"></div>
                       <div class="pt-2">
                         <button id="confirmTrainBtn" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded transition">ยืนยันการฝึก</button>
                       </div>
