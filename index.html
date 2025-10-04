@@ -920,7 +920,7 @@
                 </div>
                 <!-- Pet Modal -->
                 <div id="petModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
-                  <div class="bg-gray-900 rounded-lg p-6 w-full max-w-md mx-4">
+                  <div class="bg-gray-900 rounded-lg p-6 w-full max-w-md mx-4 md:max-w-2xl">
                     <!-- หน้าหลัก: เลือกสัตว์เลี้ยง -->
                     <div id="mainStep" class="space-y-4">
                       <div class="flex justify-between items-center">
@@ -947,7 +947,9 @@
 
                       <!-- แสดงรูปภาพสัตว์เลี้ยง -->
                       <div id="petImageContainer" class="flex justify-center my-4">
-                        <img id="petImage" class="rounded-lg border-2 border-gray-700 w-full max-w-[280px] h-auto max-h-64 object-contain cursor-pointer hover:opacity-90 transition-opacity" alt="Pet image">
+                        <img 
+                          id="petImage" 
+                          class="rounded-lg border border-gray-700 w-full max-w-xs h-auto object-contain cursor-pointer hover:opacity-90 transition-opacity md:max-w-md lg:max-w-lg" alt="Pet image">
                       </div>
                       <!-- สำหรับขยายรูป -->
                       <div id="imageLightbox" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
