@@ -945,6 +945,18 @@
                         </select>
                       </div>
 
+                      <!-- แสดงรูปภาพสัตว์เลี้ยง -->
+                      <div id="petImageContainer" class="flex justify-center my-4">
+                        <img id="petImage" class="rounded-lg border-2 border-gray-700 w-full max-w-[280px] h-auto max-h-64 object-contain cursor-pointer hover:opacity-90 transition-opacity" alt="Pet image">
+                      </div>
+                      <!-- สำหรับขยายรูป -->
+                      <div id="imageLightbox" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
+                        <div class="relative max-w-4xl max-h-full">
+                          <button id="closeLightboxBtn" class="absolute -top-12 right-0 text-white text-3xl hover:text-red-500">&times;</button>
+                          <img id="lightboxImage" class="rounded-lg max-h-[90vh] max-w-[90vw] object-contain" alt="Enlarged pet">
+                        </div>
+                      </div>
+
                       <div class="grid grid-cols-1 gap-3 pt-2">
                         <button id="buyBtn" class="bg-green-600 hover:bg-green-700 text-white py-2 rounded transition" disabled>ซื้อ</button>
                         <div id="buyPreview" class="text-green-400 text-sm min-h-[20px] px-2"></div>

@@ -1,30 +1,30 @@
 // ========== ข้อมูลสัตว์เลี้ยง ==========
 const petsByCR = {
   "0": [
-  "Almiraj", "Baboon", "Badger", "Bat", "Campestri", "Cat", "Clockwork Observer", "Crab",
-  "Deer", "Dusktail", "Eagle", "Emberbat", "Everbug", "Fish", "Fox", "Frog",
-  "Giant Fire Beetle", "Goat", "Hare", "Hawk", "Hyena", "Jackal", "Knucklehead Trout",
-  "Lizard", "Octopus", "Owl", "Peacock", "Piccolo", "Pig", "Quipper", "Rat",
-  "Raven", "Rooster", "Scorpion", "Sea Horse", "Seal", "Sheep", "Spider", "Vulture", "Weasel", "Wild Dog"
+    "Almiraj", "Baboon", "Badger", "Bat", "Campestri", "Cat", "Clockwork Observer", "Crab",
+    "Deer", "Dusktail", "Eagle", "Emberbat", "Everbug", "Fish", "Fox", "Frog",
+    "Giant Fire Beetle", "Goat", "Hare", "Hawk", "Hyena", "Jackal", "Knucklehead Trout",
+    "Lizard", "Octopus", "Owl", "Peacock", "Piccolo", "Pig", "Quipper", "Rat",
+    "Raven", "Rooster", "Scorpion", "Sea Horse", "Seal", "Sheep", "Spider", "Vulture", "Weasel", "Wild Dog"
   ],
   "1/8": [
-  "Blood Hawk", "Clockwork Mule", "Flying Rocking Horse", "Giant Crab", "Giant Rat",
-  "Giant Weasel", "Mastiff", "Monodrone", "Mountain Goat", "Mule",
-  "Poisonous Snake", "Pony", "Twig Blight", "Wooden Donkey"
+    "Blood Hawk", "Clockwork Mule", "Flying Rocking Horse", "Giant Crab", "Giant Rat",
+    "Giant Weasel", "Mastiff", "Monodrone", "Mountain Goat", "Mule",
+    "Poisonous Snake", "Pony", "Twig Blight", "Wooden Donkey"
   ],
   "1/4": [
-  "Axe Beak", "Boar", "Cave Badger", "Constrictor Snake", "Cow",
-  "Deep Rothé", "Draft Horse", "Elk", "Giant Badger", "Giant Bat",
-  "Giant Centipede", "Giant Frog", "Giant Lizard", "Giant Poisonous Snake", "Giant Riding Lizard",
-  "Giant Wolf Spider", "Golden Stag", "Needle Blight", "Ox", "Panther",
-  "Reindeer", "Riding Horse", "Rothé", "Sled Dog", "Walrus",
-  "Wolf", "Yak", "Zebra"
+    "Axe Beak", "Boar", "Cave Badger", "Constrictor Snake", "Cow",
+    "Deep Rothé", "Draft Horse", "Elk", "Giant Badger", "Giant Bat",
+    "Giant Centipede", "Giant Frog", "Giant Lizard", "Giant Poisonous Snake", "Giant Riding Lizard",
+    "Giant Wolf Spider", "Golden Stag", "Needle Blight", "Ox", "Panther",
+    "Reindeer", "Riding Horse", "Rothé", "Sled Dog", "Walrus",
+    "Wolf", "Yak", "Zebra"
   ],
   "1/2": [
-  "Anvilwrought Raptor", "Bird of Prey", "Black Bear", "Camel", "Crocodile",
-  "Giant Canary", "Giant Dragonfly", "Giant Goat", "Giant Sea Horse", "Giant Wasp",
-  "Koi Prawn", "Metal Wasp", "Reef Shark", "Slicar", "Vine Blight",
-  "War Ostrich", "Warhorse"
+    "Anvilwrought Raptor", "Bird of Prey", "Black Bear", "Camel", "Crocodile",
+    "Giant Canary", "Giant Dragonfly", "Giant Goat", "Giant Sea Horse", "Giant Wasp",
+    "Koi Prawn", "Metal Wasp", "Reef Shark", "Slicar", "Vine Blight",
+    "War Ostrich", "Warhorse"
   ]
 };
 
@@ -67,6 +67,44 @@ const buyPreview = document.getElementById('buyPreview');
 const changePreview = document.getElementById('changePreview');
 const trainPreview = document.getElementById('trainPreview');
 
+// Image elements
+const petImage = document.getElementById('petImage');
+const petImageContainer = document.getElementById('petImageContainer');
+
+// ========== แมป CR เป็น folder ==========
+function getCRFolder(cr) {
+  if (cr === "0") return "CR0";
+  if (cr === "1/8") return "CR1_8";
+  if (cr === "1/4") return "CR1_4";
+  if (cr === "1/2") return "CR1_2";
+  return "CR0";
+}
+
+// ========== แสดงรูปภาพสัตว์เลี้ยง ==========
+function showPetImage(petName, cr) {
+  if (!petName || !cr) {
+    petImage.classList.add('hidden');
+    return;
+  }
+
+  // แปลงชื่อให้ปลอดภัยสำหรับ URL (แทนช่องว่างด้วย %20 หรือใช้ encodeURI)
+  const safeName = encodeURIComponent(petName.trim());
+  const folder = getCRFolder(cr);
+  const imageUrl = `pet/${folder}/${safeName}.png`;
+
+  // ลองโหลดรูป
+  const img = new Image();
+  img.onload = () => {
+    petImage.src = imageUrl;
+    petImage.classList.remove('hidden');
+  };
+  img.onerror = () => {
+    // ซ่อนรูปหากโหลดไม่ได้
+    petImage.classList.add('hidden');
+  };
+  img.src = imageUrl; // เริ่มโหลด
+}
+
 // ========== อัปเดตลิสต์สัตว์เลี้ยงตาม CR ==========
 function updatePetList(cr) {
   petSelect.innerHTML = '';
@@ -87,52 +125,27 @@ function updatePetList(cr) {
   }
 }
 
-// ========== อัปเดต preview ซื้อและเปลี่ยน ==========
-function updatePreviews() {
+// ========== อัปเดต preview และรูปภาพ ==========
+function updatePreviewsAndImage() {
   const pet = petSelect.value;
   const cr = crSelect.value;
   
   if (!pet || !cr) {
     buyPreview.textContent = '';
     changePreview.textContent = '';
+    petImage.classList.add('hidden');
     return;
   }
 
-  // ซื้อ
+  // อัปเดต preview
   const buy = buyCost[cr];
   buyPreview.textContent = `ซื้อ ${pet} CR ${cr} โดยใช้ ${buy.gp}gp และ ${buy.favor} Favor`;
 
-  // เปลี่ยน
   const changeFavor = changeCost[cr];
   changePreview.textContent = `เปลี่ยนสัตว์เลี้ยงเป็น ${pet} CR ${cr} โดยใช้ ${changeFavor} Favor`;
-}
 
-// ========== อัปเดต preview ฝึก ==========
-function updateTrainPreview() {
-  const pet = trainPetName.textContent;
-  if (!pet) {
-    trainPreview.textContent = '';
-    return;
-  }
-
-  const selected = Array.from(document.querySelectorAll('.skill-checkbox:checked')).map(cb => cb.value);
-  if (selected.length === 0) {
-    trainPreview.textContent = 'เลือกทักษะเพื่อดูตัวอย่าง';
-    return;
-  }
-
-  // สร้างข้อความทักษะ
-  let skillText;
-  if (selected.length === 1) {
-    skillText = selected[0];
-  } else if (selected.length === 2) {
-    skillText = `${selected[0]} และ ${selected[1]}`;
-  } else {
-    skillText = `${selected.slice(0, -1).join(', ')} และ ${selected[selected.length - 1]}`;
-  }
-
-  const totalFavor = selected.length * 25;
-  trainPreview.textContent = `ทำการฝึก ${skillText} ให้ ${pet} โดยใช้ ${totalFavor} Favor`;
+  // แสดงรูปภาพ
+  showPetImage(pet, cr);
 }
 
 // ========== ตั้งค่าเริ่มต้นเมื่อเปิด Modal ==========
@@ -146,7 +159,7 @@ function resetModalToDefault() {
   buyBtn.disabled = !enabled;
   changeBtn.disabled = !enabled;
   trainBtn.disabled = !enabled;
-  updatePreviews(); // ✅ อัปเดต preview ทันที
+  updatePreviewsAndImage();
 }
 
 // ========== Event: เปลี่ยน CR ==========
@@ -160,7 +173,7 @@ crSelect.addEventListener('change', () => {
   buyBtn.disabled = !enabled;
   changeBtn.disabled = !enabled;
   trainBtn.disabled = !enabled;
-  updatePreviews(); // ✅
+  updatePreviewsAndImage();
 });
 
 // ========== Event: เปลี่ยนสัตว์เลี้ยง ==========
@@ -169,7 +182,7 @@ petSelect.addEventListener('change', () => {
   buyBtn.disabled = !enabled;
   changeBtn.disabled = !enabled;
   trainBtn.disabled = !enabled;
-  updatePreviews(); // ✅
+  updatePreviewsAndImage();
 });
 
 // ========== เปิด/ปิด Modal ==========
@@ -224,7 +237,6 @@ function renderSkillCheckboxes() {
     skillsContainer.appendChild(div);
   });
 
-  // จำกัดการเลือกไม่เกิน 3 + อัปเดต preview
   const checkboxes = document.querySelectorAll('.skill-checkbox');
   checkboxes.forEach(cb => {
     cb.addEventListener('change', () => {
@@ -233,7 +245,7 @@ function renderSkillCheckboxes() {
         cb.checked = false;
         showToast('⚠️ เลือกได้สูงสุด 3 ทักษะ');
       }
-      updateTrainPreview(); // ✅ อัปเดตทันทีเมื่อเลือก/ยกเลิก
+      updateTrainPreview();
     });
   });
 }
@@ -247,7 +259,7 @@ if (trainBtn) {
     renderSkillCheckboxes();
     mainStep.classList.add('hidden');
     trainStep.classList.remove('hidden');
-    updateTrainPreview(); // ✅ แสดง preview เริ่มต้น
+    updateTrainPreview();
   });
 }
 
@@ -257,6 +269,33 @@ if (backToMainBtn) {
     trainStep.classList.add('hidden');
     mainStep.classList.remove('hidden');
   });
+}
+
+// ========== อัปเดต preview ฝึก ==========
+function updateTrainPreview() {
+  const pet = trainPetName.textContent;
+  if (!pet) {
+    trainPreview.textContent = '';
+    return;
+  }
+
+  const selected = Array.from(document.querySelectorAll('.skill-checkbox:checked')).map(cb => cb.value);
+  if (selected.length === 0) {
+    trainPreview.textContent = 'เลือกทักษะเพื่อดูตัวอย่าง';
+    return;
+  }
+
+  let skillText;
+  if (selected.length === 1) {
+    skillText = selected[0];
+  } else if (selected.length === 2) {
+    skillText = `${selected[0]} และ ${selected[1]}`;
+  } else {
+    skillText = `${selected.slice(0, -1).join(', ')} และ ${selected[selected.length - 1]}`;
+  }
+
+  const totalFavor = selected.length * 25;
+  trainPreview.textContent = `ทำการฝึก ${skillText} ให้ ${pet} โดยใช้ ${totalFavor} Favor`;
 }
 
 // ========== ยืนยันการฝึก ==========
@@ -299,10 +338,10 @@ async function copyAction(text) {
 
 // ========== Toast Notification ==========
 function showToast(message) {
-  let toast = document.getElementById('global-toast');
+  let toast = document.getElementById('toast');
   if (!toast) {
     toast = document.createElement('div');
-    toast.id = 'global-toast';
+    toast.id = 'toast';
     toast.className = 'fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-opacity duration-300 opacity-0';
     document.body.appendChild(toast);
   }
@@ -315,4 +354,39 @@ function showToast(message) {
     toast.classList.remove('opacity-100');
     toast.classList.add('opacity-0');
   }, 2500);
+}
+// ========== Lightbox Elements ==========
+const imageLightbox = document.getElementById('imageLightbox');
+const lightboxImage = document.getElementById('lightboxImage');
+const closeLightboxBtn = document.getElementById('closeLightboxBtn');
+const petImageEl = document.getElementById('petImage');
+
+// ========== เปิด Lightbox ==========
+if (petImageEl) {
+  petImageEl.addEventListener('click', () => {
+    if (petImageEl.src && !petImageEl.classList.contains('hidden')) {
+      lightboxImage.src = petImageEl.src;
+      imageLightbox.classList.remove('hidden');
+      document.body.style.overflow = 'hidden'; // ปิด scroll
+    }
+  });
+}
+
+// ========== ปิด Lightbox ==========
+function closeLightbox() {
+  imageLightbox.classList.add('hidden');
+  document.body.style.overflow = ''; // เปิด scroll กลับ
+}
+
+if (closeLightboxBtn) {
+  closeLightboxBtn.addEventListener('click', closeLightbox);
+}
+
+// ปิดเมื่อคลิกนอกภาพ
+if (imageLightbox) {
+  imageLightbox.addEventListener('click', (e) => {
+    if (e.target === imageLightbox) {
+      closeLightbox();
+    }
+  });
 }
