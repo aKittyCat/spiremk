@@ -339,15 +339,16 @@ async function copyAction(text) {
 // ========== Toast Notification ==========
 function showToast(message) {
   let toast = document.getElementById('toast');
-  if (!toast) {
+  
+  if (!toast || !document.body.contains(toast)) {
     toast = document.createElement('div');
     toast.id = 'toast';
-    toast.className = 'fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-opacity duration-300 opacity-0';
+    toast.className = 'fixed bottom-4 right-4 bg-black bg-opacity-50 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-opacity duration-300 opacity-0';
     document.body.appendChild(toast);
   }
 
   toast.textContent = message;
-  toast.classList.remove('opacity-0');
+  toast.classList.remove('hidden', 'opacity-0');
   toast.classList.add('opacity-100');
 
   setTimeout(() => {
@@ -355,6 +356,7 @@ function showToast(message) {
     toast.classList.add('opacity-0');
   }, 2500);
 }
+
 // ========== Lightbox Elements ==========
 const imageLightbox = document.getElementById('imageLightbox');
 const lightboxImage = document.getElementById('lightboxImage');
@@ -375,7 +377,7 @@ if (petImageEl) {
 // ========== ปิด Lightbox ==========
 function closeLightbox() {
   imageLightbox.classList.add('hidden');
-  document.body.style.overflow = ''; // เปิด scroll กลับ
+  document.body.style.overflow = '';
 }
 
 if (closeLightboxBtn) {
