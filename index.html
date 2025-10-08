@@ -2730,7 +2730,7 @@
           if (gem) basePrice = gem.final;
 
           // ถ้ามี Generic Variant base item ก็ + เพิ่มเข้าไปเหมือนเดิม
-          const gv = getGVAddon ? getGVAddon(it) : null; // โค้ดเดิมของคุณ
+          const gv = getGVAddon ? getGVAddon(it) : null; 
           const tagGV = gv ? ` [Base: ${gv.name} (+${fmt(gv.price)})]` : "";
           const tagGem = gem
             ? ` [${gem.name} ${fmt(gem.worth)} gp worth × ${gem.factor.toFixed(
@@ -2764,6 +2764,7 @@
       let currentUpdates = [];
       let isAdminMode = false;
       let adminToken = null; // <--- โทเค็นจาก GAS หลังล็อกอิน
+      const openItemIds = new Set();
 
       // === DOM Elements ===
       const navButtons = document.querySelectorAll(".nav-btn");
@@ -3205,7 +3206,7 @@
                     }
                   </tr>
 
-                    <tr id="desc-${index}" class="hidden border-t border-gray-600">
+                    <tr id="desc-${index}" class="${openItemIds.has(item.id) ? '' : 'hidden'} border-t border-gray-600">
                       <td colspan="${
                         isAdminMode ? 8 : 7
                       }" class="px-4 py-3 bg-gray-800">
@@ -3441,7 +3442,20 @@
                 return;
 
               const idx = row.getAttribute("data-row-index");
-              toggleDescription("desc-" + idx);
+              const item = items[Number(idx)];
+              if (!item) return;
+
+              const descRow = document.getElementById(`desc-${idx}`);
+              if (!descRow) return;
+
+              const isOpen = openItemIds.has(item.id);
+              if (isOpen) {
+                openItemIds.delete(item.id);
+                descRow.classList.add("hidden");
+              } else {
+                openItemIds.add(item.id);
+                descRow.classList.remove("hidden");
+              }
             });
           });
 
