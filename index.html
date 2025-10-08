@@ -3112,17 +3112,16 @@
             <table class="min-w-[860px] w-full bg-gray-800 rounded-lg overflow-hidden">
               <thead class="bg-gray-900">
                 <tr>
-                  <th class="px-4 py-3 text-left text-fantasy-gold font-bold">ชื่อไอเทม</th>
-                  <th class="px-4 py-3 text-left text-fantasy-gold font-bold">ประเภท</th>
-                  <th class="px-4 py-3 text-center text-fantasy-gold font-bold">ATN</th>
-                  <th class="px-4 py-3 text-center text-fantasy-gold font-bold">ไอเทมประเภท</th>
-                  <th class="px-4 py-3 text-center text-fantasy-gold font-bold">Tier</th>
-                  <th class="px-4 py-3 text-center text-fantasy-gold font-bold">Rarity</th>
-                  <th class="px-4 py-3 text-right text-fantasy-gold font-bold">ราคา(GP)</th>
-                  <th class="px-4 py-3 text-right text-fantasy-gold font-bold">หนังสือ</th>
+                  <th class="px-4 py-3 text-left text-fantasy-gold font-bold min-w-[200px] w-1/3">ชื่อไอเทม</th>
+                  <th class="px-4 py-3 text-left text-fantasy-gold font-bold min-w-[150px] w-1/4">ประเภท</th>
+                  <th class="px-4 py-3 text-center text-fantasy-gold font-bold min-w-[60px] w-[60px]">ATN</th>
+                  <th class="px-4 py-3 text-center text-fantasy-gold font-bold min-w-[90px] w-[90px]">ไอเทมประเภท</th>
+                  <th class="px-4 py-3 text-center text-fantasy-gold font-bold min-w-[60px] w-[60px]">Tier</th>
+                  <th class="px-4 py-3 text-center text-fantasy-gold font-bold min-w-[80px] w-[80px]">Rarity</th>
+                  <th class="px-4 py-3 text-right text-fantasy-gold font-bold min-w-[90px] w-[90px]">ราคา(GP)</th>
                   ${
                     isAdminMode
-                      ? `<th class="px-4 py-3 text-center text-fantasy-gold font-bold">จัดการ</th>`
+                      ? `<th class="px-4 py-3 text-center text-fantasy-gold font-bold min-w-[100px] w-[100px]">จัดการ</th>`
                       : ``
                   }
                 </tr>
@@ -3185,9 +3184,6 @@
                     <td class="px-4 py-3 text-right font-bold text-white-400 whitespace-nowrap">${escapeHtml(
                       item.price
                     )}</td>
-                    <td class="px-4 py-3 text-right text-sm text-gray-400 break-words">${escapeHtml(
-                      item.book
-                    )}</td>
                     ${
                       isAdminMode
                         ? `
@@ -3211,7 +3207,7 @@
 
                     <tr id="desc-${index}" class="hidden border-t border-gray-600">
                       <td colspan="${
-                        isAdminMode ? 10 : 9
+                        isAdminMode ? 9 : 8
                       }" class="px-4 py-3 bg-gray-800">
                         ${
                           isWeapon(item) || isArmor(item)
@@ -3284,9 +3280,19 @@
                         `
                             : `<div class="mt-2 text-gray-300 text-sm">ไม่มีรายละเอียดเพิ่มเติม</div>`
                         }
+                        ${
+                          item.book
+                            ? `
+                            <div class="mt-2">
+                              <strong class="text-fantasy-gold">หนังสือ:</strong>
+                              <span class="text-gray-300">${escapeHtml(item.book)}</span>
+                            </div>
+                          `
+                            : ``
+                        }   
                       </td>
                     </tr>
-                `
+                  `
                   )
                   .join("")}
               </tbody>
