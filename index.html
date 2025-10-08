@@ -3134,8 +3134,20 @@
                   <tr class="border-t border-gray-700 hover:bg-gray-700 transition-colors cursor-pointer" data-row-index="${index}">
                     <td class="px-4 py-3">
                       <div class="flex items-center gap-2">
-                        <button class="add-cart-btn inline-flex items-center justify-center w-6 h-6 rounded bg-black hover:bg-yellow-600/40"
-                        data-add-id="${item.id}" title="ใส่ตะกร้า">🛒</button>
+                        ${
+                          (() => {
+                            const lockReason =
+                              window.SELECT_RULES && window.SELECT_RULES.shouldDisable
+                                ? window.SELECT_RULES.shouldDisable(item)
+                                : null;
+                            if (lockReason) {
+                              return `<span class="inline-flex items-center justify-center w-6 h-6 rounded bg-gray-700 text-gray-500" title="${escapeHtml(lockReason)}" aria-disabled="true">🔒</span>`;
+                            } else {
+                              return `<button class="add-cart-btn inline-flex items-center justify-center w-6 h-6 rounded bg-black hover:bg-yellow-600/40"
+                                      data-add-id="${item.id}" title="ใส่ตะกร้า">🛒</button>`;
+                            }
+                          })()
+                        }
                         <div class="font-semibold text-white hover:text-fantasy-gold">
                           ${
                             item.nameLink
