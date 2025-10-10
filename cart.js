@@ -134,8 +134,8 @@
     });
 
     const header = `ซื้อ (${countItems()} ชิ้น)`;
-    const total = `รวมทั้งสิ้น: ${fmt(totalGp())} gp`;
-    return "" + header + "\n" + lines.join("\n") + "\n— " + total + ""; // <--- No Markdown
+    const total = `รวมทั้งสิ้น: - ${fmt(totalGp())} gp`;
+    return "" + header + "\n" + lines.join("\n") + "\n" + "\n— " + total + ""; // <--- No Markdown
     // return "```md\n" + header + "\n" + lines.join("\n") + "\n— " + total + "\n```"; // <--- แบบ Markdown
   }
 

@@ -2753,9 +2753,9 @@
         }, 0);
 
         const header = `ซื้อ (${items.length} ชิ้น)`;
-        const footer = `— รวม: ${fmt(total)} gp`;
+        const footer = `— รวมทั้งสิ้น: - ${fmt(total)} gp`;
         return (
-          "" + header + "\n" + lines.join("\n") + "\n" + footer + "" // <--- No Markdown
+          "" + header + "\n" + lines.join("\n") + "\n" + "\n" + footer + "" // <--- No Markdown
           // "```md\n" + header + "\n" + lines.join("\n") + "\n" + footer + "\n```" // <--- แบบ Markdown
         );
       }
