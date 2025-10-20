@@ -2213,6 +2213,7 @@
                 <option value="Adventuring Gear">Adventuring Gear</option>
                 <option value="Ammunition">Ammunition</option>
                 <option value="Armor">Armor</option>
+                <option value="Craft Only Item">Craft Only Item</option>
                 <option value="Gemstone">Gemstone</option>
                 <option value="Generic Variant">Generic Variant</option>
                 <option value="Illegal Drug">Illegal Drug</option>
@@ -2521,7 +2522,6 @@
       </div>
     </div>
 
-    <!-- (ถ้ามีแต่ตอนนี้ยังไม่ใช้) ex:v=2025-08-27-1 หรือเลข build-->
     <script src="./gv-allowed.js"></script>
     <script src="./gem-allowed.js"></script>
     <script src="./select-rules.js"></script>
@@ -2776,7 +2776,7 @@
       let currentItems = [];
       let currentUpdates = [];
       let isAdminMode = false;
-      let adminToken = null; // <--- โทเค็นจาก GAS หลังล็อกอิน
+      let adminToken = null;
       const openItemIds = new Set();
 
       // === DOM Elements ===
@@ -2949,16 +2949,14 @@
 
       function showAdminLogin() {
         if (isAdminMode) {
-          // Toggle off admin mode
           isAdminMode = false;
-          adminToken = null; // ล้างโทเค็น
+          adminToken = null; 
           adminPanel.classList.remove("active");
           adminToggle.textContent = "Admin Panel";
           adminToggle.classList.remove("bg-fantasy-red");
           adminToggle.classList.add("bg-fantasy-purple");
-          refreshAdminUI(); // ซ่อนปุ่มจัดการ
+          refreshAdminUI(); 
         } else {
-          // Show login modal
           adminModal.classList.remove("hidden");
           document.getElementById("adminPassword").focus();
         }
@@ -3690,7 +3688,7 @@
           "action",
           document.getElementById("itemId").value ? "updateItem" : "addItem"
         );
-        formData.append("token", adminToken); // แนบโทเค็นทุกครั้ง
+        formData.append("token", adminToken); 
         formData.append("id", document.getElementById("itemId").value);
         formData.append("name", document.getElementById("itemName").value);
         formData.append(
@@ -4265,47 +4263,10 @@
       document.addEventListener("visibilitychange", async () => {
         if (document.visibilityState !== "visible") return;
         saveFilters();
-        await loadData(); // โหลด items+updates ปัจจุบันใช้ฟังก์ชันนี้อยู่แล้ว :contentReference[oaicite:4]{index=4}
+        await loadData();
         restoreFilters();
         filterItems();
       });
-    </script>
-
-    <!-- Cloudflare -->
-    <script>
-      (function () {
-        function c() {
-          var b = a.contentDocument || a.contentWindow.document;
-          if (b) {
-            var d = b.createElement("script");
-            d.innerHTML =
-              "window.__CF$cv$params={r:'96dc47c042052dc4',t:'MTc1NDk2Mjk5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
-            b.getElementsByTagName("head")[0].appendChild(d);
-          }
-        }
-        if (document.body) {
-          var a = document.createElement("iframe");
-          a.height = 1;
-          a.width = 1;
-          a.style.position = "absolute";
-          a.style.top = 0;
-          a.style.left = 0;
-          a.style.border = "none";
-          a.style.visibility = "hidden";
-          document.body.appendChild(a);
-          if ("loading" !== document.readyState) c();
-          else if (window.addEventListener)
-            document.addEventListener("DOMContentLoaded", c);
-          else {
-            var e = document.onreadystatechange || function () {};
-            document.onreadystatechange = function (b) {
-              e(b);
-              "loading" !== document.readyState &&
-                ((document.onreadystatechange = e), c());
-            };
-          }
-        }
-      })();
     </script>
   </body>
 </html>
