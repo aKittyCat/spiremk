@@ -4,6 +4,7 @@
   const DISABLE_TYPES = new Set([
     // ตัวอย่าง:
     // 'Gemstone',
+    'Craft Only Item',
     'Trade Good',
     'Treasure (Gemstone)',
     'Mount',
