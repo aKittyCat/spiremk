@@ -195,6 +195,8 @@
     "weapon-of-certain-death": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `${base} of Certain Death` },
     "weapon-of-thrones-command": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `${base} of Throne's Command` },
     "weapon-of-warning": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `${base} of Warning` },
+    "dragon-wrath-weapon-slumbering": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Slumbering Dragon's Wrath ${base}` },
+    "dragon-wrath-weapon-stirring": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Stirring Dragon's Wrath ${base}` },
     "dragon-wrath-weapon-ascendent": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Ascendent Dragon's Wrath ${base}` },
     "dragon-wrath-weapon-wakened": { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Wakened Dragon's Wrath ${base}` },
     "zephyr-armor":     { kind: "armor",   list: makeSet(ZEPHYR_ARMOR_BASES),     makeName: (base)=> `Zephyr ${base}` },
