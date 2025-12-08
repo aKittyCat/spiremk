@@ -2160,89 +2160,83 @@
               <a class="text-fantasy-gold">Staff</a>
             </p>
             <!-- Filters -->
-            <div class="mb-6 grid md:grid-cols-5 gap-4">
-              <select
-                id="tierFilter"
-                class="p-2 rounded bg-gray-700 text-white"
-              >
-                <option value="">ทุก Tier</option>
-                <option value="Tier 0">Tier 0</option>
-                <option value="Tier 1">Tier 1</option>
-                <option value="Tier 2">Tier 2</option>
-                <option value="Tier 3">Tier 3</option>
-                <option value="Tier 4">Tier 4</option>
-                <option value="Tier 5">Tier 5</option>
-                <option value="Mundane Item">Mundane Item</option>
-              </select>
-              <select
-                id="rarityFilter"
-                class="p-2 rounded bg-gray-700 text-white"
-              >
-                <option value="">ทุก Rarity</option>
-                <option value="Common">Common</option>
-                <option value="Uncommon">Uncommon</option>
-                <option value="Rare">Rare</option>
-                <option value="Very Rare">Very Rare</option>
-                <option value="Legendary">Legendary</option>
-                <option value="Artifact">Artifact</option>
-                <option value="Mundane">Mundane</option>
-              </select>
-              <select
-                id="attuneFilter"
-                class="p-2 rounded bg-gray-700 text-white"
-              >
-                <option value="">Attune</option>
-                <option value="Yes">ต้อง Attune</option>
-                <option value="No">ไม่ต้อง Attune</option>
-              </select>
-              <select
-                id="PerDisFilter"
-                class="p-2 rounded bg-gray-700 text-white"
-              >
-                <option value="">ทุกการใช้งาน</option>
-                <option value="ถาวร">ไอเทมถาวร</option>
-                <option value="ใช้แล้วทิ้ง">ไอเทมใช้แล้วทิ้ง</option>
-              </select>
-              <select id="sortPrice" class="p-2 rounded bg-gray-700 text-white">
-                <option value="">เรียงราคา</option>
-                <option value="asc">ราคาต่ำสุด → สูงสุด</option>
-                <option value="desc">ราคาสูงสุด → ต่ำสุด</option>
-              </select>
-              <select
-                id="typeFilter"
-                class="p-2 rounded bg-gray-700 text-white"
-              >
-                <option value="">ประเภทไอเทมทั้งหมด</option>
-                <option value="Adventuring Gear">Adventuring Gear</option>
-                <option value="Ammunition">Ammunition</option>
-                <option value="Armor">Armor</option>
-                <option value="Craft Only Item">Craft Only Item</option>
-                <option value="Gemstone">Gemstone</option>
-                <option value="Generic Variant">Generic Variant</option>
-                <option value="Illegal Drug">Illegal Drug</option>
-                <option value="Other">Other</option>
-                <option value="Potion">Potion</option>
-                <option value="Healing Potion">Healing Potion</option>
-                <option value="Poison">Poison</option>
-                <option value="Ring">Ring</option>
-                <option value="Scroll">Scroll</option>
-                <option value="Spell Components">Spell Components</option>
-                <option value="Spell Scroll">Spell Scroll</option>
-                <option value="Shield">Shield</option>
-                <option value="Weapon,">Weapon</option>
-                <option value="Rod">Weapon, Rod</option>
-                <option value="Wand">Weapon, Wand</option>
-                <option value="Wondrous Item">Wondrous Item</option>
-                <option value="Wondrous item (Tattoo)">
-                  Wondrous Item, Tattoo
-                </option>
-              </select>
-              <input
-                type="text"
-                id="searchFilter"
-                placeholder="ค้นหาชื่อไอเทม..."
-                class="p-2 rounded bg-gray-700 text-white"
-              />
+            <div class="mb-6 flex flex-wrap gap-3 p-4 bg-gray-800 rounded-lg shadow-xl items-center">
+              <div class="w-full sm:w-1/2 md:w-1/3 lg:flex-grow order-1">
+                  <label for="searchFilter" class="sr-only">ค้นหาไอเทม</label>
+                  <div class="relative">
+                      <input
+                          type="text"
+                          id="searchFilter"
+                          placeholder="🔎ค้นหาชื่อไอเทม..."
+                          class="w-full p-2 pl-10 rounded-lg bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"/>
+                      </div>
+              </div>
+
+              <div class="flex flex-wrap gap-3 order-2 w-full md:w-auto">
+                  <select
+                      id="tierFilter"
+                      class="p-2 rounded-lg bg-gray-700 text-white border border-gray-600 appearance-none pr-8 cursor-pointer focus:ring-1 focus:ring-blue-500">
+                      <option value="">✨ทุก Tier</option>
+                      <option value="Tier 0">Tier 0</option>
+                      <option value="Tier 1">Tier 1</option>
+                      <option value="Tier 2">Tier 2</option>
+                      <option value="Tier 3">Tier 3</option>
+                      <option value="Tier 4">Tier 4</option>
+                      <option value="Tier 5">Tier 5</option>
+                      <option value="Mundane Item">Mundane Item</option>
+                  </select>
+
+                  <select
+                      id="rarityFilter"
+                      class="p-2 rounded-lg bg-gray-700 text-white border border-gray-600 appearance-none pr-8 cursor-pointer focus:ring-1 focus:ring-blue-500">
+                      <option value="">💎ทุก Rarity</option>
+                      <option value="Common">Common</option>
+                      <option value="Uncommon">Uncommon</option>
+                      <option value="Rare">Rare</option>
+                      <option value="Very Rare">Very Rare</option>
+                      <option value="Legendary">Legendary</option>
+                      <option value="Artifact">Artifact</option>
+                      <option value="Mundane">Mundane</option>
+                  </select>
+              </div>
+
+              <div class="flex flex-wrap gap-3 order-3 w-full md:w-auto">
+                  <select
+                      id="typeFilter"
+                      class="p-2 rounded-lg bg-gray-700 text-white border border-gray-600 appearance-none pr-8 cursor-pointer focus:ring-1 focus:ring-blue-500">
+                      <option value="">🏷️ประเภทไอเทมทั้งหมด</option>
+                      <option value="Adventuring Gear">Adventuring Gear</option>
+                      <option value="Ammunition">Ammunition</option>
+                      <option value="Armor">Armor</option>
+                      <option value="Craft Only Item">Craft Only Item</option>
+                      <option value="Wondrous Item">Wondrous Item</option>
+                      <option value="Wondrous item (Tattoo)">Wondrous Item, Tattoo</option>
+                  </select>
+
+                  <select
+                      id="attuneFilter"
+                      class="p-2 rounded-lg bg-gray-700 text-white border border-gray-600 appearance-none pr-8 cursor-pointer focus:ring-1 focus:ring-blue-500">
+                      <option value="">🔗Attunement</option>
+                      <option value="Yes">ต้อง Attune</option>
+                      <option value="No">ไม่ต้อง Attune</option>
+                  </select>
+
+                  <select
+                      id="PerDisFilter"
+                      class="p-2 rounded-lg bg-gray-700 text-white border border-gray-600 appearance-none pr-8 cursor-pointer focus:ring-1 focus:ring-blue-500">
+                      <option value="">♻️การใช้งาน</option>
+                      <option value="ถาวร">ไอเทมถาวร</option>
+                      <option value="ใช้แล้วทิ้ง">ไอเทมใช้แล้วทิ้ง</option>
+                  </select>
+              </div>
+
+              <div class="flex flex-wrap gap-3 order-4 ml-0 md:ml-auto">
+                  <select id="sortPrice" class="p-2 rounded-lg bg-gray-700 text-white border border-gray-600 appearance-none pr-8 cursor-pointer focus:ring-1 focus:ring-blue-500">
+                      <option value="">💸เรียงราคา</option>
+                      <option value="asc">ราคาต่ำสุด → สูงสุด</option>
+                      <option value="desc">ราคาสูงสุด → ต่ำสุด</option>
+                  </select>
+              </div>
             </div>
 
             <!-- Bulk actions -->
