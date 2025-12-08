@@ -99,6 +99,10 @@
     "Ring Mail","Scale Mail", "Spiked Armor","Splint Armor"
   ];
 
+  const MYCELIAWEAVE_BASES= [
+    "Hide Armor","Leather Armor","Studded Leather Armor"
+  ];
+
   const ZEPHYR_ARMOR_BASES = [ 
     "Leather Armor","Padded Armor","Studded Leather Armor"
   ];
@@ -173,6 +177,7 @@
     "mizzium-armor":    { kind: "armor",   list: makeSet(MITHRAL_ARMOR_BASES),           makeName: (base)=> `Mizzium ${base}` },
     "molten-bronze-skin": { kind: "armor",   list: makeSet(ARMOR_BASES),           makeName: (base)=> `Molten Bronze Skin (${base})` },
     "moon-touched-sword": { kind: "weapon",  list: makeSet(BLOODEDSHED_BLADE_BASES), makeName: (base)=> `Moon-Touched ${base}` },
+    "myceliaweave-armor": { kind: "armor",   list: makeSet(MYCELIAWEAVE_BASES),           makeName: (base)=> `Myceliaweave (${base})` },
     "nine-lives-stealer": { kind: "weapon",  list: makeSet(BLOODEDSHED_BLADE_BASES), makeName: (base)=> `Nine Lives Stealer ${base}` },
     "oceanic-weapon":   { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Oceanic ${base}` },
     "orb-of-shielding": { kind: "spellcasting-focus",  list: makeSet(ORB_OF_SHIELDING_BASES), makeName: (base)=> `Orb of Shielding: Base items:${base}(อย่าลืมระบุประเภท)` },
