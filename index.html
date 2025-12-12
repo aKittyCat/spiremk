@@ -688,6 +688,28 @@
                                   100
                               </td>
                           </tr>
+                          <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                              <td class="px-6 py-2 border border-neutral-700">
+                                  CR 1-2
+                              </td>
+                              <td class="px-6 py-2 text-center border border-neutral-700">
+                                  1000
+                              </td>
+                              <td class="px-6 py-2 text-center border border-neutral-700">
+                                  150
+                              </td>
+                          </tr>
+                          <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                              <td class="px-6 py-2 border border-neutral-700">
+                                  CR 3
+                              </td>
+                              <td class="px-6 py-2 text-center border border-neutral-700">
+                                  1500
+                              </td>
+                              <td class="px-6 py-2 text-center border border-neutral-700">
+                                  200
+                              </td>
+                          </tr>
                       </tbody>
                   </table>
                 </div>
@@ -744,6 +766,22 @@
                               </td>
                               <td class="px-6 py-2 text-center border border-neutral-700">
                                   75
+                              </td>
+                          </tr>
+                          <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                              <td class="px-6 py-2 border border-neutral-700">
+                                  CR 1-2
+                              </td>
+                              <td class="px-6 py-2 text-center border border-neutral-700">
+                                  100
+                              </td>
+                          </tr>
+                          <tr class="bg-neutral-900 hover:bg-neutral-700/80 transition duration-150 ease-in-out">
+                              <td class="px-6 py-2 border border-neutral-700">
+                                  CR 3
+                              </td>
+                              <td class="px-6 py-2 text-center border border-neutral-700">
+                                  150
                               </td>
                           </tr>
                       </tbody>
@@ -887,25 +925,24 @@
               </div>
               <div class="bg-gray-800 rounded-lg p-6">
                 <h3 class="text-xl font-bold text-fantasy-gold mb-4">
-                  😺 การใช้สัตว์เลี้ยงภายในเซสชั่น
-                </h3>
-                <ul class="space-y-2 text-gray-300">
-                  <li>
-                    • ผู้เล่นต้องใช้ Bonus Action ในการมอบคำสั่งสำหรับ Action ต่างๆ ของสัตว์เลี้ยงยกเว้นการเคลื่อนที่
-                    (ให้ยึดข้อจำกัดนี้เป็นหลัก ยกเว้น DM ในเซสชั่นจะใช้วิธีอื่น)
-                  </li>
-                  <li>
-                    • ถ้าผู้เล่นมี Companion อื่นๆ ที่ได้มาจากคลาส เช่น Drakewarden หรือ Steel Defender ผู้เล่นสามารถใช้ Bonus Action เพื่อมอบคำสั่งให้ Companion และสัตว์เลี้ยงได้พร้อมกัน
-                  </li>
-                </ul>
-              </div>
-              <div class="bg-gray-800 rounded-lg p-6">
-                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
                   😿 เมื่อสัตว์เลี้ยงเลือดเหลือ 0
                 </h3>
                 <ul class="space-y-2 text-gray-300">
                   <li>
                     • เมื่อเลือดของสัตว์เลี้ยงเหลือ 0 สัตว์เลี้ยงกลับไปที่หอคอยและไม่สามารถเรียกกลับมาได้อีกจนกว่าจะจบเซสชั่น
+                  </li>
+                </ul>
+              </div>
+              <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  😺 รายการสัตว์เลี้ยงที่เลือกได้ และระดับในการซื้อสัตว์เลี้ยง
+                </h3>
+                <ul class="space-y-2 text-gray-300">
+                  <li>
+                    • ผู้เล่นสามารถเลือกมอนสเตอร์จากหนังสือที่ใช้ภายในเซิร์ฟเวอร์ที่มีค่า Intelligence น้อยกว่า 5 มาใช้เป็นสัตว์เลี้ยงได้
+                  </li>
+                  <li>
+                    • ตัวละครของผู้เล่นต้องอยู่ในระดับ Tier ที่ตรงกับระดับ CR ของสัตว์เลี้ยงที่จะซื้อโดยสามารถแบ่งระดับและประเภทได้ตามนี้
                   </li>
                 </ul>
               </div>
@@ -918,75 +955,7 @@
                   🛒
                 </button>
                 </div>
-                <!-- Pet Modal -->
-                <div id="petModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
-                  <div class="bg-gray-900 rounded-lg p-6 w-full max-w-md mx-4 md:max-w-2xl">
-                    <!-- หน้าหลัก: เลือกสัตว์เลี้ยง -->
-                    <div id="mainStep" class="space-y-4">
-                      <div class="flex justify-between items-center">
-                        <h4 class="text-xl font-bold text-white">จัดการสัตว์เลี้ยง</h4>
-                        <button id="closeModalBtn" class="text-gray-500 hover:text-red-500 transition duration-150 ease-in-out font-extrabold text-3xl p-1 rounded-full">&times;</button>
-                      </div>
-
-                      <div>
-                        <label class="block text-white mb-2">เลือก CR</label>
-                        <select id="crSelect" class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600">
-                          <option value="0">CR 0</option>
-                          <option value="1/8">CR 1/8</option>
-                          <option value="1/4">CR 1/4</option>
-                          <option value="1/2">CR 1/2</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label class="block text-white mb-2">เลือกสัตว์เลี้ยง</label>
-                        <select id="petSelect" class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600" disabled>
-                          <option value="">-- โปรดเลือก CR ก่อน --</option>
-                        </select>
-                      </div>
-
-                      <!-- แสดงรูปภาพสัตว์เลี้ยง -->
-                      <div id="petImageContainer" class="flex justify-center my-4">
-                        <img 
-                          id="petImage" 
-                          class="rounded-lg border border-gray-700 w-full max-w-xs h-auto object-contain cursor-pointer hover:opacity-90 transition-opacity md:max-w-md lg:max-w-lg" alt="Pet image">
-                      </div>
-
-                      <div class="grid grid-cols-1 gap-3 pt-2">
-                        <button id="buyBtn" class="bg-green-600 hover:bg-green-700 text-white py-2 rounded transition" disabled>ซื้อ</button>
-                        <div id="buyPreview" class="text-green-400 text-sm min-h-[20px] px-2"></div>
-                        <button id="changeBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition" disabled>เปลี่ยนสัตว์เลี้ยง</button>
-                        <div id="changePreview" class="text-blue-400 text-sm min-h-[20px] px-2"></div>
-                        <button id="trainBtn" class="bg-purple-600 hover:bg-purple-700 text-white py-2 rounded transition" disabled>ฝึกสัตว์เลี้ยง</button>
-                      </div>
-                    </div>
-
-                    <!-- หน้าเลือกทักษะ -->
-                    <div id="trainStep" class="space-y-4 hidden">
-                      <div class="flex justify-between items-center">
-                        <h4 class="text-xl font-bold text-white">ฝึกทักษะให้ <span id="trainPetName" class="text-fantasy-gold"></span></h4>
-                        <button id="backToMainBtn" class="text-gray-400 hover:text-white text-lg">&larr;</button>
-                      </div>
-
-                      <p class="text-gray-300 text-sm">เลือกทักษะได้ 1–3 อย่าง (ทักษะละ 25 Favor)</p>
-
-                      <div id="skillsContainer" class="grid grid-cols-2 gap-2 pt-2">
-                        <!-- Checkbox จะถูกสร้างด้วย JS -->
-                      </div>
-                      <div id="trainPreview" class="text-purple-400 text-sm min-h-[20px] py-2 px-2 bg-gray-800 rounded mb-2"></div>
-                      <div class="pt-2">
-                        <button id="confirmTrainBtn" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded transition">ยืนยันการฝึก</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- สำหรับขยายรูป -->
-                <div id="imageLightbox" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
-                  <div class="relative max-w-4xl max-h-full">
-                    <button id="closeLightboxBtn" class="absolute -top-12 right-0 text-white text-3xl hover:text-red-500">&times;</button>
-                      <img id="lightboxImage" class="rounded-lg max-h-[90vh] max-w-[90vw] object-contain" alt="Enlarged pet">
-                  </div>
-                </div>
+                
                 <div class="flex justify-center w-full p-4">
                   <div class="w-full max-w-2xl">
                       <h4 class="text-xl font-bold text-white mb-4 text-center border-b border-neutral-600 pb-2">ระดับในการซื้อสัตว์เลี้ยง</h4>
@@ -2121,6 +2090,78 @@
             *ใส่แค่ตัวเลข
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Pet Modal -->
+    <div id="petModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
+      <div class="bg-gray-900 rounded-lg p-6 w-full max-w-md mx-4 md:max-w-2xl">
+        <!-- หน้าหลัก: เลือกสัตว์เลี้ยง -->
+        <div id="mainStep" class="space-y-4">
+          <div class="flex justify-between items-center">
+            <h4 class="text-xl font-bold text-white">จัดการสัตว์เลี้ยง</h4>
+            <button id="closeModalBtn" class="text-gray-500 hover:text-red-500 transition duration-150 ease-in-out font-extrabold text-3xl p-1 rounded-full">&times;</button>
+          </div>
+
+          <div>
+            <label class="block text-white mb-2">เลือก CR</label>
+            <select id="crSelect" class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600">
+              <option value="0">CR 0</option>
+              <option value="1/8">CR 1/8</option>
+              <option value="1/4">CR 1/4</option>
+              <option value="1/2">CR 1/2</option>
+              <option value="1/2">CR 1-2</option>
+              <option value="1/2">CR 3</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-white mb-2">เลือกสัตว์เลี้ยง</label>
+            <select id="petSelect" class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600" disabled>
+              <option value="">-- โปรดเลือก CR ก่อน --</option>
+            </select>
+          </div>
+
+          <!-- แสดงรูปภาพสัตว์เลี้ยง -->
+          <div id="petImageContainer" class="flex justify-center my-4">
+            <img 
+              id="petImage" 
+              class="rounded-lg border border-gray-700 w-full max-w-xs h-auto object-contain cursor-pointer hover:opacity-90 transition-opacity md:max-w-md lg:max-w-lg" alt="Pet image">
+          </div>
+
+          <div class="grid grid-cols-1 gap-3 pt-2">
+            <button id="buyBtn" class="bg-green-600 hover:bg-green-700 text-white py-2 rounded transition" disabled>ซื้อ</button>
+            <div id="buyPreview" class="text-green-400 text-sm min-h-[20px] px-2"></div>
+            <button id="changeBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition" disabled>เปลี่ยนสัตว์เลี้ยง</button>
+            <div id="changePreview" class="text-blue-400 text-sm min-h-[20px] px-2"></div>
+            <button id="trainBtn" class="bg-purple-600 hover:bg-purple-700 text-white py-2 rounded transition" disabled>ฝึกสัตว์เลี้ยง</button>
+          </div>
+        </div>
+
+        <!-- หน้าเลือกทักษะ -->
+        <div id="trainStep" class="space-y-4 hidden">
+          <div class="flex justify-between items-center">
+            <h4 class="text-xl font-bold text-white">ฝึกทักษะให้ <span id="trainPetName" class="text-fantasy-gold"></span></h4>
+            <button id="backToMainBtn" class="text-gray-400 hover:text-white text-lg">&larr;</button>
+          </div>
+
+          <p class="text-gray-300 text-sm">เลือกทักษะได้ 1–3 อย่าง (ทักษะละ 25 Favor)</p>
+
+          <div id="skillsContainer" class="grid grid-cols-2 gap-2 pt-2">
+            <!-- Checkbox จะถูกสร้างด้วย JS -->
+          </div>
+          <div id="trainPreview" class="text-purple-400 text-sm min-h-[20px] py-2 px-2 bg-gray-800 rounded mb-2"></div>
+          <div class="pt-2">
+            <button id="confirmTrainBtn" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded transition">ยืนยันการฝึก</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- สำหรับขยายรูป -->
+    <div id="imageLightbox" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
+      <div class="relative max-w-4xl max-h-full">
+        <button id="closeLightboxBtn" class="absolute -top-12 right-0 text-white text-3xl hover:text-red-500">&times;</button>
+          <img id="lightboxImage" class="rounded-lg max-h-[90vh] max-w-[90vw] object-contain" alt="Enlarged pet">
       </div>
     </div>
 

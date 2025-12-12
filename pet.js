@@ -25,7 +25,9 @@ const petsByCR = {
     "Giant Canary", "Giant Dragonfly", "Giant Goat", "Giant Sea Horse", "Giant Wasp",
     "Koi Prawn", "Metal Wasp", "Reef Shark", "Slicar", "Vine Blight",
     "War Ostrich", "Warhorse"
-  ]
+  ],
+  "1-2": [],
+  "3": []
 };
 
 // ========== ราคา ==========
@@ -33,7 +35,9 @@ const buyCost = {
   "0": { gp: 300, favor: 25 },
   "1/8": { gp: 450, favor: 50 },
   "1/4": { gp: 600, favor: 75 },
-  "1/2": { gp: 750, favor: 100 }
+  "1/2": { gp: 750, favor: 100 },
+  "1-2": { gp: 1000, favor: 150 },
+  "3": { gp: 1500, favor: 200 }
 };
 
 const changeCost = {
