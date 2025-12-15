@@ -103,7 +103,8 @@ function getCRFolder(cr) {
   if (cr === "1/8") return "CR1_8";
   if (cr === "1/4") return "CR1_4";
   if (cr === "1/2") return "CR1_2";
-  if (cr === "1-2") return "CR1-2";
+  if (cr === "1") return "CR1";
+  if (cr === "2") return "CR2";
   if (cr === "3") return "CR3";
   return "CR0";
 }
