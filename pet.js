@@ -34,8 +34,17 @@ const petsByCR = {
     "Glass Gator", "Hypnotic Eldritch Blossom", "Ice Spider", "Jammer Leech", "Lesser Demon", "Lion", "Living Burning Hands", "Lupilisk Whelp", "Mantrap", "Maw Demon", "Moorbounder", 
     "Mountain Lion", "Purple Jam", "Quaggoth Spore Servant", "Razorvine Blight", "Rime Worm Grub", "Skeletal Fish", "Sloth Galloper", "Snow Leopard", "Spore Servant Octopus", "Stone Cursed", 
     "Swarm of Campestris", "Swarm of Giant Mosquitoes", "Swarm of Quippers", "Terracotta Warrior", "Thorny Vegepygmy", "Tiger", "Tin Soldier", "Vargouille", "Young Winter Wolf", 
-    "Zanskaran Viper"],
-  "2": [""],
+    "Zanskaran Viper"
+  ],
+  "2": ["Allosaurus", "Animated Ballista", "Animated Slime", "Animated Table", "Animatronic Allosaurus", "Ankheg", "Aurochs", "Aurumvorax", "Autognome", "Bearracuda", "Burnished Hart", 
+    "Carrion Crawler", "Cave Bear", "Clockwork Hound", "Cloverback Toad", "Cobbleswarm", "Cosmoth", "Diseased Grick", "Doppelrat", "Duergar Hammerer", "Eala", "Egg Hunter Hatchling", 
+    "Eldritch Horror Hatchling", "Enormous Tentacle", "Firegeist", "Gargantuan Rug of Smothering", "Gelatinous Cube", "Giant Ant", "Giant Boar", "Giant Constrictor Snake", "Giant Crayfish", 
+    "Giant Tick", "Giant White Moray Eel", "Glasswork Golem", "Grick", "Griffon", "Guard Drake", "Huge Ochre Jelly", "Huge Polar Bear", "Hunter Shark", "Ice Spider Queen", "Invisiboar", 
+    "Lightning Eel", "Mimic", "Mjork Sootling Swarm", "Ochre Jelly", "Oozing Vulture", "Plainscow", "Plesiosaurus", "Polar Bear", "Purple Wormling", "Quetzalcoatlus", "Reduced-Threat Carrion Crawler", 
+    "Reduced-Threat Ochre Jelly", "Relic Sloth", "Rhinoceros", "Rug of Smothering", "Rutterkin", "Saber-Toothed Tiger", "Scarapit", "Sentient Ochre Jelly", "Shadow Mastiff", "Shell Shark", "Shieldscale Drangolin", 
+    "Skyjek Roc", "Slimesworn Cultist", "Spider Thief", "Stoneback Isopod", "Swarm of Hoard Scarabs", "Swarm of Maggots", "Swarm of Poisonous Snakes", "Swarm of Rain Hornets", "Two-Headed Cerberus", "Vegepygmy Thorny Hunter", 
+    "White Dragon Wyrmling", "Yellow Musk Creeper", "Young Bulette", "Young Wakewyrm"
+  ],
   "3": [""]
 };
 
@@ -46,8 +55,8 @@ const buyCost = {
   "1/4": { gp: 600, favor: 75 },
   "1/2": { gp: 750, favor: 100 },
   "1": { gp: 1000, favor: 150 },
-  "2": { gp: 1000, favor: 150 },
-  "3": { gp: 1500, favor: 200 }
+  "2": { gp: 1500, favor: 200 },
+  "3": { gp: 2000, favor: 250 }
 };
 
 const changeCost = {
