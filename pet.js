@@ -27,7 +27,14 @@ const petsByCR = {
     "Swarm of Dusktails", "Swarm of Emberbats", "Swarm of Gimlets", "Swarm of Insects", "Swarm of Mechanical Spiders", "Swarm of Rot Grubs", "Swarm of Spiders", "Swarm of Wasps", 
     "Thorn Slinger", "Vine Blight", "Warhorse", "War Ostrich", "Watchwood Tree", "Xanka"
   ],
-  "1": [""],
+  "1": [
+    "Abyssal Hyena", "Animated Armor", "Animated Armor Detention Drone", "Animated Chained Library", "Animated Drow Statue", "Ashen Animated Armor", "Bag Jelly", "Bronze Sable", "Broodiken", 
+    "Brown Bear", "Clawfoot", "Clockwork Bronze Scout", "Clockwork Defender", "Corvian Dweller", "Deinonychus", "Demonfeed Spiderling", "Dire Wolf", "Dogmole", "Firelance", "Galvanice Weird", 
+    "Gerridae", "Giant Blood Eel", "Giant Flying Spider", "Giant Hyena", "Giant Octopus", "Giant Ram", "Giant Rocktopus", "Giant Spider", "Giant Spore Lizard", "Giant Strider", "Giant Toad", 
+    "Glass Gator", "Hypnotic Eldritch Blossom", "Ice Spider", "Jammer Leech", "Lesser Demon", "Lion", "Living Burning Hands", "Lupilisk Whelp", "Mantrap", "Maw Demon", "Moorbounder", 
+    "Mountain Lion", "Purple Jam", "Quaggoth Spore Servant", "Razorvine Blight", "Rime Worm Grub", "Skeletal Fish", "Sloth Galloper", "Snow Leopard", "Spore Servant Octopus", "Stone Cursed", 
+    "Swarm of Campestris", "Swarm of Giant Mosquitoes", "Swarm of Quippers", "Terracotta Warrior", "Thorny Vegepygmy", "Tiger", "Tin Soldier", "Vargouille", "Young Winter Wolf", 
+    "Zanskaran Viper"],
   "2": [""],
   "3": [""]
 };
