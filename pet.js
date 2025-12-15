@@ -26,8 +26,8 @@ const petsByCR = {
     "Koi Prawn", "Metal Wasp", "Reef Shark", "Slicar", "Vine Blight",
     "War Ostrich", "Warhorse"
   ],
-  "1-2": [],
-  "3": []
+  "1-2": [""],
+  "3": [""]
 };
 
 // ========== ราคา ==========
@@ -44,7 +44,9 @@ const changeCost = {
   "0": 10,
   "1/8": 25,
   "1/4": 50,
-  "1/2": 75
+  "1/2": 75,
+  "1-2": 100,
+  "3" : 150
 };
 
 // ========== ทักษะที่ฝึกได้ ==========
@@ -81,6 +83,8 @@ function getCRFolder(cr) {
   if (cr === "1/8") return "CR1_8";
   if (cr === "1/4") return "CR1_4";
   if (cr === "1/2") return "CR1_2";
+  if (cr === "1-2") return "CR1-2";
+  if (cr === "3") return "CR3";
   return "CR0";
 }
 
