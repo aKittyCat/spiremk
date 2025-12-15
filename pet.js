@@ -45,7 +45,12 @@ const petsByCR = {
     "Skyjek Roc", "Slimesworn Cultist", "Spider Thief", "Stoneback Isopod", "Swarm of Hoard Scarabs", "Swarm of Maggots", "Swarm of Poisonous Snakes", "Swarm of Rain Hornets", "Two-Headed Cerberus", "Vegepygmy Thorny Hunter", 
     "White Dragon Wyrmling", "Yellow Musk Creeper", "Young Bulette", "Young Wakewyrm"
   ],
-  "3": [""]
+  "3": ["Amphiptere", "Amphisbaena", "Animated Stove", "Ankylosaurus", "Armored Saber-Toothed Tiger", "Assassin Vine", "Barkburr", "Basilisk", "Blood Screechwing", "Brackish Trudge", "Bramble Creeper", "Bristled Moorbounder", 
+    "Butcher", "Cactid", "Carrion Stalker", "Cave Fisher", "Citrullus", "Clockwork Beetle Swarm", "Clockwork Huntsman", "Duergar Screamer", "Encephalon Gemmule", "Flail Snail", "Flying Horror", 
+    "Giant Jellyfish", "Giant Lightning Eel", "Giant Ox", "Giant Scorpion", "Giant Snapping Turtle", "Hill Dragon", "Hook Horror Spore Servant", "Ice Gargoyle", "J'ba Fofi Spider", "Juvenile Forest Prowler", 
+    "Killer Whale", "Lupilisk", "Mahoru", "Mbielu Dinosaur", "Mud Hulk", "Night Scorpion", "Owlbear", "Razorblade Bitzer", "Sahuagin Hatchling Swarm", "Sand Spider", "Screechwing", "Sheep Dragon", "Snow Golem", 
+    "Snowy Owlbear", "Spotted Lion", "Stul", "Stygian Fat-Tailed Scorpion", "Swarm of Gibberlings", "Swarm of Prismatic Beetles", "Swarm of Scarabs", "Swarm of Wharflings", "Trapper", "War Spider", "Young Horizonback Tortoise"
+  ]
 };
 
 // ========== ราคา ==========
