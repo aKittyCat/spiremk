@@ -1,32 +1,34 @@
 // ========== ข้อมูลสัตว์เลี้ยง ==========
 const petsByCR = {
   "0": [
-    "Almiraj", "Baboon", "Badger", "Bat", "Campestri", "Cat", "Clockwork Observer", "Crab",
+    "Almiraj", "Baboon", "Badger", "Bat", "Campestri", "Cat", "Chimeric Baboon", "Chimeric Cat", "Chimeric Fox", "Chimeric Hare", "Chimeric Rat", "Chimeric Weasel", "Clockwork Observer", "Crab",
     "Deer", "Dusktail", "Eagle", "Emberbat", "Everbug", "Fish", "Fox", "Frog",
-    "Giant Fire Beetle", "Goat", "Hare", "Hawk", "Hyena", "Jackal", "Knucklehead Trout",
+    "Giant Fire Beetle", "Gibberling", "Goat", "Hare", "Hawk", "Hyena", "Jackal", "Knucklehead Trout",
     "Lizard", "Octopus", "Owl", "Peacock", "Piccolo", "Pig", "Quipper", "Rat",
-    "Raven", "Rooster", "Scorpion", "Sea Horse", "Seal", "Sheep", "Spider", "Vulture", "Weasel", "Wild Dog"
+    "Raven", "Rooster", "Scorpion", "Sea Horse", "Seal", "Sheep", "Space Guppy", "Space Hamster", "Space Mollymawk", "Spider", "Vulture", "Weasel", "Wild Dog"
   ],
   "1/8": [
-    "Blood Hawk", "Clockwork Mule", "Flying Rocking Horse", "Giant Crab", "Giant Rat",
-    "Giant Weasel", "Mastiff", "Monodrone", "Mountain Goat", "Mule",
-    "Poisonous Snake", "Pony", "Twig Blight", "Wooden Donkey"
+    "Blood Hawk", "Camel", "Caterpede", "Clawfish", "Clockwork Mule", "Flying Rocking Horse", "Flying Snake", "Giant Crab", "Giant Rat", "Glassbeetle",
+    "Knifewing", "Manes", "Giant Weasel", "Mastiff", "Monodrone", "Mountain Goat", "Mule",
+    "Poisonous Snake", "Pony", "Skitterling", "Stirge", "Twig Blight", "Wharfling", "Wooden Donkey"
   ],
   "1/4": [
-    "Axe Beak", "Boar", "Cave Badger", "Constrictor Snake", "Cow",
-    "Deep Rothé", "Draft Horse", "Elk", "Giant Badger", "Giant Bat",
-    "Giant Centipede", "Giant Frog", "Giant Lizard", "Giant Poisonous Snake", "Giant Riding Lizard",
-    "Giant Wolf Spider", "Golden Stag", "Needle Blight", "Ox", "Panther",
-    "Reindeer", "Riding Horse", "Rothé", "Sled Dog", "Walrus",
-    "Wolf", "Yak", "Zebra"
+    "Abyssal Chicken", "Abyssal Wretch", "Animated Broom", "Animated Halberd", "Animated Jade Serpent", "Axe Beak", "Boar", "Broom of Animated Attack", "Cave Badger", "Constrictor Snake", 
+    "Cow", "Crystal Battleaxe", "Deep Rothé", "Diatryma", "Dimetrodon", "Draft Horse", "Dretch", "Elk", "Fastieth", "Flying Shield", "Flying Staff", "Flying Sword", "Flying Trident", 
+    "Flying Wand", "Garroter Crab", "Giant Badger", "Giant Bat", "Giant Centipede", "Giant Frog", "Giant Lizard", "Giant Mosquito", "Giant Poisonous Snake", "Giant Riding Lizard", 
+    "Giant Snail", "Giant Space Hamster", "Giant Wolf Spider", "Golden Stag", "Hadrosaurus", "Hellwasp Grub", "Lion's Blume", "Living Wick", "Mohler", "Needle Blight", "Ox", "Panther", 
+    "Paper Whirlwind", "Pteranodon", "Red-Banded Line Spider", "Reindeer", "Riding Horse", "Rothé", "Sled Dog", "Space Swine", "Suturefly", "Swamp Adder", "Swarm of Animated Books", 
+    "Swarm of Bats", "Swarm of Blood Bats", "Swarm of Books", "Swarm of Rats", "Swarm of Ravens", "Thornlamm", "Velociraptor", "Violet Fungus", "Walrus", "Wolf", "Yak", "Zebra"
   ],
   "1/2": [
-    "Anvilwrought Raptor", "Bird of Prey", "Black Bear", "Camel", "Crocodile",
-    "Giant Canary", "Giant Dragonfly", "Giant Goat", "Giant Sea Horse", "Giant Wasp",
-    "Koi Prawn", "Metal Wasp", "Reef Shark", "Slicar", "Vine Blight",
-    "War Ostrich", "Warhorse"
+    "Anvilwrought Raptor", "Archer Flower", "Bird of Prey", "Black Bear", "Bone Crab", "Camel", "Clockwork Beetle", "Clockwork Watchman", "Crocodile", "Duergar Spore Servant", 
+    "Fallen Luyarnhian", "Fiendish Giant Spider", "Gas Spore", "Giant Canary", "Giant Dragonfly", "Giant Goat", "Giant Sea Horse", "Giant Spider Rat", "Giant Wasp", "Jaculi", "Kiddywidget", 
+    "Koi Prawn", "Metal Wasp", "Nupperibo", "Reef Shark", "Shieldhead", "Skull Flier", "Slicar", "Space Eel", "Stench Kow", "Swarm of Beetles", "Swarm of Bluebees", "Swarm of Centipedes", 
+    "Swarm of Dusktails", "Swarm of Emberbats", "Swarm of Gimlets", "Swarm of Insects", "Swarm of Mechanical Spiders", "Swarm of Rot Grubs", "Swarm of Spiders", "Swarm of Wasps", 
+    "Thorn Slinger", "Vine Blight", "Warhorse", "War Ostrich", "Watchwood Tree", "Xanka"
   ],
-  "1-2": [""],
+  "1": [""],
+  "2": [""],
   "3": [""]
 };
 
@@ -36,7 +38,8 @@ const buyCost = {
   "1/8": { gp: 450, favor: 50 },
   "1/4": { gp: 600, favor: 75 },
   "1/2": { gp: 750, favor: 100 },
-  "1-2": { gp: 1000, favor: 150 },
+  "1": { gp: 1000, favor: 150 },
+  "2": { gp: 1000, favor: 150 },
   "3": { gp: 1500, favor: 200 }
 };
 
@@ -45,7 +48,8 @@ const changeCost = {
   "1/8": 25,
   "1/4": 50,
   "1/2": 75,
-  "1-2": 100,
+  "1": 100,
+  "2": 100,
   "3" : 150
 };
 
