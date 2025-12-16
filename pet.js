@@ -1,5 +1,4 @@
 // ========== ข้อมูลสัตว์เลี้ยงแบบแยก Tier/CR ==========
-
 // 1. BASE PETS (สัตว์เลี้ยงพื้นฐานของ CR นั้นๆ เริ่มต้นที่ Tier ใด)
 const petsCR0_T1_BASE = [
   "Almiraj", "Baboon", "Badger", "Bat", "Cat", "Chimeric Baboon", "Chimeric Cat", "Chimeric Fox", "Chimeric Hare", "Chimeric Rat", "Chimeric Weasel", "Crab",
@@ -10,9 +9,9 @@ const petsCR0_T1_BASE = [
 ];
 
 const petsCR1_8_T1_BASE = [
-  "Blood Hawk", "Camel", "Caterpede", "Clawfish", "Clockwork Mule", "Flying Rocking Horse", "Flying Snake", "Giant Crab", "Giant Rat", "Glassbeetle",
-  "Knifewing", "Manes", "Giant Weasel", "Mastiff", "Monodrone", "Mountain Goat", "Mule",
-  "Poisonous Snake", "Pony", "Skitterling", "Stirge", "Twig Blight", "Wharfling", "Wooden Donkey"
+  "Blood Hawk", "Camel", "Caterpede", "Clawfish", "Flying Snake", "Giant Crab", "Giant Rat", "Glassbeetle",
+  "Knifewing", "Manes", "Giant Weasel", "Mastiff", "Mountain Goat", "Mule",
+  "Poisonous Snake", "Pony", "Skitterling", "Wharfling"
 ];
 
 const petsCR1_4_T2_BASE = [
@@ -63,27 +62,26 @@ const petsCR3_T5_BASE = [
 
 
 // 2. ADDITION PETS (สัตว์เลี้ยงเพิ่มเติมเฉพาะ Tier นั้นๆ ใน CR นั้นๆ)
-const petsCR0_T2_ADD = ["Clockwork Observer (T2)", "Ape (T2)"];
-const petsCR1_8_T2_ADD = ["Worg (T2)", "Warhorse (T2)"];
+const petsCR0_T2_ADD = ["Campestri", "Clockwork Observer", "Living Demiplane", "Living Unseen Servant", "Mold Spider", "Paper Bird", "Scufflecup Teacup", "Shrieker"];
+const petsCR1_8_T2_ADD = ["Animated Knife", "Clockwork Mule", "Drow Spore Servant", "Flying Rocking Horse", "Monodrone", "Replica Monodrone", "Tribal Warrior Spore Servant", "Twig Blight", "Vox Seeker", "Wooden Donkey"];
 
-const petsCR0_T3_ADD = ["Ape (T3)"]; // ตัวอย่าง: CR 0 เพิ่ม Ape อีกตัวใน T3 (แยกจาก T2)
-const petsCR1_8_T3_ADD = [];
-const petsCR1_4_T3_ADD = ["Hook Horror (Whelp T3)"];
-const petsCR1_2_T3_ADD = [];
+const petsCR0_T3_ADD = ["Campestri", "Clockwork Observer", "Dustbunny", "Living Demiplane", "Living Unseen Servant", "Mold Spider", "Paper Bird", "Scufflecup Teacup", "Shrieker"];
+const petsCR1_8_T3_ADD = ["Animated Knife", "Campestri", "Clockwork Mule", "Clockwork Observer", "Drow Spore Servant", "Dustbunny", "Flying Rocking Horse", "Living Demiplane", "Living Unseen Servant", "Mold Spider", "Monodrone", "Paper Bird", "Replica Monodrone", "Scufflecup Teacup", "Shrieker", "Sticky Slime", "Tribal Warrior Spore Servant", "Twig Blight", "Vox Seeker", "Wooden Donkey"];
+const petsCR1_4_T3_ADD = ["Ashen Flying Sword", "Blood-Borne Ooze", "Caustic Slime", "Dipsa", "Fungusfeaster", "Mjork Sootling", "Treacle"];
+const petsCR1_2_T3_ADD = ["Ashen Warhorse", "Cursed Slime", "Gray Ooze", "Gray Ooze Glob", "Reduced-Threat Gray Ooze", "Sentient Gray Ooze", "Shifting Slime", "Soda Slime"];
 
-const petsCR0_T4_ADD = ["Mimic (Tiny T4)", "Young Griffon (Small T4)"];
-const petsCR1_8_T4_ADD = [];
-const petsCR1_4_T4_ADD = [];
-const petsCR1_2_T4_ADD = [];
-const petsCR1_T4_ADD = ["Grell (T4)"];
+const petsCR0_T4_ADD = ["Campestri", "Clockwork Observer", "Dustbunny", "Infant Basilisk", "Living Demiplane", "Living Unseen Servant", "Mold Spider", "Paper Bird", "Scufflecup Teacup", "Shrieker", "Sitri Cat", "Torcheater", "Young Griffon (Tiny)"];
+const petsCR1_8_T4_ADD = ["Animated Knife", "Clockwork Mule", "Displacer Beast Kitten", "Drow Spore Servant", "Ether Fish", "Flying Rocking Horse", "Hoard Scarab", "Leyleech", "Monodrone", "Replica Monodrone", "Sticky Slime", "Stirge", "Stirge Broodling", "Tribal Warrior Spore Servant", "Twig Blight", "Vox Seeker", "Wooden Donkey", "Young Kruthik"];
+const petsCR1_4_T4_ADD = ["Ashen Flying Sword", "Blood-Borne Ooze", "Caustic Slime", "Corpsejaw", "Dipsa", "Fungusfeaster", "Gray Scavver", "Male Steeder", "Map Mimic", "Mjork Sootling", "Pest Mascot", "Treacle", "Wretched Sorrowsworn", "Young Griffon (Small)"];
+const petsCR1_2_T4_ADD = ["Ambush Drake", "Amphisbaena", "Ashen Warhorse", "Cockatrice", "Cursed Slime", "Darkmantle", "Gray Ooze", "Gray Ooze Glob", "Hippocamp", "Ice Piercer", "Piercer", "Psybird", "Reduced-Threat Darkmantle", "Reduced-Threat Gray Ooze", "Rust Monster", "Sentient Gray Ooze", "Shifting Slime", "Soda Slime", "Zorbo"];
+const petsCR1_T4_ADD = ["Category 1 Krasis", "Crag Cat", "Death Dog", "Female Steeder", "Giant Antlion Hatchling", "Hippogriff", "Hound of Ill Omen", "Infant Amphithere", "Mimic Mimiature", "Nyx-Fleece Ram", "Rot Monster", "Young Basilisk", "Young Griffon (Medium)"];
 
 const petsCR0_T5_ADD = ["Campestri", "Cranium Rat", "Dustbunny", "Infant Basilisk", "Living Demiplane", "Living Unseen Servant", "Mold Spider", "Paper Bird", "Scufflecup Teacup", "Shrieker", "Sitri Cat", "Sorrowfish", "Spythronar Sac", "Torcheater", "Young Griffon (Tiny)"];
-const petsCR1_8_T5_ADD = [];
-const petsCR1_4_T5_ADD = [];
-const petsCR1_2_T5_ADD = [];
-const petsCR1_T5_ADD = [];
-const petsCR2_T5_ADD = [];
-const petsCR3_T5_ADD = ["Young Remorhaz (T5)"]; // ตัวอย่าง: CR 3 เพิ่มใน T5
+const petsCR1_8_T5_ADD = ["Animated Knife", "Clockwork Mule", "Displacer Beast Kitten", "Drow Spore Servant", "Ether Fish", "Flying Dagger", "Flying Rocking Horse", "Hoard Scarab", "Leyleech", "Monodrone", "Replica Monodrone", "Slaad Tadpole", "Sticky Slime", "Stirge", "Stirge Broodling", "Tribal Warrior Spore Servant", "Twig Blight", "Vox Seeker", "Wooden Donkey", "Young Kruthik"];
+const petsCR1_4_T5_ADD = ["Ashen Flying Sword", "Blood-Borne Ooze", "Caustic Slime", "Corpsejaw", "Dipsa", "Fungusfeaster", "Gray Scavver", "Male Steeder", "Map Mimic", "Mjork Sootling", "Pest Mascot", "Treacle", "Wretched Sorrowsworn", "Young Griffon (Small)"];
+const petsCR1_2_T5_ADD = ["Ambush Drake", "Amphisbaena", "Ashen Warhorse", "Cockatrice", "Cursed Slime", "Darkmantle", "Gazer", "Gnome Squidling", "Gray Ooze", "Gray Ooze Glob", "Hippocamp", "Ice Piercer", "Piercer", "Psybird", "Reduced-Threat Darkmantle", "Reduced-Threat Gray Ooze", "Rust Monster", "Sentient Gray Ooze", "Shifting Slime", "Soda Slime", "Zorbo"];
+const petsCR1_T5_ADD = ["Category 1 Krasis", "Choker", "Crag Cat", "Death Dog", "Female Steeder", "Giant Antlion Hatchling", "Hippogriff", "Hound of Ill Omen", "Infant Amphithere", "Mimic Mimiature", "Nyx-Fleece Ram", "Rot Monster", "Young Basilisk", "Young Griffon (Medium)"];
+const petsCR2_T5_ADD = ["Gibbering Mouther", "Gingwatzim", "Horror Flit Hunter", "Sharkbody Abomination", "Spythronar Swarm", "Spythronar Web"];
 
 // 3. โครงสร้างหลัก: petsByTierCR[CR][Tier] = [Pet List]
 const petsByTierCR = {
