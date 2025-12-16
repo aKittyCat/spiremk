@@ -950,7 +950,7 @@
                 </h3>
                 <ul class="space-y-2 text-gray-300">
                   <li>
-                    • ผู้เล่นสามารถเลือกมอนสเตอร์จากหนังสือที่ใช้ภายในเซิร์ฟเวอร์ที่มีค่า Intelligence น้อยกว่า 5 มาใช้เป็นสัตว์เลี้ยงได้
+                    • ผู้เล่นสามารถเลือกมอนสเตอร์จากหนังสือที่ใช้ภายในเซิร์ฟเวอร์ที่มีค่า Intelligence น้อยกว่า 5 และ Size ไม่เกิน Large มาใช้เป็นสัตว์เลี้ยงได้
                   </li>
                   <li>
                     • ตัวละครของผู้เล่นต้องอยู่ในระดับ Tier ที่ตรงกับระดับ CR ของสัตว์เลี้ยงที่จะซื้อโดยสามารถแบ่งระดับและประเภทได้ตามนี้
@@ -2106,39 +2106,45 @@
 
     <!-- Pet Modal -->
     <div id="petModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden p-4">
-      <div class="bg-gray-900 rounded-lg p-6 w-full max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl max-h-[90vh] overflow-y-auto mx-auto shadow-2xl">
+      <div class="bg-gray-900 rounded-lg p-6 w-full max-w-sm sm:max-w-lg md:max-w-3xl max-h-[90vh] overflow-y-auto mx-auto shadow-2xl">
         <div id="mainStep" class="space-y-4">
           <div class="flex justify-between items-center mb-4">
-              <h4 class="text-2xl font-bold text-white">จัดการสัตว์เลี้ยง</h4>
-              <button id="closeModalBtn" class="text-gray-500 hover:text-red-500 transition duration-150 ease-in-out font-extrabold text-3xl p-1 rounded-full">&times;</button>
+            <h4 class="text-2xl font-bold text-white">จัดการสัตว์เลี้ยง</h4>
+            <button id="closeModalBtn" class="text-gray-500 hover:text-red-500 transition duration-150 ease-in-out font-extrabold text-3xl p-1 rounded-full">&times;</button>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                  <label class="block text-white mb-2">เลือก CR</label>
-                  <select id="crSelect" class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600 focus:ring-blue-500 focus:border-blue-500">
-                      <option value="0">CR 0</option>
-                      <option value="1/8">CR 1/8</option>
-                      <option value="1/4">CR 1/4</option>
-                      <option value="1/2">CR 1/2</option>
-                      <option value="1">CR 1</option>
-                      <option value="2">CR 2</option>
-                      <option value="3">CR 3</option>
-                  </select>
-              </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-white mb-2">เลือก Tier</label>
+              <select id="tierSelect" class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600 focus:ring-blue-500 focus:border-blue-500">
+                <option value="1">Tier 1</option>
+                <option value="2">Tier 2</option>
+                <option value="3">Tier 3</option>
+                <option value="4">Tier 4</option>
+                <option value="5">Tier 5</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="block text-white mb-2">เลือก CR</label>
+              <select id="crSelect" class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600 focus:ring-blue-500 focus:border-blue-500" disabled>
+                <option value="">-- โปรดเลือก Tier ก่อน --</option>
+              </select>
+            </div>
 
-              <div>
-                  <label class="block text-white mb-2">เลือกสัตว์เลี้ยง</label>
-                  <select id="petSelect" class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600 focus:ring-blue-500 focus:border-blue-500" disabled>
-                      <option value="">-- โปรดเลือก CR ก่อน --</option>
-                  </select>
-              </div>
+            <div>
+              <label class="block text-white mb-2">เลือกสัตว์เลี้ยง</label>
+              <select id="petSelect" class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600 focus:ring-blue-500 focus:border-blue-500" disabled>
+                <option value="">-- โปรดเลือก CR ก่อน --</option>
+              </select>
+            </div>
           </div>
 
-          <div id="petImageContainer" class="flex justify-center my-4">
+          <div id="petImageContainer" class="flex justify-center flex-col items-center">
               <img 
                   id="petImage" 
-                  class="rounded-lg border border-gray-700 w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg h-auto object-contain cursor-pointer hover:opacity-90 transition-opacity" alt="Pet image">
+                  class="rounded-lg border border-gray-700 w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg h-auto object-contain cursor-pointer hover:opacity-90 transition-opacity hidden" alt="Pet image">
+              <p class="text-center text-sm text-gray-500 mt-1">คลิ้กเพื่อขยายรูป</p>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">

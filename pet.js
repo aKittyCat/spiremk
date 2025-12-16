@@ -1,57 +1,146 @@
-// ========== ข้อมูลสัตว์เลี้ยง ==========
-const petsByCR = {
-  "0": [
-    "Almiraj", "Baboon", "Badger", "Bat", "Campestri", "Cat", "Chimeric Baboon", "Chimeric Cat", "Chimeric Fox", "Chimeric Hare", "Chimeric Rat", "Chimeric Weasel", "Clockwork Observer", "Crab",
-    "Deer", "Dusktail", "Eagle", "Emberbat", "Everbug", "Fish", "Fox", "Frog",
-    "Giant Fire Beetle", "Gibberling", "Goat", "Hare", "Hawk", "Hyena", "Jackal", "Knucklehead Trout",
-    "Lizard", "Octopus", "Owl", "Peacock", "Piccolo", "Pig", "Quipper", "Rat",
-    "Raven", "Rooster", "Scorpion", "Sea Horse", "Seal", "Sheep", "Space Guppy", "Space Hamster", "Space Mollymawk", "Spider", "Vulture", "Weasel", "Wild Dog"
-  ],
-  "1/8": [
-    "Blood Hawk", "Camel", "Caterpede", "Clawfish", "Clockwork Mule", "Flying Rocking Horse", "Flying Snake", "Giant Crab", "Giant Rat", "Glassbeetle",
-    "Knifewing", "Manes", "Giant Weasel", "Mastiff", "Monodrone", "Mountain Goat", "Mule",
-    "Poisonous Snake", "Pony", "Skitterling", "Stirge", "Twig Blight", "Wharfling", "Wooden Donkey"
-  ],
-  "1/4": [
-    "Abyssal Chicken", "Abyssal Wretch", "Animated Broom", "Animated Halberd", "Animated Jade Serpent", "Axe Beak", "Boar", "Broom of Animated Attack", "Cave Badger", "Constrictor Snake", 
-    "Cow", "Crystal Battleaxe", "Deep Rothé", "Diatryma", "Dimetrodon", "Draft Horse", "Dretch", "Elk", "Fastieth", "Flying Shield", "Flying Staff", "Flying Sword", "Flying Trident", 
-    "Flying Wand", "Garroter Crab", "Giant Badger", "Giant Bat", "Giant Centipede", "Giant Frog", "Giant Lizard", "Giant Mosquito", "Giant Poisonous Snake", "Giant Riding Lizard", 
-    "Giant Snail", "Giant Space Hamster", "Giant Wolf Spider", "Golden Stag", "Hadrosaurus", "Hellwasp Grub", "Lion's Blume", "Living Wick", "Mohler", "Needle Blight", "Ox", "Panther", 
-    "Paper Whirlwind", "Pteranodon", "Red-Banded Line Spider", "Reindeer", "Riding Horse", "Rothé", "Sled Dog", "Space Swine", "Suturefly", "Swamp Adder", "Swarm of Animated Books", 
-    "Swarm of Bats", "Swarm of Blood Bats", "Swarm of Books", "Swarm of Rats", "Swarm of Ravens", "Thornlamm", "Velociraptor", "Violet Fungus", "Walrus", "Wolf", "Yak", "Zebra"
-  ],
-  "1/2": [
-    "Anvilwrought Raptor", "Archer Flower", "Bird of Prey", "Black Bear", "Bone Crab", "Camel", "Clockwork Beetle", "Clockwork Watchman", "Crocodile", "Duergar Spore Servant", 
-    "Fallen Luyarnhian", "Fiendish Giant Spider", "Gas Spore", "Giant Canary", "Giant Dragonfly", "Giant Goat", "Giant Sea Horse", "Giant Spider Rat", "Giant Wasp", "Jaculi", "Kiddywidget", 
-    "Koi Prawn", "Metal Wasp", "Nupperibo", "Reef Shark", "Shieldhead", "Skull Flier", "Slicar", "Space Eel", "Stench Kow", "Swarm of Beetles", "Swarm of Bluebees", "Swarm of Centipedes", 
-    "Swarm of Dusktails", "Swarm of Emberbats", "Swarm of Gimlets", "Swarm of Insects", "Swarm of Mechanical Spiders", "Swarm of Rot Grubs", "Swarm of Spiders", "Swarm of Wasps", 
-    "Thorn Slinger", "Vine Blight", "Warhorse", "War Ostrich", "Watchwood Tree", "Xanka"
-  ],
-  "1": [
-    "Abyssal Hyena", "Animated Armor", "Animated Armor Detention Drone", "Animated Chained Library", "Animated Drow Statue", "Ashen Animated Armor", "Bag Jelly", "Bronze Sable", "Broodiken", 
-    "Brown Bear", "Clawfoot", "Clockwork Bronze Scout", "Clockwork Defender", "Corvian Dweller", "Deinonychus", "Demonfeed Spiderling", "Dire Wolf", "Dogmole", "Firelance", "Galvanice Weird", 
-    "Gerridae", "Giant Blood Eel", "Giant Flying Spider", "Giant Hyena", "Giant Octopus", "Giant Ram", "Giant Rocktopus", "Giant Spider", "Giant Spore Lizard", "Giant Strider", "Giant Toad", 
-    "Glass Gator", "Hypnotic Eldritch Blossom", "Ice Spider", "Jammer Leech", "Lesser Demon", "Lion", "Living Burning Hands", "Lupilisk Whelp", "Mantrap", "Maw Demon", "Moorbounder", 
-    "Mountain Lion", "Purple Jam", "Quaggoth Spore Servant", "Razorvine Blight", "Rime Worm Grub", "Skeletal Fish", "Sloth Galloper", "Snow Leopard", "Spore Servant Octopus", "Stone Cursed", 
-    "Swarm of Campestris", "Swarm of Giant Mosquitoes", "Swarm of Quippers", "Terracotta Warrior", "Thorny Vegepygmy", "Tiger", "Tin Soldier", "Vargouille", "Young Winter Wolf", 
-    "Zanskaran Viper"
-  ],
-  "2": ["Allosaurus", "Animated Ballista", "Animated Slime", "Animated Table", "Animatronic Allosaurus", "Ankheg", "Aurochs", "Aurumvorax", "Autognome", "Bearracuda", "Burnished Hart", 
-    "Carrion Crawler", "Cave Bear", "Clockwork Hound", "Cloverback Toad", "Cobbleswarm", "Cosmoth", "Diseased Grick", "Doppelrat", "Duergar Hammerer", "Eala", "Egg Hunter Hatchling", 
-    "Eldritch Horror Hatchling", "Enormous Tentacle", "Firegeist", "Gargantuan Rug of Smothering", "Gelatinous Cube", "Giant Ant", "Giant Boar", "Giant Constrictor Snake", "Giant Crayfish", 
-    "Giant Tick", "Giant White Moray Eel", "Glasswork Golem", "Grick", "Griffon", "Guard Drake", "Huge Ochre Jelly", "Huge Polar Bear", "Hunter Shark", "Ice Spider Queen", "Invisiboar", 
-    "Lightning Eel", "Mimic", "Mjork Sootling Swarm", "Ochre Jelly", "Oozing Vulture", "Plainscow", "Plesiosaurus", "Polar Bear", "Purple Wormling", "Quetzalcoatlus", "Reduced-Threat Carrion Crawler", 
-    "Reduced-Threat Ochre Jelly", "Relic Sloth", "Rhinoceros", "Rug of Smothering", "Rutterkin", "Saber-Toothed Tiger", "Scarapit", "Sentient Ochre Jelly", "Shadow Mastiff", "Shell Shark", "Shieldscale Drangolin", 
-    "Skyjek Roc", "Slimesworn Cultist", "Spider Thief", "Stoneback Isopod", "Swarm of Hoard Scarabs", "Swarm of Maggots", "Swarm of Poisonous Snakes", "Swarm of Rain Hornets", "Two-Headed Cerberus", "Vegepygmy Thorny Hunter", 
-    "White Dragon Wyrmling", "Yellow Musk Creeper", "Young Bulette", "Young Wakewyrm"
-  ],
-  "3": ["Amphiptere", "Amphisbaena", "Animated Stove", "Ankylosaurus", "Armored Saber-Toothed Tiger", "Assassin Vine", "Barkburr", "Basilisk", "Blood Screechwing", "Brackish Trudge", "Bramble Creeper", "Bristled Moorbounder", 
-    "Butcher", "Cactid", "Carrion Stalker", "Cave Fisher", "Citrullus", "Clockwork Beetle Swarm", "Clockwork Huntsman", "Duergar Screamer", "Encephalon Gemmule", "Flail Snail", "Flying Horror", 
-    "Giant Jellyfish", "Giant Lightning Eel", "Giant Ox", "Giant Scorpion", "Giant Snapping Turtle", "Hill Dragon", "Hook Horror Spore Servant", "Ice Gargoyle", "J'ba Fofi Spider", "Juvenile Forest Prowler", 
-    "Killer Whale", "Lupilisk", "Mahoru", "Mbielu Dinosaur", "Mud Hulk", "Night Scorpion", "Owlbear", "Razorblade Bitzer", "Sahuagin Hatchling Swarm", "Sand Spider", "Screechwing", "Sheep Dragon", "Snow Golem", 
-    "Snowy Owlbear", "Spotted Lion", "Stul", "Stygian Fat-Tailed Scorpion", "Swarm of Gibberlings", "Swarm of Prismatic Beetles", "Swarm of Scarabs", "Swarm of Wharflings", "Trapper", "War Spider", "Young Horizonback Tortoise"
-  ]
+// ========== ข้อมูลสัตว์เลี้ยงแบบแยก Tier/CR ==========
+
+// 1. BASE PETS (สัตว์เลี้ยงพื้นฐานของ CR นั้นๆ เริ่มต้นที่ Tier ใด)
+const petsCR0_T1_BASE = [
+  "Almiraj", "Baboon", "Badger", "Bat", "Cat", "Chimeric Baboon", "Chimeric Cat", "Chimeric Fox", "Chimeric Hare", "Chimeric Rat", "Chimeric Weasel", "Crab",
+  "Deer", "Dusktail", "Eagle", "Emberbat", "Everbug", "Fish", "Fox", "Frog",
+  "Giant Fire Beetle", "Gibberling", "Goat", "Hare", "Hawk", "Hyena", "Jackal", "Knucklehead Trout",
+  "Lizard", "Octopus", "Owl", "Peacock", "Piccolo", "Pig", "Quipper", "Rat",
+  "Raven", "Rooster", "Scorpion", "Sea Horse", "Seal", "Sheep", "Space Guppy", "Space Hamster", "Space Mollymawk", "Spider", "Vulture", "Weasel", "Wild Dog"
+];
+
+const petsCR1_8_T1_BASE = [
+  "Blood Hawk", "Camel", "Caterpede", "Clawfish", "Clockwork Mule", "Flying Rocking Horse", "Flying Snake", "Giant Crab", "Giant Rat", "Glassbeetle",
+  "Knifewing", "Manes", "Giant Weasel", "Mastiff", "Monodrone", "Mountain Goat", "Mule",
+  "Poisonous Snake", "Pony", "Skitterling", "Stirge", "Twig Blight", "Wharfling", "Wooden Donkey"
+];
+
+const petsCR1_4_T2_BASE = [
+  "Abyssal Chicken", "Abyssal Wretch", "Animated Broom", "Animated Halberd", "Animated Jade Serpent", "Axe Beak", "Boar", "Broom of Animated Attack", "Cave Badger", "Constrictor Snake", 
+  "Cow", "Crystal Battleaxe", "Deep Rothé", "Diatryma", "Dimetrodon", "Draft Horse", "Dretch", "Elk", "Fastieth", "Flying Shield", "Flying Staff", "Flying Sword", "Flying Trident", 
+  "Flying Wand", "Garroter Crab", "Giant Badger", "Giant Bat", "Giant Centipede", "Giant Frog", "Giant Lizard", "Giant Mosquito", "Giant Poisonous Snake", "Giant Riding Lizard", 
+  "Giant Snail", "Giant Space Hamster", "Giant Wolf Spider", "Golden Stag", "Hadrosaurus", "Hellwasp Grub", "Lion's Blume", "Living Wick", "Mohler", "Needle Blight", "Ox", "Panther", 
+  "Paper Whirlwind", "Pteranodon", "Red-Banded Line Spider", "Reindeer", "Riding Horse", "Rothé", "Sled Dog", "Space Swine", "Suturefly", "Swamp Adder", "Swarm of Animated Books", 
+  "Swarm of Bats", "Swarm of Blood Bats", "Swarm of Books", "Swarm of Rats", "Swarm of Ravens", "Thornlamm", "Velociraptor", "Violet Fungus", "Walrus", "Wolf", "Yak", "Zebra"
+];
+
+const petsCR1_2_T2_BASE = [
+  "Anvilwrought Raptor", "Archer Flower", "Bird of Prey", "Black Bear", "Bone Crab", "Camel", "Clockwork Beetle", "Clockwork Watchman", "Crocodile", "Duergar Spore Servant", 
+  "Fallen Luyarnhian", "Fiendish Giant Spider", "Gas Spore", "Giant Canary", "Giant Dragonfly", "Giant Goat", "Giant Sea Horse", "Giant Spider Rat", "Giant Wasp", "Jaculi", "Kiddywidget", 
+  "Koi Prawn", "Metal Wasp", "Nupperibo", "Reef Shark", "Shieldhead", "Skull Flier", "Slicar", "Space Eel", "Stench Kow", "Swarm of Beetles", "Swarm of Bluebees", "Swarm of Centipedes", 
+  "Swarm of Dusktails", "Swarm of Emberbats", "Swarm of Gimlets", "Swarm of Insects", "Swarm of Mechanical Spiders", "Swarm of Rot Grubs", "Swarm of Spiders", "Swarm of Wasps", 
+  "Thorn Slinger", "Vine Blight", "Warhorse", "War Ostrich", "Watchwood Tree", "Xanka"
+];
+
+const petsCR1_T3_BASE = [
+  "Abyssal Hyena", "Animated Armor", "Animated Armor Detention Drone", "Animated Chained Library", "Animated Drow Statue", "Ashen Animated Armor", "Bag Jelly", "Bronze Sable", "Broodiken", 
+  "Brown Bear", "Clawfoot", "Clockwork Bronze Scout", "Clockwork Defender", "Corvian Dweller", "Deinonychus", "Demonfeed Spiderling", "Dire Wolf", "Dogmole", "Firelance", "Galvanice Weird", 
+  "Gerridae", "Giant Blood Eel", "Giant Flying Spider", "Giant Hyena", "Giant Octopus", "Giant Ram", "Giant Rocktopus", "Giant Spider", "Giant Spore Lizard", "Giant Strider", "Giant Toad", 
+  "Glass Gator", "Hypnotic Eldritch Blossom", "Ice Spider", "Jammer Leech", "Lesser Demon", "Lion", "Living Burning Hands", "Lupilisk Whelp", "Mantrap", "Maw Demon", "Moorbounder", 
+  "Mountain Lion", "Purple Jam", "Quaggoth Spore Servant", "Razorvine Blight", "Rime Worm Grub", "Skeletal Fish", "Sloth Galloper", "Snow Leopard", "Spore Servant Octopus", "Stone Cursed", 
+  "Swarm of Campestris", "Swarm of Giant Mosquitoes", "Swarm of Quippers", "Terracotta Warrior", "Thorny Vegepygmy", "Tiger", "Tin Soldier", "Vargouille", "Young Winter Wolf", 
+  "Zanskaran Viper"
+];
+
+const petsCR2_T4_BASE = [
+  "Allosaurus", "Animated Ballista", "Animated Slime", "Animated Table", "Animatronic Allosaurus", "Ankheg", "Aurochs", "Aurumvorax", "Autognome", "Bearracuda", "Burnished Hart", 
+  "Carrion Crawler", "Cave Bear", "Clockwork Hound", "Cloverback Toad", "Cobbleswarm", "Cosmoth", "Diseased Grick", "Doppelrat", "Duergar Hammerer", "Eala", "Egg Hunter Hatchling", 
+  "Eldritch Horror Hatchling", "Enormous Tentacle", "Firegeist", "Gargantuan Rug of Smothering", "Gelatinous Cube", "Giant Ant", "Giant Boar", "Giant Constrictor Snake", "Giant Crayfish", 
+  "Giant Tick", "Giant White Moray Eel", "Glasswork Golem", "Grick", "Griffon", "Guard Drake", "Huge Ochre Jelly", "Huge Polar Bear", "Hunter Shark", "Ice Spider Queen", "Invisiboar", 
+  "Lightning Eel", "Mimic", "Mjork Sootling Swarm", "Ochre Jelly", "Oozing Vulture", "Plainscow", "Plesiosaurus", "Polar Bear", "Purple Wormling", "Quetzalcoatlus", "Reduced-Threat Carrion Crawler", 
+  "Reduced-Threat Ochre Jelly", "Relic Sloth", "Rhinoceros", "Rug of Smothering", "Rutterkin", "Saber-Toothed Tiger", "Scarapit", "Sentient Ochre Jelly", "Shadow Mastiff", "Shell Shark", "Shieldscale Drangolin", 
+  "Skyjek Roc", "Slimesworn Cultist", "Spider Thief", "Stoneback Isopod", "Swarm of Hoard Scarabs", "Swarm of Maggots", "Swarm of Poisonous Snakes", "Swarm of Rain Hornets", "Two-Headed Cerberus", "Vegepygmy Thorny Hunter", 
+  "White Dragon Wyrmling", "Yellow Musk Creeper", "Young Bulette", "Young Wakewyrm"
+];
+
+const petsCR3_T5_BASE = [
+  "Amphiptere", "Amphisbaena", "Animated Stove", "Ankylosaurus", "Armored Saber-Toothed Tiger", "Assassin Vine", "Barkburr", "Basilisk", "Blood Screechwing", "Brackish Trudge", "Bramble Creeper", "Bristled Moorbounder", 
+  "Butcher", "Cactid", "Carrion Stalker", "Cave Fisher", "Citrullus", "Clockwork Beetle Swarm", "Clockwork Huntsman", "Duergar Screamer", "Encephalon Gemmule", "Flail Snail", "Flying Horror", 
+  "Giant Jellyfish", "Giant Lightning Eel", "Giant Ox", "Giant Scorpion", "Giant Snapping Turtle", "Hill Dragon", "Hook Horror Spore Servant", "Ice Gargoyle", "J'ba Fofi Spider", "Juvenile Forest Prowler", 
+  "Killer Whale", "Lupilisk", "Mahoru", "Mbielu Dinosaur", "Mud Hulk", "Night Scorpion", "Owlbear", "Razorblade Bitzer", "Sahuagin Hatchling Swarm", "Sand Spider", "Screechwing", "Sheep Dragon", "Snow Golem", 
+  "Snowy Owlbear", "Spotted Lion", "Stul", "Stygian Fat-Tailed Scorpion", "Swarm of Gibberlings", "Swarm of Prismatic Beetles", "Swarm of Scarabs", "Swarm of Wharflings", "Trapper", "War Spider", "Young Horizonback Tortoise"
+];
+
+
+// 2. ADDITION PETS (สัตว์เลี้ยงเพิ่มเติมเฉพาะ Tier นั้นๆ ใน CR นั้นๆ)
+// ตัวอย่าง: CR 0 ได้เพิ่ม "Awakened Shrub" ใน T2
+// ตัวอย่าง: CR 1/8 ได้เพิ่ม "Worg" ใน T2
+// ตัวอย่าง: CR 1/4 ได้เพิ่ม "Hook Horror (Whelp)" ใน T3
+// ตัวอย่าง: CR 1 ได้เพิ่ม "Grell" ใน T4
+const petsCR0_T2_ADD = ["Clockwork Observer", "Ape (T2)"];
+const petsCR1_8_T2_ADD = ["Worg (T2)", "Warhorse (T2)"];
+
+const petsCR0_T3_ADD = [];
+const petsCR1_8_T3_ADD = [];
+const petsCR1_4_T3_ADD = ["Hook Horror (Whelp T3)"];
+const petsCR1_2_T3_ADD = [];
+
+const petsCR0_T4_ADD = ["Clockwork Observer", "Ape (T2)"];
+const petsCR1_8_T4_ADD = [];
+const petsCR1_4_T4_ADD = [];
+const petsCR1_2_T4_ADD = [];
+const petsCR1_T4_ADD = ["Grell (T4)"];
+
+const petsCR0_T5_ADD = ["Campestri", "Cranium Rat", "Cranium Rat Squeaker", "Dustbunny", "Infant Basilisk", "Living Demiplane", "Living Unseen Servant", "Mold Spider", "Paper Bird", "Scufflecup Teacup", "Shrieker", "Sitri Cat", "Sorrowfish", "Spythronar Sac", "Torcheater", "Young Griffon (Tiny)"];
+const petsCR1_8_T5_ADD = [];
+const petsCR1_4_T5_ADD = [];
+const petsCR1_2_T5_ADD = [];
+const petsCR1_T5_ADD = [];
+const petsCR2_T5_ADD = [];
+
+// 3. โครงสร้างหลัก: petsByTierCR[CR][Tier] = [Pet List]
+// **หมายเหตุ:** รายการใน Tier ที่สูงกว่า คือรายการ *ที่เพิ่มเข้ามา* เท่านั้น 
+// ฟังก์ชัน updatePetList จะทำการรวมรายการ BASE และรายการ ADD จาก Tier ต่ำไปสูง
+const petsByTierCR = {
+  "0": {
+    "1": petsCR0_T1_BASE,
+    "2": [...petsCR0_T2_ADD], 
+    "3": [],
+    "4": [], 
+    "5": [...petsCR0_T5_ADD], 
+  },
+  "1/8": {
+    "1": petsCR1_8_T1_BASE,
+    "2": [...petsCR1_8_T2_ADD],
+    "3": [],
+    "4": [],
+    "5": [],
+  },
+  "1/4": {
+    "2": petsCR1_4_T2_BASE,
+    "3": [...petsCR1_4_T3_ADD],
+    "4": [],
+    "5": [],
+  },
+  "1/2": {
+    "2": petsCR1_2_T2_BASE,
+    "3": [],
+    "4": [],
+    "5": [],
+  },
+  "1": {
+    "3": petsCR1_T3_BASE,
+    "4": [...petsCR1_T4_ADD],
+    "5": [],
+  },
+  "2": {
+    "4": petsCR2_T4_BASE,
+    "5": [],
+  },
+  "3": {
+    "5": petsCR3_T5_BASE,
+  }
 };
+
+// ========== Mapping Tier กับ CR ==========
+const crByTier = {
+  "1": ["0", "1/8"],
+  "2": ["0", "1/8", "1/4", "1/2"],
+  "3": ["0", "1/8", "1/4", "1/2", "1"],
+  "4": ["0", "1/8", "1/4", "1/2", "1", "2"],
+  "5": ["0", "1/8", "1/4", "1/2", "1", "2", "3"]
+};
+
 
 // ========== ราคา ==========
 const buyCost = {
@@ -79,6 +168,7 @@ const SKILLS = ["Guard", "Grapple", "Search", "Keep Watch", "Fetch", "Shove"];
 
 // ========== DOM Elements ==========
 const modal = document.getElementById('petModal');
+const tierSelect = document.getElementById('tierSelect'); 
 const crSelect = document.getElementById('crSelect');
 const petSelect = document.getElementById('petSelect');
 const buyBtn = document.getElementById('buyBtn');
@@ -101,6 +191,7 @@ const trainPreview = document.getElementById('trainPreview');
 // Image elements
 const petImage = document.getElementById('petImage');
 const petImageContainer = document.getElementById('petImageContainer');
+
 
 // ========== แมป CR เป็น folder ==========
 function getCRFolder(cr) {
@@ -139,23 +230,75 @@ function showPetImage(petName, cr) {
   img.src = imageUrl; // เริ่มโหลด
 }
 
-// ========== อัปเดตลิสต์สัตว์เลี้ยงตาม CR ==========
-function updatePetList(cr) {
+// ========== อัปเดตลิสต์ CR ตาม Tier ==========
+function updateCRList(tier) {
+  crSelect.innerHTML = '';
+  const crList = crByTier[tier];
+  
+  if (crList && crList.length > 0) {
+    crList.forEach(cr => {
+      const opt = document.createElement('option');
+      opt.value = cr;
+      opt.textContent = `CR ${cr}`;
+      crSelect.appendChild(opt);
+    });
+    crSelect.disabled = false;
+    // เลือก CR แรกเป็นค่าเริ่มต้น
+    return crList[0];
+  } else {
+    crSelect.disabled = true;
+    const opt = document.createElement('option');
+    opt.value = '';
+    opt.textContent = '-- ไม่พบ CR ใน Tier นี้ --';
+    crSelect.appendChild(opt);
+    return null;
+  }
+}
+
+// ========== อัปเดตลิสต์สัตว์เลี้ยงตาม CR และ Tier ==========
+function updatePetList(cr, tier) {
   petSelect.innerHTML = '';
-  if (cr && petsByCR[cr]) {
-    petsByCR[cr].forEach(pet => {
+  
+  if (!cr || !tier || !petsByTierCR[cr]) {
+    petSelect.disabled = true;
+    petSelect.innerHTML = '<option value="">-- โปรดเลือก CR ก่อน --</option>';
+    return null;
+  }
+
+  const currentTier = parseInt(tier);
+  let aggregatedPets = [];
+  const petsInCR = petsByTierCR[cr];
+  
+  // หา Tier เริ่มต้นของ CR นี้
+  const startingTier = Math.min(...Object.keys(petsInCR).map(t => parseInt(t)));
+
+  // วนลูปตั้งแต่ Tier เริ่มต้นของ CR จนถึง Tier ปัจจุบันที่เลือก เพื่อรวมรายการสัตว์เลี้ยง
+  for (let t = startingTier; t <= currentTier; t++) {
+    const tierKey = t.toString();
+    
+    // ตรวจสอบว่า CR นี้มีสัตว์เลี้ยงใน Tier ที่กำลังพิจารณาหรือไม่
+    if (petsInCR[tierKey]) {
+      // เพิ่มรายการใหม่และกรองรายการซ้ำ
+      const newPets = petsInCR[tierKey].filter(pet => !aggregatedPets.includes(pet));
+      aggregatedPets = aggregatedPets.concat(newPets);
+    }
+  }
+  
+  // อัปเดต Dropdown
+  if (aggregatedPets.length > 0) {
+    aggregatedPets.sort(); // จัดเรียงตามตัวอักษร
+    aggregatedPets.forEach(pet => {
       const opt = document.createElement('option');
       opt.value = pet;
       opt.textContent = pet;
       petSelect.appendChild(opt);
     });
     petSelect.disabled = false;
+    return aggregatedPets[0]; // ส่งค่าสัตว์เลี้ยงที่ถูกเลือกกลับ
   } else {
     petSelect.disabled = true;
-    const opt = document.createElement('option');
-    opt.value = '';
-    opt.textContent = '-- โปรดเลือก CR ก่อน --';
-    petSelect.appendChild(opt);
+    petSelect.innerHTML = '<option value="">-- ไม่พบสัตว์เลี้ยงในเงื่อนไขนี้ --</option>';
+    return null;
   }
 }
 
@@ -164,10 +307,16 @@ function updatePreviewsAndImage() {
   const pet = petSelect.value;
   const cr = crSelect.value;
   
-  if (!pet || !cr) {
+  // ตรวจสอบว่ามีการเลือกสัตว์เลี้ยงและ CR
+  const isEnabled = pet && cr;
+
+  if (!isEnabled) {
     buyPreview.textContent = '';
     changePreview.textContent = '';
     petImage.classList.add('hidden');
+    buyBtn.disabled = true;
+    changeBtn.disabled = true;
+    trainBtn.disabled = true;
     return;
   }
 
@@ -178,44 +327,73 @@ function updatePreviewsAndImage() {
   const changeFavor = changeCost[cr];
   changePreview.textContent = `เปลี่ยนสัตว์เลี้ยงเป็น ${pet} CR ${cr} โดยใช้ ${changeFavor} Favor`;
 
+  // เปิดใช้งานปุ่ม
+  buyBtn.disabled = false;
+  changeBtn.disabled = false;
+  trainBtn.disabled = false;
+  
   // แสดงรูปภาพ
   showPetImage(pet, cr);
 }
 
 // ========== ตั้งค่าเริ่มต้นเมื่อเปิด Modal ==========
 function resetModalToDefault() {
-  crSelect.value = "0";
-  updatePetList("0");
-  if (petsByCR["0"] && petsByCR["0"].length > 0) {
-    petSelect.value = petsByCR["0"][0];
+  // ตั้งค่า Tier เริ่มต้นเป็น 1
+  tierSelect.value = "1"; 
+  const defaultTier = tierSelect.value;
+  
+  // อัปเดต CR ตาม Tier 1 (CR 0, 1/8)
+  const defaultCR = updateCRList(defaultTier); 
+
+  // อัปเดตสัตว์เลี้ยงตาม CR เริ่มต้นและ Tier
+  const defaultPet = updatePetList(defaultCR, defaultTier); 
+  
+  // ตั้งค่าสัตว์เลี้ยงที่เลือก
+  if (defaultPet) {
+    petSelect.value = defaultPet;
   }
-  const enabled = petSelect.value !== '';
-  buyBtn.disabled = !enabled;
-  changeBtn.disabled = !enabled;
-  trainBtn.disabled = !enabled;
+  
   updatePreviewsAndImage();
+}
+
+// ========== Event: เปลี่ยน Tier ==========
+if (tierSelect) {
+  tierSelect.addEventListener('change', () => {
+    const tier = tierSelect.value;
+    
+    // อัปเดตลิสต์ CR
+    const newCR = updateCRList(tier);
+    
+    // อัปเดตลิสต์สัตว์เลี้ยง (ส่ง tier ใหม่เข้าไป)
+    const newPet = updatePetList(newCR, tier);
+    
+    // ตั้งค่าสัตว์เลี้ยงที่เลือก
+    if (newPet) {
+      petSelect.value = newPet;
+    }
+    
+    updatePreviewsAndImage();
+  });
 }
 
 // ========== Event: เปลี่ยน CR ==========
 crSelect.addEventListener('change', () => {
   const cr = crSelect.value;
-  updatePetList(cr);
-  if (petsByCR[cr] && petsByCR[cr].length > 0) {
-    petSelect.value = petsByCR[cr][0];
+  const tier = tierSelect.value; // ดึงค่า tier ปัจจุบัน
+  
+  // อัปเดตลิสต์สัตว์เลี้ยง (ส่ง tier ปัจจุบันเข้าไป)
+  const newPet = updatePetList(cr, tier);
+  
+  // ตั้งค่าสัตว์เลี้ยงที่เลือก
+  if (newPet) {
+    petSelect.value = newPet;
   }
-  const enabled = petSelect.value !== '';
-  buyBtn.disabled = !enabled;
-  changeBtn.disabled = !enabled;
-  trainBtn.disabled = !enabled;
+  
   updatePreviewsAndImage();
 });
 
 // ========== Event: เปลี่ยนสัตว์เลี้ยง ==========
 petSelect.addEventListener('change', () => {
-  const enabled = petSelect.value !== '';
-  buyBtn.disabled = !enabled;
-  changeBtn.disabled = !enabled;
-  trainBtn.disabled = !enabled;
   updatePreviewsAndImage();
 });
 
