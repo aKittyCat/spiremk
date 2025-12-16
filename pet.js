@@ -63,69 +63,64 @@ const petsCR3_T5_BASE = [
 
 
 // 2. ADDITION PETS (สัตว์เลี้ยงเพิ่มเติมเฉพาะ Tier นั้นๆ ใน CR นั้นๆ)
-// ตัวอย่าง: CR 0 ได้เพิ่ม "Awakened Shrub" ใน T2
-// ตัวอย่าง: CR 1/8 ได้เพิ่ม "Worg" ใน T2
-// ตัวอย่าง: CR 1/4 ได้เพิ่ม "Hook Horror (Whelp)" ใน T3
-// ตัวอย่าง: CR 1 ได้เพิ่ม "Grell" ใน T4
-const petsCR0_T2_ADD = ["Clockwork Observer", "Ape (T2)"];
+const petsCR0_T2_ADD = ["Clockwork Observer (T2)", "Ape (T2)"];
 const petsCR1_8_T2_ADD = ["Worg (T2)", "Warhorse (T2)"];
 
-const petsCR0_T3_ADD = [];
+const petsCR0_T3_ADD = ["Ape (T3)"]; // ตัวอย่าง: CR 0 เพิ่ม Ape อีกตัวใน T3 (แยกจาก T2)
 const petsCR1_8_T3_ADD = [];
 const petsCR1_4_T3_ADD = ["Hook Horror (Whelp T3)"];
 const petsCR1_2_T3_ADD = [];
 
-const petsCR0_T4_ADD = ["Clockwork Observer", "Ape (T2)"];
+const petsCR0_T4_ADD = ["Mimic (Tiny T4)", "Young Griffon (Small T4)"];
 const petsCR1_8_T4_ADD = [];
 const petsCR1_4_T4_ADD = [];
 const petsCR1_2_T4_ADD = [];
 const petsCR1_T4_ADD = ["Grell (T4)"];
 
-const petsCR0_T5_ADD = ["Campestri", "Cranium Rat", "Cranium Rat Squeaker", "Dustbunny", "Infant Basilisk", "Living Demiplane", "Living Unseen Servant", "Mold Spider", "Paper Bird", "Scufflecup Teacup", "Shrieker", "Sitri Cat", "Sorrowfish", "Spythronar Sac", "Torcheater", "Young Griffon (Tiny)"];
+const petsCR0_T5_ADD = ["Campestri (T5)", "Cranium Rat (T5)", "Dustbunny (T5)", "Infant Basilisk (T5)", "Living Demiplane (T5)", "Living Unseen Servant (T5)", "Mold Spider (T5)", "Paper Bird (T5)", "Scufflecup Teacup (T5)", "Shrieker (T5)", "Sitri Cat (T5)", "Sorrowfish (T5)", "Spythronar Sac (T5)", "Torcheater (T5)", "Young Griffon (Tiny T5)"];
 const petsCR1_8_T5_ADD = [];
 const petsCR1_4_T5_ADD = [];
 const petsCR1_2_T5_ADD = [];
 const petsCR1_T5_ADD = [];
 const petsCR2_T5_ADD = [];
+const petsCR3_T5_ADD = ["Young Remorhaz (T5)"]; // ตัวอย่าง: CR 3 เพิ่มใน T5
 
 // 3. โครงสร้างหลัก: petsByTierCR[CR][Tier] = [Pet List]
-// **หมายเหตุ:** รายการใน Tier ที่สูงกว่า คือรายการ *ที่เพิ่มเข้ามา* เท่านั้น 
-// ฟังก์ชัน updatePetList จะทำการรวมรายการ BASE และรายการ ADD จาก Tier ต่ำไปสูง
 const petsByTierCR = {
   "0": {
     "1": petsCR0_T1_BASE,
     "2": [...petsCR0_T2_ADD], 
-    "3": [],
-    "4": [], 
+    "3": [...petsCR0_T3_ADD],
+    "4": [...petsCR0_T4_ADD], 
     "5": [...petsCR0_T5_ADD], 
   },
   "1/8": {
     "1": petsCR1_8_T1_BASE,
     "2": [...petsCR1_8_T2_ADD],
-    "3": [],
-    "4": [],
-    "5": [],
+    "3": [...petsCR1_8_T3_ADD],
+    "4": [...petsCR1_8_T4_ADD],
+    "5": [...petsCR1_8_T5_ADD],
   },
   "1/4": {
     "2": petsCR1_4_T2_BASE,
     "3": [...petsCR1_4_T3_ADD],
-    "4": [],
-    "5": [],
+    "4": [...petsCR1_4_T4_ADD],
+    "5": [...petsCR1_4_T5_ADD],
   },
   "1/2": {
     "2": petsCR1_2_T2_BASE,
-    "3": [],
-    "4": [],
-    "5": [],
+    "3": [...petsCR1_2_T3_ADD],
+    "4": [...petsCR1_2_T4_ADD],
+    "5": [...petsCR1_2_T5_ADD],
   },
   "1": {
     "3": petsCR1_T3_BASE,
     "4": [...petsCR1_T4_ADD],
-    "5": [],
+    "5": [...petsCR1_T5_ADD],
   },
   "2": {
     "4": petsCR2_T4_BASE,
-    "5": [],
+    "5": [...petsCR2_T5_ADD],
   },
   "3": {
     "5": petsCR3_T5_BASE,
@@ -255,9 +250,9 @@ function updateCRList(tier) {
   }
 }
 
-// ========== อัปเดตลิสต์สัตว์เลี้ยงตาม CR และ Tier ==========
+// ========== อัปเดตลิสต์สัตว์เลี้ยงตาม CR และ Tier (ปรับปรุงประสิทธิภาพ) ==========
 function updatePetList(cr, tier) {
-  petSelect.innerHTML = '';
+  petSelect.innerHTML = ''; // ล้างรายการเดิม
   
   if (!cr || !tier || !petsByTierCR[cr]) {
     petSelect.disabled = true;
@@ -270,13 +265,14 @@ function updatePetList(cr, tier) {
   const petsInCR = petsByTierCR[cr];
   
   // หา Tier เริ่มต้นของ CR นี้
-  const startingTier = Math.min(...Object.keys(petsInCR).map(t => parseInt(t)));
+  const tierKeys = Object.keys(petsInCR).map(t => parseInt(t));
+  const startingTier = tierKeys.length > 0 ? Math.min(...tierKeys) : 1;
+
 
   // วนลูปตั้งแต่ Tier เริ่มต้นของ CR จนถึง Tier ปัจจุบันที่เลือก เพื่อรวมรายการสัตว์เลี้ยง
   for (let t = startingTier; t <= currentTier; t++) {
     const tierKey = t.toString();
     
-    // ตรวจสอบว่า CR นี้มีสัตว์เลี้ยงใน Tier ที่กำลังพิจารณาหรือไม่
     if (petsInCR[tierKey]) {
       // เพิ่มรายการใหม่และกรองรายการซ้ำ
       const newPets = petsInCR[tierKey].filter(pet => !aggregatedPets.includes(pet));
@@ -287,14 +283,21 @@ function updatePetList(cr, tier) {
   // อัปเดต Dropdown
   if (aggregatedPets.length > 0) {
     aggregatedPets.sort(); // จัดเรียงตามตัวอักษร
+    
+    // **ใช้ DocumentFragment เพื่อลดความหน่วงในการ Manipulate DOM**
+    const fragment = document.createDocumentFragment();
+    
     aggregatedPets.forEach(pet => {
       const opt = document.createElement('option');
       opt.value = pet;
       opt.textContent = pet;
-      petSelect.appendChild(opt);
+      fragment.appendChild(opt);
     });
+    
+    petSelect.appendChild(fragment); // แทรก Element เข้า DOM เพียงครั้งเดียว
+
     petSelect.disabled = false;
-    return aggregatedPets[0]; // ส่งค่าสัตว์เลี้ยงที่ถูกเลือกกลับ
+    return aggregatedPets[0]; 
   } else {
     petSelect.disabled = true;
     petSelect.innerHTML = '<option value="">-- ไม่พบสัตว์เลี้ยงในเงื่อนไขนี้ --</option>';
