@@ -77,7 +77,7 @@ const petsCR1_4_T4_ADD = [];
 const petsCR1_2_T4_ADD = [];
 const petsCR1_T4_ADD = ["Grell (T4)"];
 
-const petsCR0_T5_ADD = ["Campestri (T5)", "Cranium Rat (T5)", "Dustbunny (T5)", "Infant Basilisk (T5)", "Living Demiplane (T5)", "Living Unseen Servant (T5)", "Mold Spider (T5)", "Paper Bird (T5)", "Scufflecup Teacup (T5)", "Shrieker (T5)", "Sitri Cat (T5)", "Sorrowfish (T5)", "Spythronar Sac (T5)", "Torcheater (T5)", "Young Griffon (Tiny T5)"];
+const petsCR0_T5_ADD = ["Campestri", "Cranium Rat", "Dustbunny", "Infant Basilisk", "Living Demiplane", "Living Unseen Servant", "Mold Spider", "Paper Bird (T5)", "Scufflecup Teacup (T5)", "Shrieker (T5)", "Sitri Cat (T5)", "Sorrowfish (T5)", "Spythronar Sac (T5)", "Torcheater (T5)", "Young Griffon (Tiny T5)"];
 const petsCR1_8_T5_ADD = [];
 const petsCR1_4_T5_ADD = [];
 const petsCR1_2_T5_ADD = [];
@@ -229,16 +229,16 @@ function showPetImage(petName, cr) {
 function updateCRList(tier) {
   crSelect.innerHTML = '';
   const crList = crByTier[tier];
-  
   if (crList && crList.length > 0) {
+    const fragment = document.createDocumentFragment();
     crList.forEach(cr => {
       const opt = document.createElement('option');
       opt.value = cr;
       opt.textContent = `CR ${cr}`;
-      crSelect.appendChild(opt);
+      fragment.appendChild(opt);
     });
+    crSelect.appendChild(fragment);
     crSelect.disabled = false;
-    // เลือก CR แรกเป็นค่าเริ่มต้น
     return crList[0];
   } else {
     crSelect.disabled = true;
