@@ -77,7 +77,7 @@ const petsCR1_4_T4_ADD = [];
 const petsCR1_2_T4_ADD = [];
 const petsCR1_T4_ADD = ["Grell (T4)"];
 
-const petsCR0_T5_ADD = ["Campestri", "Cranium Rat", "Dustbunny", "Infant Basilisk", "Living Demiplane", "Living Unseen Servant", "Mold Spider", "Paper Bird (T5)", "Scufflecup Teacup (T5)", "Shrieker (T5)", "Sitri Cat (T5)", "Sorrowfish (T5)", "Spythronar Sac (T5)", "Torcheater (T5)", "Young Griffon (Tiny T5)"];
+const petsCR0_T5_ADD = ["Campestri", "Cranium Rat", "Dustbunny", "Infant Basilisk", "Living Demiplane", "Living Unseen Servant", "Mold Spider", "Paper Bird", "Scufflecup Teacup", "Shrieker", "Sitri Cat", "Sorrowfish", "Spythronar Sac", "Torcheater", "Young Griffon (Tiny)"];
 const petsCR1_8_T5_ADD = [];
 const petsCR1_4_T5_ADD = [];
 const petsCR1_2_T5_ADD = [];
