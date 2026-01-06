@@ -177,6 +177,12 @@
           </button>
           <button
             class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
+            data-page="spells-research"
+          >
+            🔮 Spells Research
+          </button>
+          <button
+            class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
             data-page="updates"
           >
             📰 อัพเดท
@@ -1698,6 +1704,197 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        <!-- Spells Page -->
+        <div id="spells-researchPage" class="page-content hidden">
+          <div class="bg-black bg-opacity-50 rounded-xl p-8 backdrop-blur-sm">
+            <h2 class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center">
+              🔮 Spells Research
+            </h2>
+
+            <div class="bg-gray-800 rounded-lg p-6 mb-6">
+              <h3 class="text-2xl font-bold text-fantasy-purple mb-4">
+                🌌 เรียน Drakkenheim Spells
+              </h3>
+              <p class="text-gray-300 mb-4 indent-4">
+                เวทย์มนต์จาก Drakkenheim จะถูกเก็บไว้เป็นอย่างดีและไม่สามารถเข้าถึงได้ง่ายๆ ผู้ใช้เวทย์จะต้องจ่าย <span class="text-fantasy-gold font-bold">10 Favor และ 100 ทอง</span> ทุกๆ 1 เลเวลของเวทย์มนต์ที่จะศึกษาและบางอันก็จะมีข้อจำกัดที่ต้องทำก่อนทีจะศึกษาได้
+              </p>
+
+              <div class="bg-gray-900/50 p-4 rounded-lg border border-gray-700 mb-6">
+                <h4 class="font-bold text-fantasy-gold mb-2">📋 ใครสามารถเข้าถึงเวทย์มนต์จาก Drakkenheim ได้บ้าง?</h4>
+                <ul class="space-y-2 text-gray-300 list-disc pl-5">
+                  <li>เวทย์มนต์ Drakkenheim เป็นเวทย์เฉพาะคลาสและมีแค่คลาสที่ระบุเอาไว้เท่านั้นที่จะศึกษาเวทย์พวกนี้ได้</li>
+                  <li>เวทย์ของ Drakkenheim ไม่สามารถศึกษาโดยเลือก feat หรือจาก class features, และไม่สามารถคัดลอกโดย Wish หรือ Mizzium Apparatus</li>
+                  <li>เวทย์ที่จะศึกษาและใช้ ต้องเป็นเวทย์ที่ตัวละครสามารถใช้ได้ในเลเวลนั้นๆ</li>
+                  <li>เวทย์มนต์ของ Drakkenheim บางอันมีข้อจำกัดที่ต้องสำเร็จก่อนที่จะศึกษาได้ โดยผู้เล่นต้องไปทำใน Live Session และให้ DM บันทึกผลไว้ในช่องบันทึกเอฟเฟคถาวร เมื่อผู้เล่นทำสำเร็จและตัวผู้เล่นเองก็ต้องลงบันทึกความคืบหน้าในช่อง spells-reserch ด้วยเช่นกัน</li>
+                  <li>เมื่อทำการศึกษาสำเร็จ ตัวละครสามารถเพิ่มเวทย์เหล่านั้นในตัวได้ ไม่ว่าจะโดย prepare, เพิ่มใส่ spellbook, หรือแทนที่เวทย์ที่มีอยู่แล้วก่อนหน้า โดยขึ้นอยู่กับว่าตัวละครอยู่ในคลาสอะไร</li>
+                  <li>เนื่องจากเวทย์เหล่านี้ใช้ Delirium เป็นวัตถุดิบหลักในการร่าย scrolls และ spellwrought tattoos จะไม่สามารถใช้เวทย์ประเภทนี้ได้</li>
+                </ul>
+              </div>
+
+              <h4 class="font-bold text-fantasy-aether mb-4 text-lg border-b border-gray-700 pb-2">
+                📜 รายชื่อเวทย์จาก Drakkenheim และข้อจำกัด
+              </h4>
+              <div class="grid md:grid-cols-2 gap-6 text-sm text-gray-300">
+                <div>
+                  <strong class="text-white block mb-1">1st Level:</strong>
+                  <ul class="list-disc pl-5 mb-2">
+                    <li>Delirium Orb <span class="text-gray-500">[Sorcerer, Warlock, Wizard]</span></li>
+                  </ul>
+                  
+                  <strong class="text-white block mb-1">2nd Level:</strong>
+                  <ul class="list-disc pl-5 mb-2">
+                    <li>Warp Bolt <span class="text-gray-500">[Sorcerer, Warlock, Wizard]</span></li>
+                  </ul>
+
+                  <strong class="text-white block mb-1">3rd Level:</strong>
+                  <ul class="list-disc pl-5 mb-2">
+                    <li>Purge Contamination <span class="text-gray-500">[Bard, Cleric, Druid, Paladin, Ranger, Sorcerer, Warlock, Wizard]</span></li>
+                    <li>Ride the Rifts <span class="text-gray-500">[Bard, Sorcerer, Warlock, Wizard]</span></li>
+                  </ul>
+
+                  <strong class="text-white block mb-1">4th Level:</strong>
+                  <ul class="list-disc pl-5 mb-2">
+                    <li>Delirium Blast <span class="text-gray-500">[Bard, Sorcerer, Warlock, Wizard]</span></li>
+                    <li>Forced Evolution <span class="text-gray-500">[Sorcerer, Warlock, Wizard]</span></li>
+                  </ul>
+
+                  <strong class="text-white block mb-1">5th Level:</strong>
+                  <ul class="list-disc pl-5 mb-2">
+                    <li>Conjure the Deep Haze <span class="text-gray-500">[Druid, Sorcerer, Warlock, Wizard]</span></li>
+                    <li>Neutralizing Field <span class="text-orange-400 text-xs block">(ข้อจำกัด: ต้องศึกษา Purge Contamination และเคยสร้าง Aqua Expurgo อย่างน้อย 1 อัน)</span> <span class="text-gray-500">[Bard, Cleric, Druid, Paladin, Ranger, Sorcerer, Warlock, Wizard]</span></li>
+                  </ul>
+                </div>
+                <div>
+                  <strong class="text-white block mb-1">6th Level:</strong>
+                  <ul class="list-disc pl-5 mb-2">
+                    <li>Ray of Contamination <span class="text-gray-500">[Druid, Sorcerer, Warlock, Wizard]</span></li>
+                    <li>Siphon Contamination <span class="text-orange-400 text-xs block">(ข้อจำกัด: ต้องศึกษา Forced Evolution และ Neutralizing Field ก่อน รวมถึงต้องเคยเห็น Monstrous Transformation เกิดขึ้น)</span> <span class="text-gray-500">[Sorcerer, Warlock, Wizard]</span></li>
+                  </ul>
+
+                  <strong class="text-white block mb-1">7th Level:</strong>
+                  <ul class="list-disc pl-5 mb-2">
+                    <li>Contamination Immunity <span class="text-orange-400 text-xs block">(ข้อจำกัด: ต้องศึกษา Neutralizing Field ก่อน)</span> <span class="text-gray-500">[Bard, Cleric, Druid, Sorcerer, Warlock, Wizard]</span></li>
+                    <li>Octarine Spray <span class="text-gray-500">[Bard, Sorcerer, Warlock, Wizard]</span></li>
+                  </ul>
+
+                  <strong class="text-white block mb-1">8th Level:</strong>
+                  <ul class="list-disc pl-5 mb-2">
+                    <li>Contaminated Power <span class="text-orange-400 text-xs block">(ข้อจำกัด: ต้องศึกษาเวทย์ contamination อื่นๆทั้งหมดและต้องเคยร่ายทุกอันอย่างน้อย 1 ครั้ง)</span> <span class="text-gray-500">[Sorcerer, Warlock, Wizard]</span></li>
+                  </ul>
+
+                  <strong class="text-white block mb-1">9th Level:</strong>
+                  <ul class="list-disc pl-5 mb-2">
+                    <li>Sacrament of the Falling Fire <span class="text-orange-400 text-xs block">(ต้องทำใน Live Session)</span> <span class="text-gray-500">[Bard, Cleric, Druid, Warlock]</span></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gray-800 rounded-lg p-6 mb-6">
+              <h3 class="text-2xl font-bold text-fantasy-aether mb-4">
+                ⏳ เรียน Dunamancy Spells
+              </h3>
+              <div class="space-y-4 text-gray-300">
+                <ul class="list-disc pl-5 space-y-1">
+                  <li>Dunamancy นับเป็นเวทย์ของ Wizard แต่มีแค่สาย <strong>Chronurgy</strong> กับ <strong>Graviturgy</strong> เท่านั้นที่สามารถเรียนได้โดยไม่ต้องจ่ายทองและ Favor</li>
+                  <li>Dunamancy ที่เรียนจาก feats หรือ class features ไม่ต้องจ่ายทองและ Favor</li>
+                  <li>Sorcerers, Bards, Warlocks, Rangers, Druids, Clerics, Artificers, Paladins, Arcane Trickster Rogues, Eldritch Knights, Profane Soul Blood hunters, และ Heretic Jaeger สามารถเลือก Dunamancy แทนที่เวทย์ที่มีอยู่ได้</li>
+                </ul>
+
+                <div class="bg-gray-900/50 p-4 rounded-lg border border-gray-700">
+                  <h4 class="font-bold text-fantasy-gold mb-2">📋 ใครสามารถเข้าถึง Dunamancy Spells ได้บ้าง?</h4>
+                  <ul class="list-disc pl-5 space-y-1">
+                    <li>Dunamancy spells สามารถเรียนได้โดยตัวละครต้องจ่าย <span class="text-fantasy-gold">5 Favor และ 50 ทอง</span> ทุกๆ 1 เลเวลของเวทย์ที่จะเรียน ยกเว้น Wizard สาย Chronurgy และ Graviturgy</li>
+                    <li>เวทย์ที่จะศึกษาและใช้ ต้องเป็นเวทย์ที่ตัวละครสามารถใช้ได้ในเลเวลนั้นๆและไม่ใช่เวทย์ Cantrip</li>
+                    <li>ตัวละครต้องทำ <strong>Intelligence check</strong> เพื่อเรียน Dunamancy spell โดย <strong>DC จะอยู่ที่ 10+เลเวลของเวทย์ที่จะเรียน</strong> ตัวละครสามารถรับโบนัส +1 ได้โดยจ่ายทองเพิ่ม 100gp โดยสามารถได้รับโบนัสได้มากสุดที่ +6</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 class="font-bold text-fantasy-gold mb-2">วิธีเพิ่มเวทย์ Dunamancy:</h4>
+                  <p class="mb-2">ถ้าตัวละครเรียนเวทย์สายนี้สำเร็จ ตัวละครเพิ่มเวทย์นั้นๆตามรูปแบบของคลาส:</p>
+                  <ul class="list-disc pl-5 space-y-1 text-sm">
+                    <li><strong>Wizard:</strong> เพิ่มลงใน Spellbook</li>
+                    <li><strong>Known Caster:</strong> (Sorcerer, Warlock, Bard, Ranger, Arcane Tricksters Rogue, Eldritch Knights Fighter, Profane Soul Blood hunters, และ Heretic Jaeger) สามารถแทนที่เวทย์ที่มีอยู่แล้วได้</li>
+                    <li><strong>Prepared Caster:</strong> (Artificer, Druid, Cleric, Paladin) เพิ่มลงในเวทย์ที่สามารถเปลี่ยนได้</li>
+                    <li><strong>Warlocks:</strong> สามารถแทนที่ Mystic Arcanum สำหรับเวทย์เลเวล 6, 7, 8 และ 9 ที่มีอยู่แล้วได้</li>
+                  </ul>
+                  <p class="text-xs text-gray-400 mt-2">*ตัวละครที่เรียน Dunamancy spell สามารถใช้ spell scrolls เพื่อร่ายได้ตามปกติ</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gray-800 rounded-lg p-6 mb-6">
+              <h3 class="text-2xl font-bold text-fantasy-emerald mb-4">
+                🔄 เปลี่ยนเวทย์มนต์ที่มีสำหรับ Known Caster
+              </h3>
+              <p class="text-gray-300 mb-4">
+                ถ้าตัวละครเป็นคลาสสายที่เลือกเวทย์มนต์ใหม่และจะไม่สามารถเปลี่ยนได้จนกว่าจะเลเวลอัพ (Sorcerer, Warlock, Bard, Ranger, Arcane Tricksters Rogue, Eldritch Knights Fighter, Profane Soul Blood hunters, และ Heretic Jaeger) แล้วเปลี่ยนใจอยากเลือกเวทย์มนต์อื่นแทน ตัวละครสามารถใช้ Favor เพื่อเปลี่ยนเวทย์มนต์เหล่านั้นได้โดยจำนวน Favor ที่ใช้จะขึ้นอยู่กับเลเวลของเวทย์นั้นๆ
+              </p>
+              
+              <div class="overflow-x-auto rounded-lg shadow-lg mb-6 w-fit">
+                <table class="text-sm text-white border-collapse">
+                  <thead>
+                    <tr class="bg-neutral-700">
+                      <th class="px-6 py-2 border border-neutral-600 text-left font-bold">Level</th>
+                      <th class="px-6 py-2 border border-neutral-600 text-center font-bold">Favor Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="bg-neutral-800"><td class="px-6 py-2 border border-neutral-700">Cantrips</td><td class="px-6 py-2 text-center border border-neutral-700">25</td></tr>
+                    <tr class="bg-neutral-900"><td class="px-6 py-2 border border-neutral-700">Level 1</td><td class="px-6 py-2 text-center border border-neutral-700">10</td></tr>
+                    <tr class="bg-neutral-800"><td class="px-6 py-2 border border-neutral-700">Level 2</td><td class="px-6 py-2 text-center border border-neutral-700">20</td></tr>
+                    <tr class="bg-neutral-900"><td class="px-6 py-2 border border-neutral-700">Level 3</td><td class="px-6 py-2 text-center border border-neutral-700">30</td></tr>
+                    <tr class="bg-neutral-800"><td class="px-6 py-2 border border-neutral-700">Level 4</td><td class="px-6 py-2 text-center border border-neutral-700">40</td></tr>
+                    <tr class="bg-neutral-900"><td class="px-6 py-2 border border-neutral-700">Level 5</td><td class="px-6 py-2 text-center border border-neutral-700">50</td></tr>
+                    <tr class="bg-neutral-800"><td class="px-6 py-2 border border-neutral-700">Level 6</td><td class="px-6 py-2 text-center border border-neutral-700">65</td></tr>
+                    <tr class="bg-neutral-900"><td class="px-6 py-2 border border-neutral-700">Level 7</td><td class="px-6 py-2 text-center border border-neutral-700">80</td></tr>
+                    <tr class="bg-neutral-800"><td class="px-6 py-2 border border-neutral-700">Level 8</td><td class="px-6 py-2 text-center border border-neutral-700">95</td></tr>
+                    <tr class="bg-neutral-900"><td class="px-6 py-2 border border-neutral-700">Level 9</td><td class="px-6 py-2 text-center border border-neutral-700">110</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="bg-red-900/30 border border-red-800 rounded p-4 text-gray-300 text-sm">
+                <strong>📝 บันทึกการเปลี่ยนแปลง:</strong> บันทึกในช่อง <code>spells-reserch</code> โดยใส่ชื่อตัวละคร, รายชื่อเวทย์ที่เอาออก, รายชื่อเวทย์ที่เลือกใหม่, จำนวน Favor ที่ใช้และอย่าลืมบันทึกลงใน Character Tracking Sheet<br>
+                <span class="text-fantasy-red">*ตัวละครสามารถเปลี่ยนเวทย์ด้วยวิธีนี้ได้ 1 ครั้งต่อเดือนและเปลี่ยนเวทย์มนต์ได้มากสุดที่ 3 อัน</span>
+              </div>
+            </div>
+
+            <div class="bg-gray-800 rounded-lg p-6">
+              <h3 class="text-2xl font-bold text-blue-400 mb-4">
+                📘 คัดลอกเวทย์มนต์สำหรับ Wizard
+              </h3>
+              
+              <div class="space-y-4 text-gray-300">
+                <div>
+                  <h4 class="font-bold text-fantasy-gold">การคัดลอกเวทย์มนต์ลง Spellbook:</h4>
+                  <p>เมื่อตัวละครพบเวทย์มนต์ของ Wizard ที่มีเลเวล 1 หรือมากกว่า ตัวละครสามารถเพิ่มเวทย์มนต์เหล่านั้นลง Spellbook ของพวกเขาได้ โดยทุก 1 เลเวลของเวทย์มนต์นั้นๆ ตัวละครต้องใช้ <span class="text-fantasy-gold">5 Favor และทอง 50gp</span> (ทองสามารถลดลงครึ่งนึงได้ในบางกรณี)</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4">
+                  <div class="bg-gray-900/50 p-3 rounded border border-gray-700">
+                    <h5 class="font-bold text-white mb-1">📜 คัดลอกจาก Spell Scroll:</h5>
+                    <p class="text-sm">เวทย์มนต์ของ Wizard จาก spell scroll สามารถคัดลอกได้โดยตัวละครต้องทำ <strong>Intelligence (Arcana) check</strong> ด้วย <strong>DC เท่ากับ 10 + เลเวลของเวทย์มนต์นั้นๆ</strong> เวทย์มนต์จะถูกบันทึกลงใน Spellbook ถ้าสำเร็จ ส่วน spell scroll จะหายไปไม่ว่าจะคัดลอกสำเร็จหรือไม่</p>
+                  </div>
+                  <div class="bg-gray-900/50 p-3 rounded border border-gray-700">
+                    <h5 class="font-bold text-white mb-1">📖 คัดลอกจาก Spellbook เล่มอื่น:</h5>
+                    <p class="text-sm">วิธีการเหมือนกันกับการคัดลอกจาก spell scroll <strong>แต่ไม่ต้องทำ Intelligence (Arcana) check</strong></p>
+                  </div>
+                </div>
+
+                <div class="bg-gray-700/50 p-4 rounded italic border-l-4 border-fantasy-gold">
+                  <strong class="text-white not-italic">ตัวอย่าง:</strong><br>
+                  สมรัก ผนึกมาร ทำการคัดลอกเวทย์มนต์จาก Spellbook ของ สมหมาย มหาเวทย์<br>
+                  <span class="text-green-400">ค่าใช้จ่าย:</span> 350gp + 30 Favor<br>
+                  <span class="text-green-400">ผลลัพธ์:</span> คัดลอกเวทย์มนต์เลเวล 1 และ 2 (detect magic, identify, comprehend languages, catapult, augury, detect thoughts, mind spike)
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
 
