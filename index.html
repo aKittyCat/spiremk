@@ -155,7 +155,7 @@
             class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
             data-page="mundane"
           >
-            ☠️ Mundane Item
+            ☠️ Mundane & Boons
           </button>
           <button
             class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
@@ -561,37 +561,76 @@
             <h2
               class="fantasy-font text-3xl font-bold text-fantasy-gold mb-6 text-center"
             >
-              💀 กฏเกี่ยวกับยาพิษ
+              ☠️ Mundane & Boons
             </h2>
+            
             <div class="content-font text-lg space-y-6">
+              
               <div class="bg-gray-800 rounded-lg p-6">
                 <h3 class="text-xl font-bold text-fantasy-gold mb-4">
-                  📋 กฏเกี่ยวกับการสร้างยาพิษและรวบรวมวัตถุดิบสำหรับยาพิษ (PHB,
-                  p.258)
+                  🎁 ขั้นตอนและข้อจำกัดเกี่ยวกับ Boons
+                </h3>
+                <p class="text-gray-300 mb-4">
+                  ในการซื้อ Boon ผู้เล่นจะต้องทำการลงเซสชั่นที่เกี่ยวข้องและเป็นเซสชั่น Reward Action Surge จาก Dungeon Master จากนั้นทำการลงบันทึกในช่อง 
+                  <span class="text-fantasy-emerald font-bold">บันทึกartifactและboon</span> 
+                  โดยใช้แบบฟอร์มตัวอย่างและต้องได้รับการตรวจสอบจากสตาฟหลังการซื้อ 
+                </p>
+                <p class="text-gray-300 mb-4">
+                  <span class="text-fantasy-red font-bold">ข้อจำกัด:</span> ตัวละครของผู้เล่นสามารถมี Boon ได้สูงสุด 3 อันต่อตัวละคร และ Boon ที่ซื้อมาจะเป็นของตัวละครตัวนั้นเท่านั้น ไม่สามารถโอนย้ายไปให้ตัวละครอื่นได้
+                </p>
+
+                <div class="bg-gray-900/50 rounded border border-gray-700 p-4 mt-4">
+                    <h4 class="font-bold text-fantasy-gold mb-2">📋 ตัวอย่างแบบฟอร์ม</h4>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <strong class="text-white block mb-2 text-sm border-b border-gray-600 pb-1">แบบฟอร์มสำหรับซื้อ Boons</strong>
+                            <div class="text-sm text-gray-400 font-mono bg-black/40 p-3 rounded select-all">
+                                ชื่อตัวละคร: <br>
+                                Boon: <br>
+                                ราคา: <br>
+                                ระดับ Tier ของ Boon:
+                            </div>
+                        </div>
+
+                        <div>
+                            <strong class="text-white block mb-2 text-sm border-b border-gray-600 pb-1">แบบฟอร์มสำหรับบันทึกผล Artifact</strong>
+                            <div class="text-sm text-gray-400 font-mono bg-black/40 p-3 rounded select-all">
+                                ชื่อตัวละคร: <br>
+                                ไอเทม Artifact: <br>
+                                ระดับ Tier ของ Artifact: <br>
+                                Artifact Beneficial Properties: <br>
+                                Artifact Detrimental Properties:
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+
+              <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-fantasy-gold mb-4">
+                  💀 กฏเกี่ยวกับการสร้างยาพิษและรวบรวมวัตถุดิบ (PHB, p.258)
                 </h3>
                 <ul class="space-y-2 text-gray-300">
                   <li>
                     • ตัวละครสามารถใช้กฏจาก Player's Handbook (PHB)
-                    ในการสร้างยาพิษถ้าตัวละครมี Proficiency สำหรับ Poisoner's
-                    Kit
+                    ในการสร้างยาพิษถ้าตัวละครมี Proficiency สำหรับ Poisoner's Kit
                     โดยยาพิษส่วนใหญ่สามารถสร้างได้เลยยกเว้นบางอันที่ต้องการวัตถุดิบพิเศษ
                     เช่น Wyvern Poision
                   </li>
                   <li>
                     • ตัวละครสามารถทำการเก็บวัตถุดิบจากสิ่งมีพิษได้
-                    โดยที่เป้าหมายต้องหมดสภาพหรือตายแล้ว การเก็บวัตถุดิบใช้เวลา
-                    1d6 นาทีและ DC 20 Intelligence (Nature) Check หรือ
-                    Poisoner's Kit Check
+                    โดยที่เป้าหมายต้องหมดสภาพหรือตายแล้ว การเก็บวัตถุดิบใช้เวลา 1d6
+                    นาทีและ DC 20 Intelligence (Nature) Check หรือ Poisoner's Kit Check
                   </li>
                   <li>
                     • สำหรับตัวละครมี Proficiency ถ้าเช็คสำเร็จ
-                    ตัวละครจะได้รับวัตถุดิบสำหรับสร้างยาพิษได้ 1 อัน
-                    หากไม่สำเร็จ ตัวละครจะไม่ได้รับวัตถุดิบ
-                    และถ้าแต้มที่ขาดเท่ากับ 5 หรือมากกว่า
+                    ตัวละครจะได้รับวัตถุดิบสำหรับสร้างยาพิษได้ 1 อัน หากไม่สำเร็จ
+                    ตัวละครจะไม่ได้รับวัตถุดิบ และถ้าแต้มที่ขาดเท่ากับ 5 หรือมากกว่า
                     ตัวละครจะได้รับผลจากพิษแทน
                   </li>
                 </ul>
               </div>
+
               <div class="bg-gray-800 rounded-lg p-6">
                 <h3 class="text-xl font-bold text-fantasy-gold mb-4">
                   📋 กฏเกี่ยวกับการใช้ยาพิษ
@@ -599,12 +638,11 @@
                 <ul class="space-y-2 text-gray-300">
                   <li>
                     • ผู้เล่นสามารถใช้ Action เพื่อใช้ยาพิษประเภท Injury
-                    สำหรับเคลือบอาวุธ, ลูกธนู, กระสุน,
-                    หรืออุปกรณ์ประเภทคล้ายกันได้
+                    สำหรับเคลือบอาวุธ, ลูกธนู, กระสุน, หรืออุปกรณ์ประเภทคล้ายกันได้
                   </li>
                   <li>
-                    • ไอเทมประเภท Ammunition สามารถเคลือบยาพิษได้ 3 อันต่อยาพิษ
-                    1 อัน เมื่อทำการเคลือบแล้วยาพิษจะมีผลอยู่ 1 นาที
+                    • ไอเทมประเภท Ammunition สามารถเคลือบยาพิษได้ 3 อันต่อยาพิษ 1 อัน
+                    เมื่อทำการเคลือบแล้วยาพิษจะมีผลอยู่ 1 นาที
                   </li>
                   <li>
                     • ถ้าตัวละครไม่มี Poisoner's Kit Proficiency
@@ -612,6 +650,7 @@
                   </li>
                 </ul>
               </div>
+              
             </div>
           </div>
         </div>
