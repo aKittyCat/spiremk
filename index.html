@@ -94,17 +94,17 @@
 
       /* ปรับคอลัมน์แรกให้กว้างพอสำหรับ Checkbox + ตะกร้าใน PC */
       #itemsList thead th:first-child,
-      #itemsList tbody td:first-child {
+      #itemsList tbody tr[data-row-index] td:first-child { /* เพิ่ม tr[data-row-index] เพื่อไม่ให้กระทบแถวรายละเอียด */
         text-align: center;
         padding-left: 0.25rem;
         padding-right: 0.25rem;
-        width: 4rem; /* ขยายความกว้างใน PC */
+        width: 4rem;
       }
       
       /* ในมือถือ: ย่อความกว้างลง (เพราะซ่อน Checkbox) */
       @media (max-width: 768px) {
         #itemsList thead th:first-child,
-        #itemsList tbody td:first-child {
+        #itemsList tbody tr[data-row-index] td:first-child {
            width: 3rem; 
         }
       }
