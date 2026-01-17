@@ -92,26 +92,28 @@
         width: 100%;
       }
 
-      /* ย่อช่อง checkbox + ชิดซ้าย */
+      /* ปรับคอลัมน์แรกให้กว้างพอสำหรับ Checkbox + ตะกร้าใน PC */
       #itemsList thead th:first-child,
       #itemsList tbody td:first-child {
-        text-align: left;
-        padding-left: 0.5rem;
-        padding-right: 0.35rem;
-        width: 2.25rem; /* พอให้ติ๊กได้สบาย ๆ */
+        text-align: center;
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+        width: 4rem; /* ขยายความกว้างใน PC */
+      }
+      
+      /* ในมือถือ: ย่อความกว้างลง (เพราะซ่อน Checkbox) */
+      @media (max-width: 768px) {
+        #itemsList thead th:first-child,
+        #itemsList tbody td:first-child {
+           width: 3rem; 
+        }
       }
 
-      /* คอลัมน์ "ชื่อไอเทม" ที่อยู่ถัดจาก checkbox ให้ชิดซ้ายและลดช่องว่างด้านซ้าย */
+      /* คอลัมน์ "ชื่อไอเทม" ไม่ต้องชิดซ้ายมากเกินไปแล้ว */
       #itemsList thead th:nth-child(2),
       #itemsList tbody td:nth-child(2) {
         text-align: left;
-        padding-left: 0.25rem;
-        padding-right: 1rem;
-      }
-
-      #itemsList input.row-select:disabled {
-        opacity: 0.35;
-        cursor: not-allowed;
+        padding-left: 0.5rem;
       }
     </style>
   </head>
@@ -3026,6 +3028,9 @@
             <table class="min-w-[860px] w-full bg-gray-800 rounded-lg overflow-hidden">
               <thead class="bg-gray-900">
                 <tr>
+                  <th class="px-2 py-3 text-center text-fantasy-gold font-bold">
+                    <input type="checkbox" id="selectAll" class="w-4 h-4 rounded bg-gray-700 border-gray-600 hidden md:inline-block">
+                  </th>
                   <th class="px-4 py-3 text-left text-fantasy-gold font-bold min-w-[200px] w-1/3">ชื่อไอเทม</th>
                   <th class="px-4 py-3 text-left text-fantasy-gold font-bold min-w-[150px] w-1/4">ประเภท</th>
                   <th class="px-4 py-3 text-center text-fantasy-gold font-bold min-w-[60px] w-[60px]">ATN</th>
@@ -3043,12 +3048,9 @@
               <tbody>
                 ${items
                   .map(
-                    (item, index) => `
-                  <tr class="border-t border-gray-700 hover:bg-gray-700 transition-colors cursor-pointer" data-row-index="${index}">
-                    <td class="px-4 py-3">
-                      <div class="flex items-center gap-2">
-                        ${
-                          (() => {
+                    (item, index) => {
+                      // Logic ปุ่มตะกร้า/Lock
+                      const actionBtn = (() => {
                             const lockReason =
                               window.SELECT_RULES && window.SELECT_RULES.shouldDisable
                                 ? window.SELECT_RULES.shouldDisable(item)
@@ -3056,11 +3058,22 @@
                             if (lockReason) {
                               return `<span class="inline-flex items-center justify-center w-6 h-6 rounded bg-gray-700 text-gray-500" title="${escapeHtml(lockReason)}" aria-disabled="true">🔒</span>`;
                             } else {
-                              return `<button class="add-cart-btn inline-flex items-center justify-center w-6 h-6 rounded bg-black hover:bg-yellow-600/40"
+                              return `<button class="add-cart-btn inline-flex items-center justify-center w-6 h-6 rounded bg-black hover:bg-yellow-600/40 text-white"
                                       data-add-id="${item.id}" title="ใส่ตะกร้า">🛒</button>`;
                             }
-                          })()
-                        }
+                      })();
+
+                      return `
+                  <tr class="border-t border-gray-700 hover:bg-gray-700 transition-colors cursor-pointer" data-row-index="${index}">
+                    
+                    <td class="px-2 py-3 text-center">
+                      <div class="flex items-center justify-center gap-2">
+                         <input type="checkbox" class="row-select w-4 h-4 rounded bg-gray-700 border-gray-600 hidden md:inline-block" data-id="${item.id}">
+                         ${actionBtn}
+                      </div>
+                    </td>
+
+                    <td class="px-4 py-3">
                         <div class="font-semibold text-white hover:text-fantasy-gold">
                           ${
                             item.nameLink
@@ -3072,8 +3085,8 @@
                               : `${escapeHtml(item.name)}`
                           }
                         </div>
-                      </div>
                     </td>
+
                     <td class="px-4 py-3 text-gray-300 text-sm whitespace-normal">${escapeHtml(
                       item.type
                     )}</td>
@@ -3133,15 +3146,8 @@
 
                     <tr id="desc-${index}" class="${openItemIds.has(item.id) ? '' : 'hidden'} border-t border-gray-600">
                       <td colspan="${
-                        isAdminMode ? 8 : 7
+                        isAdminMode ? 9 : 8
                       }" class="px-4 py-3 bg-gray-800">
-                        ${
-                          isWeapon(item) || isArmor(item)
-                            ? `
-                        `
-                            : ""
-                        }
-
                         ${
                           isGenericVariant(item)
                             ? `
@@ -3218,8 +3224,8 @@
                         }   
                       </td>
                     </tr>
-                  `
-                  )
+                  `;
+                })
                   .join("")}
               </tbody>
             </table>
@@ -3227,48 +3233,26 @@
 
         container.innerHTML = itemsHTML;
 
-        // ปุ่มเลือก base item (เฉพาะ Generic Variant)
+        // ปุ่มเลือก GV / Gemstone
         container.querySelectorAll("[data-gv-pick]").forEach((btn) => {
           btn.addEventListener("click", () =>
             openGVModal(btn.getAttribute("data-gv-pick"))
           );
         });
-
-        // ปุ่มเลือกอัญมณี (เฉพาะ Gemstone)
         container.querySelectorAll("[data-gem-pick]").forEach((btn) => {
           btn.addEventListener("click", () =>
             openGemModal(btn.getAttribute("data-gem-pick"))
           );
         });
 
-        // === เพิ่มคอลัมน์เลือกทั้งหมดในหัวตาราง (ถ้ายังไม่มี) ===
-        const headerRow = container.querySelector("thead tr");
-        if (headerRow && !container.querySelector("#selectAll")) {
-          const th = document.createElement("th");
-          th.className = "pl-2 pr-1 py-3 text-left text-fantasy-gold font-bold";
-          th.innerHTML =
-            '<input type="checkbox" id="selectAll" class="w-4 h-4 rounded bg-gray-700 border-gray-600 hidden md:table-cell">';
-          headerRow.prepend(th);
-        }
-
-        // === ใส่เช็คบ็อกซ์ให้แต่ละแถว + sync กับ selectedIds ===
+        // === ใส่ Logic ให้เช็คบ็อกซ์และแถว (ปรับปรุงใหม่ ไม่ต้องสร้าง td เพิ่ม) ===
         const rows = container.querySelectorAll("tbody tr[data-row-index]");
         rows.forEach((row) => {
           const idx = Number(row.getAttribute("data-row-index"));
           const item = items[idx];
           if (!item) return;
 
-          // สร้างเซลเช็คบ็อกซ์ (ถ้ายังไม่มี)
-          if (!row.querySelector(".row-select")) {
-            const td = document.createElement("td");
-            td.className = "pl-2 pr-1 py-3 text-left";
-            td.innerHTML =
-              '<input type="checkbox" class="row-select w-4 h-4 rounded bg-gray-700 border-gray-600 hidden md:table-cell">';
-            row.prepend(td);
-          }
-
-          const cb = row.querySelector(".row-select");
-          cb.dataset.id = item.id;
+          const cb = row.querySelector(".row-select"); // เลือก input ที่เราใส่ไปใน HTML แล้ว
           cb.checked = selectedIds.has(item.id);
 
           row.dataset.id = item.id;
@@ -3276,7 +3260,6 @@
           row.dataset.type = item.type || "";
           row.dataset.price = item.price || "0 gp";
 
-          // ตรวจว่าปิดการเลือกหรือไม่
           const lockReason =
             window.SELECT_RULES && window.SELECT_RULES.shouldDisable
               ? window.SELECT_RULES.shouldDisable(item)
@@ -3286,11 +3269,10 @@
             cb.disabled = true;
             cb.checked = false;
             cb.title = lockReason;
-            selectedIds.delete(item.id); // กันเผื่อเคยถูกเลือกไว้
-            row.classList.add("opacity-60"); // ทำให้ซีดลงเล็กน้อย
+            selectedIds.delete(item.id);
+            row.classList.add("opacity-60");
           }
 
-          // ไฮไลต์แถวที่ถูกเลือก
           function paint(selected) {
             row.classList.toggle("ring-1", selected);
             row.classList.toggle("ring-fantasy-gold", selected);
@@ -3298,7 +3280,6 @@
           }
           paint(cb.checked);
 
-          // อย่าให้คลิกเช็คบ็อกซ์ไปทริกเกอร์เปิดรายละเอียด
           cb.addEventListener("click", (e) => e.stopPropagation());
           cb.addEventListener("change", (e) => {
             const id = e.target.dataset.id;
@@ -3307,7 +3288,6 @@
             paint(e.target.checked);
             updateBulkActionsUI();
 
-            // sync กับ selectAll บนหัวตาราง
             const allChecked = Array.from(
               container.querySelectorAll(".row-select:not(:disabled)")
             ).every((x) => x.checked);
@@ -3318,10 +3298,9 @@
           });
         });
 
-        // === ทำงานของ "เลือกทั้งหมด" ที่หัวตาราง ===
+        // === Logic ปุ่ม Select All ในหัวตาราง ===
         const selectAll = container.querySelector("#selectAll");
         if (selectAll) {
-          // ตั้งค่าเริ่มต้นตามสถานะในแถว
           selectAll.checked =
             rows.length > 0 &&
             Array.from(
@@ -3343,26 +3322,17 @@
           });
         }
 
-        // === เพิ่มคอลสแปนของแถวคำอธิบายให้รองรับคอลัมน์ใหม่ ( +1 ) ===
-        container.querySelectorAll('tr[id^="desc-"] td').forEach((td) => {
-          td.colSpan = isAdminMode ? 9 : 8; 
-        });
-
-        // อัปเดตแถบเครื่องมือด้านบนให้ตรงกับสถานะล่าสุด
         updateBulkActionsUI();
-
-        // คลิกแถวเพื่อ toggle รายละเอียด
-        container
-          .querySelectorAll("tbody tr[data-row-index]")
-          .forEach((row) => {
+        
+        // Attach Click Events (Row expand, Edit, Delete)
+        container.querySelectorAll("tbody tr[data-row-index]").forEach((row) => {
             row.addEventListener("click", (e) => {
-              // กันไม่ให้การคลิกพวกปุ่ม/เช็คบ็อกซ์ ไปทริกเกอร์เปิดรายละเอียด
               if (
-                e.target.closest(".add-cart-btn") || // ปุ่มตะกร้า
-                e.target.closest(".row-select") || // checkbox เลือกแถว
-                e.target.closest("[data-gv-pick]") || // ปุ่มเลือก base item (GV)
-                e.target.closest("[data-gem-pick]") || // ปุ่มเลือกอัญมณี
-                e.target.closest(".btn-edit-item") // ปุ่มแก้ไข (แอดมิน)
+                e.target.closest(".add-cart-btn") ||
+                e.target.closest(".row-select") ||
+                e.target.closest("[data-gv-pick]") ||
+                e.target.closest("[data-gem-pick]") ||
+                e.target.closest(".btn-edit-item")
               )
                 return;
 
@@ -3384,22 +3354,17 @@
             });
           });
 
-        // ปุ่มแก้ไข (หยุด propagation)
         container.querySelectorAll(".btn-edit-item").forEach((btn) => {
           btn.addEventListener("click", (e) => {
             e.stopPropagation();
-            const id = btn.dataset.id;
-            startEditItem(id);
+            startEditItem(btn.dataset.id);
           });
         });
 
-        // ปุ่มลบ (หยุด propagation)
         container.querySelectorAll(".btn-delete-item").forEach((btn) => {
           btn.addEventListener("click", (e) => {
             e.stopPropagation();
-            const id = btn.dataset.id;
-            const name = btn.dataset.name || "";
-            deleteItemConfirm(id, name);
+            deleteItemConfirm(btn.dataset.id, btn.dataset.name);
           });
         });
       }
