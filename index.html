@@ -3012,6 +3012,20 @@
           .replaceAll("'", "&#039;");
       }
 
+      // ตัวแปรเก็บสถานะความกว้างหน้าจอล่าสุด
+      let _lastIsMobile = window.innerWidth < 768;
+      
+      if (!window._resizeListenerAdded) {
+        window.addEventListener('resize', () => {
+           const currentIsMobile = window.innerWidth < 768;
+           if (currentIsMobile !== _lastIsMobile) {
+               _lastIsMobile = currentIsMobile;
+               if (typeof currentItems !== 'undefined') displayItems(currentItems);
+           }
+        });
+        window._resizeListenerAdded = true;
+      }
+
       function displayItems(items) {
         const container = document.getElementById("itemsList");
 
@@ -3023,24 +3037,34 @@
           return;
         }
 
+        // คำนวณ Colspan
+        const isMobile = window.innerWidth < 768;
+        const baseCols = isMobile ? 5 : 8;
+        const finalColSpan = isAdminMode ? baseCols + 1 : baseCols;
+
         const itemsHTML = `
           <div class="overflow-x-auto">
-            <table class="min-w-[860px] w-full bg-gray-800 rounded-lg overflow-hidden">
+            <table class="${isMobile ? 'table-fixed w-full' : 'table-auto min-w-[860px] w-full'} bg-gray-800 rounded-lg overflow-hidden text-[10px] md:text-sm">
               <thead class="bg-gray-900">
                 <tr>
-                  <th class="px-2 py-3 text-center text-fantasy-gold font-bold">
-                    <input type="checkbox" id="selectAll" class="w-4 h-4 rounded bg-gray-700 border-gray-600 hidden md:inline-block">
-                  </th>
-                  <th class="px-4 py-3 text-left text-fantasy-gold font-bold min-w-[200px] w-1/3">ชื่อไอเทม</th>
-                  <th class="px-4 py-3 text-left text-fantasy-gold font-bold min-w-[150px] w-1/4">ประเภท</th>
-                  <th class="px-4 py-3 text-center text-fantasy-gold font-bold min-w-[60px] w-[60px]">ATN</th>
-                  <th class="px-4 py-3 text-center text-fantasy-gold font-bold min-w-[90px] w-[90px]">ไอเทมประเภท</th>
-                  <th class="px-4 py-3 text-center text-fantasy-gold font-bold min-w-[60px] w-[60px]">Tier</th>
-                  <th class="px-4 py-3 text-center text-fantasy-gold font-bold min-w-[80px] w-[80px]">Rarity</th>
-                  <th class="px-4 py-3 text-right text-fantasy-gold font-bold min-w-[90px] w-[90px]">ราคา(GP)</th>
+                  <th class="px-1 py-3 text-center text-fantasy-gold font-bold w-[8%] md:w-[4rem]"></th>
+                  
+                  <th class="px-1 md:px-4 py-3 text-left text-fantasy-gold font-bold w-[37%] md:w-1/3">ชื่อไอเทม</th>
+                  
+                  <th class="px-1 md:px-4 py-3 text-left text-fantasy-gold font-bold w-[25%] md:w-1/4">ประเภท</th>
+                  
+                  <th class="hidden md:table-cell px-4 py-3 text-center text-fantasy-gold font-bold min-w-[60px]">ATN</th>
+                  <th class="hidden md:table-cell px-4 py-3 text-center text-fantasy-gold font-bold min-w-[90px]">ประเภท</th>
+                  
+                  <th class="px-0 md:px-4 py-3 text-center text-fantasy-gold font-bold w-[12%] md:min-w-[60px]">Tier</th>
+                  
+                  <th class="hidden md:table-cell px-4 py-3 text-center text-fantasy-gold font-bold min-w-[80px]">Rarity</th>
+                  
+                  <th class="px-1 md:px-4 py-3 text-right text-fantasy-gold font-bold w-[18%] md:min-w-[90px]">ราคา(GP)</th>
+                  
                   ${
                     isAdminMode
-                      ? `<th class="px-4 py-3 text-center text-fantasy-gold font-bold min-w-[100px] w-[100px]">จัดการ</th>`
+                      ? `<th class="px-4 py-3 text-center text-fantasy-gold font-bold min-w-[100px]">จัดการ</th>`
                       : ``
                   }
                 </tr>
@@ -3049,16 +3073,15 @@
                 ${items
                   .map(
                     (item, index) => {
-                      // Logic ปุ่มตะกร้า/Lock
                       const actionBtn = (() => {
                             const lockReason =
                               window.SELECT_RULES && window.SELECT_RULES.shouldDisable
                                 ? window.SELECT_RULES.shouldDisable(item)
                                 : null;
                             if (lockReason) {
-                              return `<span class="inline-flex items-center justify-center w-6 h-6 rounded bg-gray-700 text-gray-500" title="${escapeHtml(lockReason)}" aria-disabled="true">🔒</span>`;
+                              return `<span class="inline-flex items-center justify-center w-5 h-5 md:w-6 md:h-6 rounded bg-gray-700 text-gray-500" title="${escapeHtml(lockReason)}" aria-disabled="true">🔒</span>`;
                             } else {
-                              return `<button class="add-cart-btn inline-flex items-center justify-center w-6 h-6 rounded bg-black hover:bg-yellow-600/40 text-white"
+                              return `<button class="add-cart-btn inline-flex items-center justify-center w-5 h-5 md:w-6 md:h-6 rounded bg-black hover:bg-yellow-600/40 text-white"
                                       data-add-id="${item.id}" title="ใส่ตะกร้า">🛒</button>`;
                             }
                       })();
@@ -3066,15 +3089,15 @@
                       return `
                   <tr class="border-t border-gray-700 hover:bg-gray-700 transition-colors cursor-pointer" data-row-index="${index}">
                     
-                    <td class="px-2 py-3 text-center">
-                      <div class="flex items-center justify-center gap-2">
-                         <input type="checkbox" class="row-select w-4 h-4 rounded bg-gray-700 border-gray-600 hidden md:inline-block" data-id="${item.id}">
+                    <td class="px-0 md:px-2 py-2 md:py-3 text-center">
+                      <div class="flex items-center justify-center gap-1 md:gap-2">
+                         <input type="checkbox" class="row-select w-3 h-3 md:w-4 md:h-4 rounded bg-gray-700 border-gray-600 hidden md:inline-block" data-id="${item.id}">
                          ${actionBtn}
                       </div>
                     </td>
 
-                    <td class="px-4 py-3">
-                        <div class="font-semibold text-white hover:text-fantasy-gold">
+                    <td class="px-1 md:px-4 py-2 md:py-3 break-words align-middle">
+                        <div class="font-semibold text-white hover:text-fantasy-gold leading-tight">
                           ${
                             item.nameLink
                               ? `<a href="${
@@ -3087,10 +3110,11 @@
                         </div>
                     </td>
 
-                    <td class="px-4 py-3 text-gray-300 text-sm whitespace-normal">${escapeHtml(
+                    <td class="px-1 md:px-4 py-2 md:py-3 text-gray-300 break-words align-middle leading-tight">${escapeHtml(
                       item.type
                     )}</td>
-                    <td class="px-4 py-3 text-center whitespace-nowrap">
+
+                    <td class="hidden md:table-cell px-4 py-3 text-center whitespace-nowrap">
                       <span class="px-2 py-1 rounded text-xs font-bold ${
                         item.attune === "Yes"
                           ? "bg-green-600 text-white"
@@ -3099,7 +3123,8 @@
                         ${item.attune === "Yes" ? "ใช่" : "ไม่"}
                       </span>
                     </td>
-                    <td class="px-4 py-3 text-center whitespace-nowrap">
+
+                    <td class="hidden md:table-cell px-4 py-3 text-center whitespace-nowrap">
                       <span class="px-2 py-1 rounded text-xs font-bold ${
                         item.perdis === "ถาวร"
                           ? "bg-green-600 text-white"
@@ -3108,34 +3133,36 @@
                         ${item.perdis === "ถาวร" ? "ถาวร" : "ใช้แล้วทิ้ง"}
                       </span>
                     </td>
-                    <td class="px-4 py-3 text-center whitespace-nowrap">
-                      <span class="px-2 py-1 rounded text-xs font-bold bg-blue-600 text-white">${escapeHtml(
+
+                    <td class="px-0 md:px-4 py-2 md:py-3 text-center whitespace-nowrap align-middle">
+                      <span class="px-1 py-0.5 md:px-2 md:py-1 rounded font-bold bg-blue-600 text-white inline-block">${escapeHtml(
                         item.tier
                       )}</span>
                     </td>
-                    <td class="px-4 py-3 text-center whitespace-nowrap">
+
+                    <td class="hidden md:table-cell px-4 py-3 text-center whitespace-nowrap">
                       <span class="px-2 py-1 rounded text-xs font-bold rarity-${item.rarity
                         .toLowerCase()
                         .replace(" ", "-")}">
                         ${escapeHtml(item.rarity)}
                       </span>
                     </td>
-                    <td class="px-4 py-3 text-right font-bold text-white-400 whitespace-nowrap">${escapeHtml(
+
+                    <td class="px-1 md:px-4 py-2 md:py-3 text-right font-bold text-white-400 align-middle break-all">${escapeHtml(
                       item.price
                     )}</td>
+                    
                     ${
                       isAdminMode
                         ? `
                       <td class="px-4 py-3 text-center whitespace-nowrap">
-                        <div class="flex items-center justify-center gap-2">
-                            <button class="btn-edit-item bg-yellow-500 hover:bg-yellow-600 text-black text-xs px-3 py-1 rounded"
+                         <div class="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2">
+                            <button class="btn-edit-item bg-yellow-500 hover:bg-yellow-600 text-black px-2 py-1 rounded w-full md:w-auto"
                                     data-id="${item.id}">
                               แก้ไข
                             </button>
-                            <button class="btn-delete-item bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1 rounded"
-                                    data-id="${
-                                      item.id
-                                    }" data-name="${escapeHtml(item.name)}">
+                            <button class="btn-delete-item bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded w-full md:w-auto"
+                                    data-id="${item.id}" data-name="${escapeHtml(item.name)}">
                               ลบ
                             </button>
                           </div>
@@ -3144,28 +3171,48 @@
                     }
                   </tr>
 
-                    <tr id="desc-${index}" class="${openItemIds.has(item.id) ? '' : 'hidden'} border-t border-gray-600">
-                      <td colspan="${
-                        isAdminMode ? 9 : 8
-                      }" class="px-4 py-3 bg-gray-800">
+                    <tr id="desc-${index}" class="${openItemIds.has(item.id) ? '' : 'hidden'} border-t border-gray-600 bg-gray-800/50">
+                      <td colspan="${finalColSpan}" class="px-2 md:px-4 py-3">
+                        
+                        <div class="md:hidden flex flex-wrap gap-2 mb-3 border-b border-gray-700 pb-2">
+                            <div class="flex items-center gap-1 bg-gray-700/50 rounded px-2 py-1">
+                                <span class="text-fantasy-gold">ATN:</span>
+                                <span class="${item.attune === "Yes" ? "text-green-400" : "text-red-400"}">
+                                    ${item.attune === "Yes" ? "ใช่" : "ไม่"}
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-1 bg-gray-700/50 rounded px-2 py-1">
+                                <span class="text-fantasy-gold">ประเภท:</span>
+                                <span class="${item.perdis === "ถาวร" ? "text-green-400" : "text-yellow-400"}">
+                                    ${item.perdis}
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-1 bg-gray-700/50 rounded px-2 py-1">
+                                <span class="text-fantasy-gold">Rarity:</span>
+                                <span class="font-bold rarity-${item.rarity.toLowerCase().replace(" ", "-")} px-1 rounded">
+                                    ${item.rarity}
+                                </span>
+                            </div>
+                        </div>
+
                         ${
                           isGenericVariant(item)
                             ? `
                           <div class="mb-3 flex items-center gap-2">
-                            <span class="text-fantasy-gold font-bold">Base Item</span>
-                            <button type="button" class="px-3 py-1 rounded bg-fantasy-purple hover:bg-purple-700"
+                            <span class="text-fantasy-gold font-bold">Base Item:</span>
+                            <button type="button" class="px-2 py-1 rounded bg-fantasy-purple hover:bg-purple-700 text-[10px] md:text-sm"
                                     data-gv-pick="${item.id}">
-                              เลือกไอเทมตั้งต้น
+                              เลือก
                             </button>
                             <span id="gvChip-${
                               item.id
-                            }" class="text-xs text-gray-300">
+                            }" class="text-gray-300">
                               ${
                                 gvMap.get(item.id)
                                   ? `${escapeHtml(
                                       gvMap.get(item.id).name
                                     )} (+${fmt(gvMap.get(item.id).price)} gp)`
-                                  : "— ยังไม่ได้เลือก —"
+                                  : "—"
                               }
                             </span>
                           </div>
@@ -3177,14 +3224,14 @@
                           isGemstone(item)
                             ? `
                           <div class="mb-3 flex items-center gap-2">
-                            <span class="text-fantasy-gold font-bold">Gemstone</span>
-                            <button type="button" class="px-3 py-1 rounded bg-fantasy-purple hover:bg-purple-700"
+                            <span class="text-fantasy-gold font-bold">Gemstone:</span>
+                            <button type="button" class="px-2 py-1 rounded bg-fantasy-purple hover:bg-purple-700 text-[10px] md:text-sm"
                                     data-gem-pick="${item.id}">
-                              เลือกอัญมณี
+                              เลือก
                             </button>
                             <span id="gemChip-${
                               item.id
-                            }" class="text-xs text-gray-300">
+                            }" class="text-gray-300">
                               ${
                                 gemMap.get(item.id)
                                   ? `${escapeHtml(
@@ -3194,7 +3241,7 @@
                                     ).toFixed(2)} = ${fmt(
                                       gemMap.get(item.id).final || 0
                                     )} gp`
-                                  : "— ยังไม่ได้เลือก —"
+                                  : "—"
                               }
                             </span>
                           </div>
@@ -3205,19 +3252,19 @@
                         ${
                           item.description
                             ? `
-                          <div class="text-gray-300 text-sm">
-                            <strong class="text-fantasy-gold">รายละเอียด:</strong>
+                          <div class="text-gray-300 leading-relaxed">
+                            <strong class="text-fantasy-gold block md:inline mb-1 md:mb-0">รายละเอียด:</strong>
                             ${escapeHtml(item.description)}
                           </div>
                         `
-                            : `<div class="mt-2 text-gray-300 text-sm">ไม่มีรายละเอียดเพิ่มเติม</div>`
+                            : `<div class="mt-2 text-gray-400 italic">ไม่มีรายละเอียดเพิ่มเติม</div>`
                         }
                         ${
                           item.book
                             ? `
                             <div class="mt-2">
                               <strong class="text-fantasy-gold">หนังสือ:</strong>
-                              <span class="text-gray-300">${escapeHtml(item.book)}</span>
+                              <span class="text-gray-400">${escapeHtml(item.book)}</span>
                             </div>
                           `
                             : ``
@@ -3233,7 +3280,7 @@
 
         container.innerHTML = itemsHTML;
 
-        // ปุ่มเลือก GV / Gemstone
+        // Re-attach Events
         container.querySelectorAll("[data-gv-pick]").forEach((btn) => {
           btn.addEventListener("click", () =>
             openGVModal(btn.getAttribute("data-gv-pick"))
@@ -3245,14 +3292,14 @@
           );
         });
 
-        // === ใส่ Logic ให้เช็คบ็อกซ์และแถว (ปรับปรุงใหม่ ไม่ต้องสร้าง td เพิ่ม) ===
+        // Logic Selection
         const rows = container.querySelectorAll("tbody tr[data-row-index]");
         rows.forEach((row) => {
           const idx = Number(row.getAttribute("data-row-index"));
           const item = items[idx];
           if (!item) return;
 
-          const cb = row.querySelector(".row-select"); // เลือก input ที่เราใส่ไปใน HTML แล้ว
+          const cb = row.querySelector(".row-select");
           cb.checked = selectedIds.has(item.id);
 
           row.dataset.id = item.id;
@@ -3287,44 +3334,11 @@
             else selectedIds.delete(id);
             paint(e.target.checked);
             updateBulkActionsUI();
-
-            const allChecked = Array.from(
-              container.querySelectorAll(".row-select:not(:disabled)")
-            ).every((x) => x.checked);
-            const selAll = container.querySelector("#selectAll");
-            if (selAll) selAll.checked = allChecked;
-            const selAllTop = document.getElementById("selectAllTop");
-            if (selAllTop) selAllTop.checked = allChecked && rows.length > 0;
           });
         });
 
-        // === Logic ปุ่ม Select All ในหัวตาราง ===
-        const selectAll = container.querySelector("#selectAll");
-        if (selectAll) {
-          selectAll.checked =
-            rows.length > 0 &&
-            Array.from(
-              container.querySelectorAll(".row-select:not(:disabled)")
-            ).every((x) => x.checked);
-
-          selectAll.addEventListener("change", (e) => {
-            const want = e.target.checked;
-            container
-              .querySelectorAll(".row-select:not(:disabled)")
-              .forEach((cb) => {
-                if (cb.checked !== want) {
-                  cb.checked = want;
-                  cb.dispatchEvent(new Event("change", { bubbles: false }));
-                }
-              });
-            const selAllTop = document.getElementById("selectAllTop");
-            if (selAllTop) selAllTop.checked = want && rows.length > 0;
-          });
-        }
-
         updateBulkActionsUI();
         
-        // Attach Click Events (Row expand, Edit, Delete)
         container.querySelectorAll("tbody tr[data-row-index]").forEach((row) => {
             row.addEventListener("click", (e) => {
               if (
@@ -3332,7 +3346,8 @@
                 e.target.closest(".row-select") ||
                 e.target.closest("[data-gv-pick]") ||
                 e.target.closest("[data-gem-pick]") ||
-                e.target.closest(".btn-edit-item")
+                e.target.closest(".btn-edit-item") || 
+                e.target.closest(".btn-delete-item")
               )
                 return;
 
