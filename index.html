@@ -3124,7 +3124,7 @@
                             if (lockReason) {
                               return `<span class="inline-flex items-center justify-center w-5 h-5 md:w-6 md:h-6 rounded bg-gray-700 text-gray-500" title="${escapeHtml(lockReason)}" aria-disabled="true">🔒</span>`;
                             } else {
-                              return `<button class="add-cart-btn inline-flex items-center justify-center w-5 h-5 md:w-6 md:h-6 rounded bg-black hover:bg-yellow-600/40 text-white"
+                              return `<button class="add-cart-btn inline-flex items-center justify-center w-5 h-5 md:w-6 md:h-6 rounded-md bg-black border border-gray-700 hover:border-gray-400 hover:bg-gray-900 text-white transition-all duration-200 hover:scale-110 shadow-sm"
                                       data-add-id="${item.id}" title="ใส่ตะกร้า">🛒</button>`;
                             }
                       })();
