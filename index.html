@@ -2354,7 +2354,9 @@
         <div id="mainStep" class="space-y-4">
           <div class="flex justify-between items-center mb-4">
             <h4 class="text-2xl font-bold text-white">จัดการสัตว์เลี้ยง</h4>
-            <button id="closeModalBtn" class="text-gray-500 hover:text-red-500 transition duration-150 ease-in-out font-extrabold text-3xl p-1 rounded-full">&times;</button>
+            <button id="closeModalBtn" class="bg-red-600 hover:bg-red-700 text-white w-8 h-8 rounded-lg flex items-center justify-center font-bold shadow-lg shadow-red-900/50 transition-all hover:scale-110">
+            &times;
+            </button>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -2426,7 +2428,9 @@
     </div>
     <div id="imageLightbox" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
       <div class="relative max-w-full max-h-full p-4">
-        <button id="closeLightboxBtn" class="absolute -top-12 right-0 text-white text-4xl hover:text-red-500 z-50" aria-label="Close Image">&times;</button>
+        <button id="closeLightboxBtn" class="absolute -top-12 right-0 bg-red-600 hover:bg-red-700 text-white w-8 h-8 rounded-lg flex items-center justify-center font-bold shadow-lg shadow-red-900/50 transition-all hover:scale-110" aria-label="Close Image">
+        &times;
+        </button>
         <img id="lightboxImage" class="rounded-lg max-h-[85vh] max-w-[95vw] object-contain shadow-2xl" alt="Enlarged pet">
       </div>
     </div>
@@ -2833,7 +2837,7 @@
         });
       }
 
-      // === Cart Modal Logic ===
+      // === Cart Modal ===
       document.addEventListener("DOMContentLoaded", () => {
         const cartModal = document.getElementById("cartModal");
         const openBtn = document.getElementById("openCartModalBtn");
@@ -2842,7 +2846,6 @@
         // ฟังก์ชันเปิด Modal
         function openCartModal() {
           cartModal.classList.remove("hidden");
-          // ถ้า window.CART มีฟังก์ชัน render ให้เรียกใช้เพื่อความชัวร์ (ถ้าไม่มีก็ไม่เป็นไร)
           if (window.CART && typeof window.CART.render === "function") {
              window.CART.render(); 
           }
