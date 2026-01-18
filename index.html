@@ -94,7 +94,7 @@
 
       /* ปรับคอลัมน์แรกให้กว้างพอสำหรับ Checkbox + ตะกร้าใน PC */
       #itemsList thead th:first-child,
-      #itemsList tbody tr[data-row-index] td:first-child { /* เพิ่ม tr[data-row-index] เพื่อไม่ให้กระทบแถวรายละเอียด */
+      #itemsList tbody tr[data-row-index] td:first-child { 
         text-align: center;
         padding-left: 0.25rem;
         padding-right: 0.25rem;
@@ -109,7 +109,7 @@
         }
       }
 
-      /* คอลัมน์ "ชื่อไอเทม" ไม่ต้องชิดซ้ายมากเกินไปแล้ว */
+      /* คอลัมน์ "ชื่อไอเทม" */
       #itemsList thead th:nth-child(2),
       #itemsList tbody td:nth-child(2) {
         text-align: left;
@@ -2078,8 +2078,8 @@
               </button>
 
               <button
-                class="nav-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
-                data-page="cart"
+                id="openCartModalBtn"
+                class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg font-semibold transition-all hover:scale-105"
               >
                 🛒 ตะกร้า
                 <span
@@ -2132,68 +2132,73 @@
           </div>
         </div>
 
-        <!-- ===== Cart Page ===== -->
-        <section id="cartPage" class="page-content hidden">
-          <div class="container mx-auto px-4 py-10">
-            <h2 class="text-2xl md:text-3xl font-bold text-fantasy-gold mb-6">
-              🛒 ตะกร้าสินค้า
-            </h2>
-
-            <div id="cartEmpty" class="text-gray-400">
-              ยังไม่มีสินค้าในตะกร้า
+        <div id="cartModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center p-4">
+          <div class="bg-gray-900 w-full max-w-4xl rounded-xl border border-fantasy-gold shadow-2xl flex flex-col max-h-[90vh]">
+            
+            <div class="px-6 py-4 border-b border-gray-700 flex justify-between items-center bg-black/40 rounded-t-xl">
+              <h3 class="fantasy-font text-2xl font-bold text-fantasy-gold">
+                🛒 ตะกร้าสินค้า
+              </h3>
+              <button 
+                id="closeCartModalBtn" 
+                class="bg-red-600 hover:bg-red-700 text-white w-8 h-8 rounded-lg flex items-center justify-center font-bold shadow-lg shadow-red-900/50 transition-all hover:scale-110"
+              >
+                &times;
+              </button>
             </div>
 
-            <div
-              id="cartTable"
-              class="hidden bg-gray-800/60 rounded-lg overflow-x-auto"
-            >
-              <table class="w-full text-sm">
-                <thead class="bg-gray-900/60">
-                  <tr>
-                    <th class="text-left px-4 py-3 w-2/5">สินค้า</th>
-                    <th class="text-left px-4 py-3">ตัวเลือก</th>
-                    <th class="text-right px-4 py-3 whitespace-nowrap">
-                      ราคาต่อชิ้น
-                    </th>
-                    <th class="text-center px-4 py-3">จำนวน</th>
-                    <th class="text-right px-4 py-3">รวม</th>
-                    <th class="px-2 py-3 w-12"></th>
-                  </tr>
-                </thead>
-                <tbody id="cartBody"></tbody>
-              </table>
-            </div>
-
-            <div
-              id="cartFooter"
-              class="hidden mt-4 flex flex-col md:flex-row items-center md:justify-between gap-3"
-            >
-              <div class="text-lg">
-                รวมทั้งหมด:
-                <span
-                  id="cartTotal"
-                  class="font-bold text-fantasy-gold tabular-nums"
-                  >0</span
-                >
-                gp
+            <div class="flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-800/50">
+              
+              <div id="cartEmpty" class="text-center py-10 text-gray-400">
+                <div class="text-4xl mb-2">🕸️</div>
+                <p>ยังไม่มีสินค้าในตะกร้า</p>
               </div>
-              <div class="flex gap-2">
+
+              <div id="cartTable" class="hidden rounded-lg overflow-hidden border border-gray-700">
+                <div class="overflow-x-auto">
+                  <table class="w-full text-sm text-left">
+                    <thead class="bg-gray-900 text-fantasy-gold uppercase text-xs">
+                      <tr>
+                        <th class="px-4 py-3 min-w-[150px]">สินค้า</th>
+                        <th class="px-4 py-3">ตัวเลือก</th>
+                        <th class="px-4 py-3 text-right whitespace-nowrap">ราคา/ชิ้น</th>
+                        <th class="px-4 py-3 text-center">จำนวน</th>
+                        <th class="px-4 py-3 text-right">รวม</th>
+                        <th class="px-2 py-3"></th>
+                      </tr>
+                    </thead>
+                    <tbody id="cartBody" class="bg-gray-800 divide-y divide-gray-700 text-gray-200">
+                      </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div id="cartFooter" class="hidden px-6 py-4 border-t border-gray-700 bg-black/40 rounded-b-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div class="text-lg font-semibold text-white">
+                รวมทั้งหมด: 
+                <span id="cartTotal" class="text-2xl text-fantasy-gold font-bold tabular-nums">0</span> 
+                <span class="text-sm text-gray-400">gp</span>
+              </div>
+              
+              <div class="flex gap-2 w-full sm:w-auto">
                 <button
                   id="copyCartEmbedBtn"
-                  class="bg-fantasy-gold text-black px-4 py-2 rounded font-bold hover:bg-yellow-400"
+                  class="flex-1 sm:flex-none bg-fantasy-gold text-black px-6 py-2 rounded-lg font-bold hover:bg-yellow-400 transition-colors shadow-lg shadow-yellow-900/20"
                 >
                   คัดลอกใบซื้อ
                 </button>
                 <button
                   id="clearCartBtn"
-                  class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded font-semibold"
+                  class="flex-1 sm:flex-none bg-red-900/30 hover:bg-red-900/50 text-red-300 border border-red-900/50 px-4 py-2 rounded-lg font-semibold transition-colors"
                 >
                   ล้างตะกร้า
                 </button>
               </div>
             </div>
+
           </div>
-        </section>
+        </div>
       </div>
     </main>
 
@@ -2827,6 +2832,44 @@
           if (e.target === adminModal) hideAdminLogin();
         });
       }
+
+      // === Cart Modal Logic ===
+      document.addEventListener("DOMContentLoaded", () => {
+        const cartModal = document.getElementById("cartModal");
+        const openBtn = document.getElementById("openCartModalBtn");
+        const closeBtn = document.getElementById("closeCartModalBtn");
+
+        // ฟังก์ชันเปิด Modal
+        function openCartModal() {
+          cartModal.classList.remove("hidden");
+          // ถ้า window.CART มีฟังก์ชัน render ให้เรียกใช้เพื่อความชัวร์ (ถ้าไม่มีก็ไม่เป็นไร)
+          if (window.CART && typeof window.CART.render === "function") {
+             window.CART.render(); 
+          }
+        }
+
+        // ฟังก์ชันปิด Modal
+        function closeCartModal() {
+          cartModal.classList.add("hidden");
+        }
+
+        // Event Listeners
+        if(openBtn) openBtn.addEventListener("click", openCartModal);
+        if(closeBtn) closeBtn.addEventListener("click", closeCartModal);
+
+        // ปิดเมื่อคลิกพื้นที่ว่างข้างนอก
+        cartModal.addEventListener("click", (e) => {
+          if (e.target === cartModal) closeCartModal();
+        });
+        
+        // (Optional) ปุ่มตะกร้าในแถบเครื่องมือ Bulk Actions ก็ให้เปิด Modal ด้วย
+        // หาปุ่มตะกร้าเดิมใน bulkActions ถ้ามี
+        const bulkCartBtn = document.querySelector('#bulkActions [data-page="cart"]');
+        if(bulkCartBtn) {
+            bulkCartBtn.removeAttribute('data-page'); // ลบ navigation เดิมออก
+            bulkCartBtn.addEventListener('click', openCartModal);
+        }
+      });
 
       function switchPage(pageId) {
         // Update navigation
