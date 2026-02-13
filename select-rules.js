@@ -4,6 +4,8 @@
   const DISABLE_TYPES = new Set([
     // ตัวอย่าง:
     // 'Gemstone',
+    'Craft',
+    'Craft, Potion, Glass Arboretum',
     'Craft Only Item',
     'Craft Only Item, Battleaxe, Martial Weapon, Melee Weapon',
     'Craft Only Item, Dagger, Simple Weapon, Melee Weapon',
