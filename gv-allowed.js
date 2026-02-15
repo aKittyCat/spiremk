@@ -42,7 +42,7 @@
     "Battleaxe","Boarding Axe","Double-Bladed Scimitar","Greataxe","Greatsword","Handaxe","Longsword","Rapier","Scimitar","Shortsword"
   ];
 
-  const GLIMMERLING_MOONBOW_BASES = [
+  const GLIMMERING_MOONBOW_BASES = [
     "Longbow","Shortbow"
   ];
 
@@ -165,7 +165,7 @@
     "forcebreaker-weapon": { kind: "weapon",  list: makeSet(FORCEBREAKER_WEAPON_BASES), makeName: (base)=> `Forcebreaker ${base}` },
     "frost-brand":      { kind: "weapon",  list: makeSet(BLOODEDSHED_BLADE_BASES),          makeName: (base)=> `Frost Brand ${base}` },
     "giant-slayer":    { kind: "weapon",  list: makeSet(GIANT_SLAYER_BASES),          makeName: (base)=> `Giant Slayer ${base}` },
-    "glimmerling-moonbow": { kind: "weapon",  list: makeSet(GLIMMERLING_MOONBOW_BASES), makeName: (base)=> `Glimmerling Moon ${base}` },
+    "glimmering-moonbow": { kind: "weapon",  list: makeSet(GLIMMERING_MOONBOW_BASES), makeName: (base)=> `Glimmering Moon ${base}` },
     "hellfire-weapon":  { kind: "weapon",  list: makeSet(WEAPON_BASES),          makeName: (base)=> `Hellfire ${base}` },
     "holy-avenger":      { kind: "weapon",  list: makeSet(BLOODEDSHED_BLADE_BASES),          makeName: (base)=> `Holy Avenger ${base}` },
     "jocatian-denier":  { kind: "weapon",  list: makeSet(JO_CATIAN_DENIER_BASES), makeName: (base)=> `Jo'Catian Denier ${base}` },
