@@ -1897,7 +1897,7 @@
               * หากมีปัญหาใดๆ หรือข้อเสนอแนะ สามารถแจ้งได้ที่
               <a class="text-fantasy-gold">Staff</a>
             </p>
-            
+
             <div id="itemsPageFilters">
               <!-- Filters -->
               <div class="mb-6 flex flex-wrap gap-3 p-4 bg-gray-800 rounded-lg shadow-xl items-center">
@@ -2390,12 +2390,12 @@
     </div>
   </div>
 
-  <script src="./gv-allowed.js"></script>
   <script src="./gem-allowed.js"></script>
   <script src="./select-rules.js"></script>
   <script src="./cart.js"></script>
   <script src="./dm-shop.js"></script>
   <script src="./pet.js"></script>
+  <script src="./gv-allowed.js"></script>
   <script>
     // === Configuration ===
     const GOOGLE_SCRIPT_URL =
@@ -3145,35 +3145,35 @@
             </thead>
             <tbody class="divide-y divide-gray-700">
               ${paginatedItems.map((item, index) => {
-              const actionBtn = (() => {
-                const lockReason =
-                  window.SELECT_RULES && window.SELECT_RULES.shouldDisable
-                    ? window.SELECT_RULES.shouldDisable(item)
-                    : null;
-                if (lockReason) {
-                  return `<span class="inline-flex items-center justify-center w-5 h-5 md:w-6 md:h-6 rounded bg-gray-700 text-gray-500" title="${escapeHtml(lockReason)}" aria-disabled="true">🔒</span>`;
-                } else {
-                  return `<button class="add-cart-btn inline-flex items-center justify-center w-5 h-5 md:w-6 md:h-6 rounded-md bg-gray-900 hover:bg-gray-700 text-white transition-all duration-200 hover:scale-110 shadow-md border border-gray-700"
+          const actionBtn = (() => {
+            const lockReason =
+              window.SELECT_RULES && window.SELECT_RULES.shouldDisable
+                ? window.SELECT_RULES.shouldDisable(item)
+                : null;
+            if (lockReason) {
+              return `<span class="inline-flex items-center justify-center w-5 h-5 md:w-6 md:h-6 rounded bg-gray-700 text-gray-500" title="${escapeHtml(lockReason)}" aria-disabled="true">🔒</span>`;
+            } else {
+              return `<button class="add-cart-btn inline-flex items-center justify-center w-5 h-5 md:w-6 md:h-6 rounded-md bg-gray-900 hover:bg-gray-700 text-white transition-all duration-200 hover:scale-110 shadow-md border border-gray-700"
                                     data-add-id="${item.id}" title="ใส่ตะกร้า">🛒</button>`;
-                }
-              })();
+            }
+          })();
 
-              const tColor = tierColors[item.tier] || "bg-gray-600";
-              // Rarity colors map for badges (standardized)
-              const rarityColorMap = {
-                "common": "text-gray-400 border-gray-600",
-                "uncommon": "text-emerald-400 border-emerald-800",
-                "rare": "text-blue-400 border-blue-800",
-                "very-rare": "text-purple-400 border-purple-800",
-                "legendary": "text-yellow-400 border-yellow-800",
-                "artifact": "text-red-400 border-red-800",
-                "mundane": "text-gray-500 border-gray-600"
-              };
-              const rKey = (item.rarity || "Common").toLowerCase().replace(" ", "-");
-              const rClass = rarityColorMap[rKey] || "text-gray-400 border-gray-600";
+          const tColor = tierColors[item.tier] || "bg-gray-600";
+          // Rarity colors map for badges (standardized)
+          const rarityColorMap = {
+            "common": "text-gray-400 border-gray-600",
+            "uncommon": "text-emerald-400 border-emerald-800",
+            "rare": "text-blue-400 border-blue-800",
+            "very-rare": "text-purple-400 border-purple-800",
+            "legendary": "text-yellow-400 border-yellow-800",
+            "artifact": "text-red-400 border-red-800",
+            "mundane": "text-gray-500 border-gray-600"
+          };
+          const rKey = (item.rarity || "Common").toLowerCase().replace(" ", "-");
+          const rClass = rarityColorMap[rKey] || "text-gray-400 border-gray-600";
 
 
-              return `
+          return `
                 <tr class="bg-gray-900/30 hover:bg-gray-800/50 transition-colors cursor-pointer group" data-row-index="${index}">
                   
                   <td class="px-0 md:px-2 py-2 md:py-3 text-center">
@@ -3186,33 +3186,33 @@
                   <td class="px-1 md:px-4 py-2 md:py-3 break-words align-middle">
                       <div class="font-medium text-gray-200 group-hover:text-white leading-tight">
                         ${item.nameLink
-                  ? `<a href="${item.nameLink
-                  }" target="_blank" rel="noopener noreferrer" class="hover:underline decoration-blue-400 underline-offset-2">${escapeHtml(
-                    item.name
-                  )}</a>`
-                  : `${escapeHtml(item.name)}`
-                }
+              ? `<a href="${item.nameLink
+              }" target="_blank" rel="noopener noreferrer" class="hover:underline decoration-blue-400 underline-offset-2">${escapeHtml(
+                item.name
+              )}</a>`
+              : `${escapeHtml(item.name)}`
+            }
                       </div>
                   </td>
 
                   <td class="px-1 md:px-4 py-2 md:py-3 text-gray-400 break-words align-middle leading-tight font-mono text-xs md:text-sm">${escapeHtml(
-                  item.type
-                )}</td>
+              item.type
+            )}</td>
 
                   <td class="hidden md:table-cell px-4 py-3 text-center whitespace-nowrap">
                     <span class="px-2 py-1 rounded text-xs font-bold ring-1 ring-inset ${item.attune === "Yes"
-                  ? "bg-green-900/30 text-green-400 ring-green-900"
-                  : "bg-red-900/30 text-red-400 ring-red-900"
-                }">
+              ? "bg-green-900/30 text-green-400 ring-green-900"
+              : "bg-red-900/30 text-red-400 ring-red-900"
+            }">
                       ${item.attune === "Yes" ? "Yes" : "No"}
                     </span>
                   </td>
 
                   <td class="hidden md:table-cell px-4 py-3 text-center whitespace-nowrap">
                     <span class="px-2 py-1 rounded text-xs font-bold ring-1 ring-inset ${item.perdis === "ถาวร"
-                  ? "bg-blue-900/30 text-blue-400 ring-blue-900"
-                  : "bg-orange-900/30 text-orange-400 ring-orange-900"
-                }">
+              ? "bg-blue-900/30 text-blue-400 ring-blue-900"
+              : "bg-orange-900/30 text-orange-400 ring-orange-900"
+            }">
                       ${item.perdis === "ถาวร" ? "ถาวร" : "ใช้แล้วทิ้ง"}
                     </span>
                   </td>
@@ -3228,11 +3228,11 @@
                   </td>
 
                   <td class="px-1 md:px-4 py-2 md:py-3 text-right font-mono text-yellow-400 align-middle break-all text-xs md:text-sm font-bold tracking-tight">${escapeHtml(
-                  item.price
-                )}</td>
+              item.price
+            )}</td>
                   
                   ${isAdminMode
-                  ? `
+              ? `
                     <td class="px-4 py-3 text-center whitespace-nowrap">
                         <div class="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2">
                           <button class="btn-edit-item bg-yellow-600 hover:bg-yellow-500 text-white px-2 py-1 rounded w-full md:w-auto text-xs shadow-sm transition-transform active:scale-95"
@@ -3245,8 +3245,8 @@
                           </button>
                         </div>
                     </td>`
-                  : ``
-                }
+              : ``
+            }
                 </tr>
 
                   <tr id="desc-${index}" class="${openItemIds.has(item.id) ? '' : 'hidden'} border-b border-gray-700 bg-gray-900/80">
@@ -3274,7 +3274,7 @@
                           </div>
 
                           ${isGenericVariant(item)
-                  ? `
+              ? `
                                 <div class="flex items-center gap-3 p-3 bg-purple-900/20 rounded border border-purple-800/50">
                                   <span class="text-purple-300 font-bold">🔮 Generic Variant Base:</span>
                                   <button type="button" class="px-3 py-1 rounded bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold shadow transition-transform active:scale-95"
@@ -3283,17 +3283,17 @@
                                   </button>
                                   <span id="gvChip-${item.id}" class="text-gray-300 font-mono text-xs">
                                     ${gvMap.get(item.id)
-                    ? `${escapeHtml(gvMap.get(item.id).name)} (+${fmt(gvMap.get(item.id).price)} gp)`
-                    : "—"
-                  }
+                ? `${escapeHtml(gvMap.get(item.id).name)} (+${fmt(gvMap.get(item.id).price)} gp)`
+                : "—"
+              }
                                   </span>
                                 </div>
                               `
-                  : ""
-                }
+              : ""
+            }
 
                           ${isGemstone(item)
-                  ? `
+              ? `
                                 <div class="flex items-center gap-3 p-3 bg-blue-900/20 rounded border border-blue-800/50">
                                   <span class="text-blue-300 font-bold">💎 Gemstone:</span>
                                   <button type="button" class="px-3 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow transition-transform active:scale-95"
@@ -3302,39 +3302,39 @@
                                   </button>
                                   <span id="gemChip-${item.id}" class="text-gray-300 font-mono text-xs">
                                     ${gemMap.get(item.id)
-                    ? `${escapeHtml(gemMap.get(item.id).name)} × ${gemMap.get(item.id).factor.toFixed(2)} = ${fmt(gemMap.get(item.id).final)} gp`
-                    : "—"
-                  }
+                ? `${escapeHtml(gemMap.get(item.id).name)} × ${gemMap.get(item.id).factor.toFixed(2)} = ${fmt(gemMap.get(item.id).final)} gp`
+                : "—"
+              }
                                   </span>
                                 </div>
                               `
-                  : ""
-                }
+              : ""
+            }
 
                           ${item.description
-                  ? `
+              ? `
                                 <div class="p-3 bg-gray-800 rounded border border-gray-700">
                                   <strong class="text-yellow-400 block mb-2 text-xs uppercase tracking-wide">รายละเอียด:</strong>
                                   <div class="leading-relaxed text-gray-300 text-sm whitespace-pre-wrap">${escapeHtml(item.description)}</div>
                                 </div>
                               `
-                  : `<div class="mt-1 text-gray-500 italic text-sm">ไม่มีรายละเอียดเพิ่มเติม</div>`
-                }
+              : `<div class="mt-1 text-gray-500 italic text-sm">ไม่มีรายละเอียดเพิ่มเติม</div>`
+            }
                           
                           ${item.book
-                  ? `
+              ? `
                                   <div class="flex items-center gap-2 mt-1">
                                     <strong class="text-gray-500 text-xs uppercase">Source:</strong>
                                     <span class="text-gray-400 text-xs bg-gray-800 px-2 py-0.5 rounded border border-gray-700">${escapeHtml(item.book)}</span>
                                   </div>
                                 `
-                  : ``
-                }
+              : ``
+            }
                       </div>   
                     </td>
                   </tr>
                 `;
-            })
+        })
           .join("")}
             </tbody>
           </table>
@@ -3449,7 +3449,7 @@
     // === Pagination Controls ===
     function renderPaginationControls(totalCount) {
       const totalPages = Math.ceil(totalCount / itemsPerPage) || 1;
-      
+
       const html = `
         <div class="flex items-center bg-gray-800/90 rounded-lg p-1 border border-gray-700 shadow-lg backdrop-blur-sm">
             <button class="pag-btn p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 disabled:opacity-30 disabled:hover:bg-transparent transition-all" 
@@ -3488,39 +3488,39 @@
       const container = document.getElementById('paginationBottom');
       if (container) {
         if (totalCount === 0) {
-            container.innerHTML = '';
-            container.classList.add('hidden');
+          container.innerHTML = '';
+          container.classList.add('hidden');
         } else {
-            container.classList.remove('hidden');
-            container.innerHTML = html;
-            
-            // Attach Events
-            container.querySelectorAll('.pag-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const targetPage = parseInt(e.currentTarget.dataset.page);
-                    if (targetPage >= 1 && targetPage <= totalPages) {
-                        currentPage = targetPage;
-                        displayItems(currentRenderedItems);
-                        document.getElementById('itemsPageFilters').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                });
-            });
+          container.classList.remove('hidden');
+          container.innerHTML = html;
 
-            const input = container.querySelector('.pag-input');
-            if (input) {
-                input.addEventListener('change', (e) => {
-                    let val = parseInt(e.target.value);
-                    if (isNaN(val)) val = 1;
-                    if (val < 1) val = 1;
-                    if (val > totalPages) val = totalPages;
-                    
-                    currentPage = val;
-                    displayItems(currentRenderedItems);
-                });
-                input.addEventListener('keydown', (e) => {
-                    if(e.key === 'Enter') input.blur();
-                });
-            }
+          // Attach Events
+          container.querySelectorAll('.pag-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+              const targetPage = parseInt(e.currentTarget.dataset.page);
+              if (targetPage >= 1 && targetPage <= totalPages) {
+                currentPage = targetPage;
+                displayItems(currentRenderedItems);
+                document.getElementById('itemsPageFilters').scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            });
+          });
+
+          const input = container.querySelector('.pag-input');
+          if (input) {
+            input.addEventListener('change', (e) => {
+              let val = parseInt(e.target.value);
+              if (isNaN(val)) val = 1;
+              if (val < 1) val = 1;
+              if (val > totalPages) val = totalPages;
+
+              currentPage = val;
+              displayItems(currentRenderedItems);
+            });
+            input.addEventListener('keydown', (e) => {
+              if (e.key === 'Enter') input.blur();
+            });
+          }
         }
       }
     }
