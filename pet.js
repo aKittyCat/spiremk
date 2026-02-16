@@ -409,6 +409,10 @@ if (openModalBtn) {
 if (closeModalBtn) {
   closeModalBtn.addEventListener('click', () => {
     modal.classList.add('hidden');
+    
+    if (openModalBtn) {
+      openModalBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
   });
 }
 
