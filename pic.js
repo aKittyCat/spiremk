@@ -6,7 +6,7 @@
   'use strict';
 
   // === Primary Source: 5etools-mirror-3 ===
-  const PRIMARY_BASE = 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/refs/heads/main/items';
+  const PRIMARY_BASE = 'https://raw.githubusercontent.com/aKittyCat/5etools-img/refs/heads/main/items';
 
   // === Fallback Source: homebrew-img (ใช้ Trees API ค้นหา) ===
   const HOMEBREW_RAW_BASE = 'https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main';
