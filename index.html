@@ -2401,7 +2401,7 @@
   <script src="./cart.js"></script>
   <script src="./dm-shop.js"></script>
   <script src="./pet.js"></script>
-  <script src="pic.js"></script>
+  <script src="./pic.js"></script>
   <script>
     // === Configuration ===
     const GOOGLE_SCRIPT_URL =
@@ -2997,7 +2997,7 @@
         }));
         displayItems(currentItems);
         restoreFilters();
-        filterItems();
+        filterItems(false);
       }
 
       const controller = new AbortController();
@@ -3017,7 +3017,7 @@
           // ป้องกัน re-render
           displayItems(currentItems);
           restoreFilters();
-          filterItems();
+          filterItems(false);
         }
       } catch (e) {
         if (!cached) {
@@ -3621,7 +3621,7 @@
       });
     }
 
-    function filterItems() {
+    function filterItems(resetPage = true) {
       const tierFilter = document.getElementById("tierFilter").value;
       const rarityFilter = document.getElementById("rarityFilter").value;
       const attuneFilter = document.getElementById("attuneFilter").value;
@@ -3653,7 +3653,7 @@
         );
       }
 
-      currentPage = 1;
+      if (resetPage) currentPage = 1;
       displayItems(filteredItems);
       saveFilters();
     }
@@ -3944,6 +3944,7 @@
         type: e.type?.value || "",
         q: e.q?.value || "",
         sortPrice: e.sortPrice?.value || "",
+        page: currentPage || 1,
       };
       localStorage.setItem(FILTER_KEY, JSON.stringify(state));
     }
@@ -3961,6 +3962,7 @@
         if (e.type) e.type.value = s.type ?? "";
         if (e.q) e.q.value = s.q ?? "";
         if (e.sortPrice) e.sortPrice.value = s.sortPrice ?? "";
+        if (s.page) currentPage = Number(s.page) || 1;
       } catch { }
     }
   </script>
@@ -4320,9 +4322,10 @@
       saveFilters();
       await loadData();
       restoreFilters();
-      filterItems();
+      filterItems(false);
     });
   </script>
+
 </body>
 
 </html>
