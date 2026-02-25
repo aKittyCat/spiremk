@@ -2401,6 +2401,7 @@
   <script src="./cart.js"></script>
   <script src="./dm-shop.js"></script>
   <script src="./pet.js"></script>
+  <script src="pic.js"></script>
   <script>
     // === Configuration ===
     const GOOGLE_SCRIPT_URL =
@@ -3335,6 +3336,8 @@
                                 `
               : ``
             }
+
+                          <div class="item-img-container" id="itemImg-${index}" data-item-name="${escapeHtml(item.name)}" data-item-book="${escapeHtml(item.book || '')}"></div>
                       </div>   
                     </td>
                   </tr>
@@ -3432,6 +3435,15 @@
           } else {
             openItemIds.add(item.id);
             descRow.classList.remove("hidden");
+
+            // โหลดรูปภาพไอเทม
+            if (window.ItemPic) {
+              const imgContainer = document.getElementById(`itemImg-${idx}`);
+              if (imgContainer && !imgContainer.dataset.loaded) {
+                imgContainer.dataset.loaded = '1';
+                window.ItemPic.renderItemImage(imgContainer, item.name, item.book);
+              }
+            }
           }
         });
       });
@@ -3449,6 +3461,19 @@
           deleteItemConfirm(btn.dataset.id, btn.dataset.name);
         });
       });
+
+      // โหลดรูปภาพสำหรับไอเทมที่เปิดอยู่แล้ว (เช่น หลัง re-render จาก filter/pagination)
+      if (window.ItemPic) {
+        paginatedItems.forEach((item, idx) => {
+          if (openItemIds.has(item.id)) {
+            const imgContainer = document.getElementById(`itemImg-${idx}`);
+            if (imgContainer && !imgContainer.dataset.loaded) {
+              imgContainer.dataset.loaded = '1';
+              window.ItemPic.renderItemImage(imgContainer, item.name, item.book);
+            }
+          }
+        });
+      }
     }
 
     // === Pagination Controls ===
