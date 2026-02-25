@@ -5,18 +5,17 @@
 (function () {
   'use strict';
 
-  // === Image Source URLs ===
-  const IMG_SOURCES = [
-    // Primary: 5etools-mirror-3
-    (book, name) =>
-      `https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/refs/heads/main/items/${encodeURIComponent(book)}/${encodeURIComponent(name)}.webp`,
-    // Fallback: homebrew-img
-    (book, name) =>
-      `https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/items/${encodeURIComponent(book)}/${encodeURIComponent(name)}.webp`,
-  ];
+  // === Primary Source: 5etools-mirror-3 ===
+  const PRIMARY_BASE = 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/refs/heads/main/items';
 
-  // === Cache เก็บผลลัพธ์ URL ที่โหลดสำเร็จ / ล้มเหลว ===
+  // === Fallback Source: homebrew-img (ใช้ Trees API ค้นหา) ===
+  const HOMEBREW_RAW_BASE = 'https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/refs/heads/main';
+  const HOMEBREW_TREE_API = 'https://api.github.com/repos/TheGiddyLimit/homebrew-img/git/trees/main?recursive=1';
+
+  // === Cache ===
   const _cache = new Map(); // key => url | null
+  let _homebrewTree = null;
+  let _homebrewTreePromise = null;
 
   function _cacheKey(book, name) {
     return `${book}||${name}`;
@@ -24,23 +23,19 @@
 
   /**
    * ดึงชื่อย่อหนังสือจากข้อความ source เช่น
-   *   "DMG, p.155"  → "DMG"
-   *   "PHB p.200"   → "PHB"
-   *   "TCE"         → "TCE"
-   *   "XGE,p.20"    → "XGE"
+   *   "DMG, p.155" → "DMG"
+   *   "PHB p.200"  → "PHB"
    */
   function _extractBookAbbrev(raw) {
     if (!raw) return '';
-    // ตัดส่วนหลัง comma หรือ " p." หรือ " p " ออก
-    return raw.replace(/[,;]\s*.*/g, '')   // ตัดหลัง , หรือ ;
-      .replace(/\s+p\.\s*\d.*/gi, '') // ตัดหลัง " p.123"
+    return raw.replace(/[,;]\s*.*/g, '')
+      .replace(/\s+p\.\s*\d.*/gi, '')
       .trim();
   }
 
   /**
    * แปลงชื่อไอเทมเป็น title case มาตรฐาน
-   * เช่น "Boots Of Elvenkind" → "Boots of Elvenkind"
-   * คำเล็ก (of, the, and, a, an, ...) จะเป็นตัวเล็กยกเว้นคำแรก
+   * "Boots Of Elvenkind" → "Boots of Elvenkind"
    */
   const SMALL_WORDS = new Set([
     'a', 'an', 'and', 'as', 'at', 'but', 'by', 'for', 'from', 'if', 'in',
@@ -58,8 +53,24 @@
   }
 
   /**
+   * แปลงชื่อเป็น lowercase-hyphenated สำหรับ homebrew search
+   * "Flying Broomstick" → "flying-broomstick"
+   */
+  function _toHyphenated(name) {
+    return name.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '');
+  }
+
+  /**
+   * ตัดส่วนวงเล็บท้ายชื่อออก เช่น
+   * "Cartographer's Map Case (Max Rank)" → "Cartographer's Map Case"
+   * "Living Loot Satchel (Awakened)" → "Living Loot Satchel"
+   */
+  function _stripParenSuffix(name) {
+    return name.replace(/\s*\([^)]*\)\s*$/g, '').trim();
+  }
+
+  /**
    * ลองโหลดรูปจาก URL ที่ให้มา
-   * return Promise<string|null>  — URL ที่โหลดสำเร็จ หรือ null
    */
   function _probe(url) {
     return new Promise((resolve) => {
@@ -71,35 +82,96 @@
   }
 
   /**
+   * โหลด file tree ของ homebrew-img repo (ครั้งเดียว แล้ว cache)
+   */
+  async function _loadHomebrewTree() {
+    if (_homebrewTree) return _homebrewTree;
+    if (_homebrewTreePromise) return _homebrewTreePromise;
+
+    _homebrewTreePromise = (async () => {
+      try {
+        const resp = await fetch(HOMEBREW_TREE_API);
+        if (!resp.ok) return [];
+        const data = await resp.json();
+        _homebrewTree = (data.tree || [])
+          .filter(n => n.type === 'blob' && /\.(webp|png|jpg|jpeg)$/i.test(n.path))
+          .map(n => n.path);
+        return _homebrewTree;
+      } catch (e) {
+        console.warn('pic.js: Failed to load homebrew tree', e);
+        return [];
+      }
+    })();
+
+    return _homebrewTreePromise;
+  }
+
+  /**
+   * ค้นหารูปภาพจาก homebrew-img tree โดยจับคู่ชื่อไฟล์
+   */
+  async function _findInHomebrew(itemName) {
+    const tree = await _loadHomebrewTree();
+    if (!tree.length) return null;
+
+    const hyphenated = _toHyphenated(itemName);
+    const lower = itemName.trim().toLowerCase();
+    const noSpace = lower.replace(/\s+/g, '');
+
+    for (const path of tree) {
+      const filename = path.split('/').pop().replace(/\.[^.]+$/, '');
+      const fnLower = filename.toLowerCase();
+      if (fnLower === hyphenated || fnLower === lower || fnLower === noSpace) {
+        const url = `${HOMEBREW_RAW_BASE}/${path}`;
+        const result = await _probe(url);
+        if (result) return result;
+      }
+    }
+    return null;
+  }
+
+  /**
    * หา URL รูปภาพที่ใช้ได้สำหรับไอเทม
-   * @param {string} itemName  — ชื่อไอเทม (เช่น "Bag of Holding")
-   * @param {string} bookSource — ชื่อย่อหนังสือ (เช่น "DMG" หรือ "DMG, p.155")
-   * @returns {Promise<string|null>}
+   * 1. ลองจาก 5etools-img (direct URL)
+   * 2. ลองจาก homebrew-img (Tree API search)
    */
   async function findItemImageUrl(itemName, bookSource) {
     if (!itemName || !bookSource) return null;
 
-    // ดึงเฉพาะชื่อย่อหนังสือ เช่น "DMG, p.155" → "DMG"
     const book = _extractBookAbbrev(bookSource);
     if (!book) return null;
 
     const key = _cacheKey(book, itemName);
     if (_cache.has(key)) return _cache.get(key);
 
-    // ลองทั้งชื่อที่ normalize แล้วและชื่อดั้งเดิม
+    // === 1. ลองจาก 5etools-img ===
     const normalized = _normalizeItemName(itemName);
-    const namesToTry = [normalized];
-    if (normalized !== itemName.trim()) namesToTry.push(itemName.trim());
+    const stripped = _stripParenSuffix(itemName);
+    const strippedNorm = _normalizeItemName(stripped);
+    const hyphenated = _toHyphenated(stripped);
 
-    for (const buildUrl of IMG_SOURCES) {
-      for (const tryName of namesToTry) {
-        const url = buildUrl(book, tryName);
-        const result = await _probe(url);
-        if (result) {
-          _cache.set(key, result);
-          return result;
-        }
+    // สร้าง list ชื่อทั้งหมดที่จะลอง (ไม่ซ้ำ)
+    const namesToTry = [...new Set([
+      normalized,
+      itemName.trim(),
+      strippedNorm,
+      stripped.trim(),
+      hyphenated,
+    ])];
+
+    for (const tryName of namesToTry) {
+      const url = `${PRIMARY_BASE}/${encodeURIComponent(book)}/${encodeURIComponent(tryName)}.webp`;
+      const result = await _probe(url);
+      if (result) {
+        _cache.set(key, result);
+        return result;
       }
+    }
+
+    // === 2. ลองจาก homebrew-img (Tree API search) ===
+    const homebrewResult = await _findInHomebrew(itemName);
+    if (homebrewResult) {
+      _cache.set(key, homebrewResult);
+      return homebrewResult;
     }
 
     _cache.set(key, null);
@@ -108,14 +180,10 @@
 
   /**
    * แสดงรูปภาพไอเทมใน container ที่กำหนด
-   * @param {HTMLElement} containerEl — div ที่จะ render รูปเข้าไป
-   * @param {string} itemName
-   * @param {string} bookSource
    */
   async function renderItemImage(containerEl, itemName, bookSource) {
     if (!containerEl) return;
 
-    // แสดง loading state
     containerEl.innerHTML = `
       <div class="item-img-loading">
         <div class="item-img-spinner"></div>
@@ -125,13 +193,11 @@
     const url = await findItemImageUrl(itemName, bookSource);
 
     if (!url) {
-      // ไม่พบรูป — ซ่อน container
       containerEl.innerHTML = '';
       containerEl.style.display = 'none';
       return;
     }
 
-    // แสดงรูป
     containerEl.style.display = '';
     containerEl.innerHTML = `
       <div class="item-img-wrapper">
