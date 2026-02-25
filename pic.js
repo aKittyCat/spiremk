@@ -113,14 +113,24 @@
     const tree = await _loadHomebrewTree();
     if (!tree.length) return null;
 
-    const hyphenated = _toHyphenated(itemName);
-    const lower = itemName.trim().toLowerCase();
-    const noSpace = lower.replace(/\s+/g, '');
+    // ลองทั้งชื่อเดิมและชื่อที่ตัด (Dormant) / (Max Rank) ออก
+    const raw = itemName.trim();
+    const stripped = _stripParenSuffix(raw);
+    const candidates = [raw, stripped];
+
+    // สร้าง set ของชื่อที่จะจับคู่ (lowercase)
+    const matchSet = new Set();
+    for (const c of candidates) {
+      matchSet.add(_toHyphenated(c));               // armor-of-the-valiant-soul
+      matchSet.add(c.toLowerCase());                 // armor of the valiant soul
+      matchSet.add(c.toLowerCase().replace(/\s+/g, '')); // armorofthevaliantsoul
+      matchSet.add(c.toLowerCase().replace(/[^a-z0-9]/g, '')); // armorofthevaliantsoul (ไม่มีอักขระพิเศษ)
+    }
 
     for (const path of tree) {
       const filename = path.split('/').pop().replace(/\.[^.]+$/, '');
       const fnLower = filename.toLowerCase();
-      if (fnLower === hyphenated || fnLower === lower || fnLower === noSpace) {
+      if (matchSet.has(fnLower)) {
         const url = `${HOMEBREW_RAW_BASE}/${path}`;
         const result = await _probe(url);
         if (result) return result;
@@ -150,12 +160,16 @@
     const hyphenated = _toHyphenated(stripped);
 
     // สร้าง list ชื่อทั้งหมดที่จะลอง (ไม่ซ้ำ)
+    // รวม variant ที่ตัด apostrophe ด้วย (เช่น Iggwilv's → Iggwilvs)
+    const noApostrophe = strippedNorm.replace(/[''`]/g, '');
     const namesToTry = [...new Set([
       normalized,
       itemName.trim(),
       strippedNorm,
       stripped.trim(),
       hyphenated,
+      noApostrophe,
+      normalized.replace(/[''`]/g, ''),
     ])];
 
     for (const tryName of namesToTry) {
@@ -167,11 +181,18 @@
       }
     }
 
-    // === 2. ลองจาก homebrew-img (Tree API search) ===
-    const homebrewResult = await _findInHomebrew(itemName);
-    if (homebrewResult) {
-      _cache.set(key, homebrewResult);
-      return homebrewResult;
+    // === 2. ลองจาก homebrew-img (Tree API search) — ข้ามหนังสือ official ===
+    const OFFICIAL_BOOKS = new Set([
+      'DMG', 'PHB', 'MM', 'XGE', 'TCE', 'FTD', 'VGM', 'MTF', 'SCAG', 'GGR', 'MOT',
+      'EGW', 'ERLW', 'AI', 'WBtW', 'SCC', 'AAG', 'BAM', 'SatO', 'BMT', 'PHB2024',
+      'DMG2024', 'MM2024', 'XPHB', 'XDMG', 'XMM',
+    ]);
+    if (!OFFICIAL_BOOKS.has(book)) {
+      const homebrewResult = await _findInHomebrew(itemName);
+      if (homebrewResult) {
+        _cache.set(key, homebrewResult);
+        return homebrewResult;
+      }
     }
 
     _cache.set(key, null);
