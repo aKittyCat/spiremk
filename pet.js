@@ -208,7 +208,7 @@ function showPetImage(petName, cr) {
   // แปลงชื่อให้ปลอดภัยสำหรับ URL (แทนช่องว่างด้วย %20 หรือใช้ encodeURI)
   const safeName = encodeURIComponent(petName.trim());
   const folder = getCRFolder(cr);
-  const imageUrl = `pet/${folder}/${safeName}.png`;
+  const imageUrl = `https://raw.githubusercontent.com/aKittyCat/spiremk/refs/heads/main/pet/${folder}/${safeName}.png`;
 
   // ลองโหลดรูป
   const img = new Image();
